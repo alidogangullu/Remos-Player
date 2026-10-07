@@ -1,8 +1,10 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
 import { SONOS_DEFAULTS, UPNP_SERVICES } from '../../../constants';
 import { SonosDevice, ZoneGroup } from '../../../types/sonos';
 import { SonosUpnpClient } from '../upnp/sonosUpnpClient';
+import { getLocalNetworks, hostsToScan, ssdpSearch } from './localNetwork';
 
 const parser = new XMLParser({
   ignoreAttributes: false,
@@ -78,11 +80,48 @@ function parseZoneGroupState(xmlState: string): ZoneGroup[] {
   }
 }
 
-const CANDIDATE_IPS = Array.from(
-  new Set(['192.168.1.101', ...[100, 101, 102, 103, 104, 105, 106, 107, 108, 110, 150].map(
-    (i) => `192.168.1.${i}`
-  )])
-);
+const KNOWN_IPS_KEY = 'SONOS_TV_KNOWN_SPEAKER_IPS';
+const KNOWN_PROBE_TIMEOUT_MS = 2000;
+const SSDP_TIMEOUT_MS = 2500;
+const SCAN_PROBE_TIMEOUT_MS = 1500;
+const SCAN_CONCURRENCY = 48;
+
+async function loadKnownIps(): Promise<string[]> {
+  try {
+    const data = await AsyncStorage.getItem(KNOWN_IPS_KEY);
+    const parsed = data ? JSON.parse(data) : [];
+    return Array.isArray(parsed) ? parsed.filter((ip) => typeof ip === 'string') : [];
+  } catch {
+    return [];
+  }
+}
+
+async function saveKnownIps(ips: string[]): Promise<void> {
+  try {
+    await AsyncStorage.setItem(KNOWN_IPS_KEY, JSON.stringify(Array.from(new Set(ips))));
+  } catch {
+    // Only costs a slower next start.
+  }
+}
+
+async function probeAll(ips: string[], timeoutMs?: number): Promise<SonosDevice[]> {
+  const probes = await Promise.all(ips.map((ip) => SonosDiscoveryService.probeSpeaker(ip, timeoutMs)));
+  return probes.filter((p): p is SonosDevice => p !== null);
+}
+
+/** Probes `ips` in parallel batches and stops at the first player: its topology lists the rest. */
+async function scanForPlayer(ips: string[]): Promise<SonosDevice[]> {
+  const found: SonosDevice[] = [];
+  let next = 0;
+  const worker = async () => {
+    while (found.length === 0 && next < ips.length) {
+      const player = await SonosDiscoveryService.probeSpeaker(ips[next++], SCAN_PROBE_TIMEOUT_MS);
+      if (player) found.push(player);
+    }
+  };
+  await Promise.all(Array.from({ length: SCAN_CONCURRENCY }, worker));
+  return found;
+}
 
 async function fetchZoneGroups(ip: string): Promise<ZoneGroup[]> {
   const res = await SonosUpnpClient.executeSoap(
@@ -100,11 +139,11 @@ export class SonosDiscoveryService {
   /**
    * Queries UPnP device description from a known IP
    */
-  static async probeSpeaker(ip: string): Promise<SonosDevice | null> {
+  static async probeSpeaker(ip: string, timeoutMs = 3000): Promise<SonosDevice | null> {
     try {
       const url = `http://${ip}:${SONOS_DEFAULTS.UPNP_PORT}/xml/device_description.xml`;
       const response = await axios.get(url, {
-        timeout: 3000,
+        timeout: timeoutMs,
         headers: {
           'User-Agent': SONOS_DEFAULTS.USER_AGENT,
         },
@@ -154,10 +193,39 @@ export class SonosDiscoveryService {
    * Surrounds, subs and stereo-pair partners are never listed on their own.
    */
   static async findAllSpeakers(): Promise<SonosDevice[]> {
-    const probes = await Promise.all(CANDIDATE_IPS.map((ip) => this.probeSpeaker(ip)));
-    const players = probes.filter((p): p is SonosDevice => p !== null);
+    const players = await this.findPlayers();
     if (players.length === 0) return [];
+    const devices = await this.groupsFromPlayers(players);
+    await saveKnownIps([...devices, ...players].map((d) => d.ip));
+    return devices;
+  }
 
+  /**
+   * Finds at least one reachable player, cheapest way first: the IPs that answered
+   * last time, then SSDP, then probing every host on the TV's own subnet for
+   * networks where multicast is blocked (some mesh and guest Wi-Fi setups).
+   */
+  private static async findPlayers(): Promise<SonosDevice[]> {
+    const known = await loadKnownIps();
+    if (known.length > 0) {
+      const players = await probeAll(known, KNOWN_PROBE_TIMEOUT_MS);
+      if (players.length > 0) return players;
+    }
+
+    const answered = await ssdpSearch(SSDP_TIMEOUT_MS);
+    if (answered.length > 0) {
+      const players = await probeAll(answered);
+      if (players.length > 0) return players;
+    }
+
+    for (const network of await getLocalNetworks()) {
+      const players = await scanForPlayer(hostsToScan(network));
+      if (players.length > 0) return players;
+    }
+    return [];
+  }
+
+  private static async groupsFromPlayers(players: SonosDevice[]): Promise<SonosDevice[]> {
     let groups: ZoneGroup[] = [];
     for (const player of players) {
       try {
