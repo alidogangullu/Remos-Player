@@ -1,0 +1,5 @@
+<resources>
+    <color name="ic_launcher_background">#000000</color>
+    <!-- Matches colors.background in src/theme/colors.ts so the splash hands off to the app without a flash. -->
+    <color name="splash_background">#08080A</color>
+</resources>

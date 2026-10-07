@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Window background shown until React Native paints its first opaque frame.
+     Logo size matches the Android 12+ system splash icon (288dp) so the handoff doesn't jump. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/splash_background" />
+    <item
+        android:width="288dp"
+        android:height="288dp"
+        android:gravity="center"
+        android:drawable="@drawable/splash_logo" />
+</layer-list>
