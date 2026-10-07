@@ -1,4 +1,4 @@
-package com.sonostv
+package com.adg.remos
 
 import android.app.Application
 import com.facebook.react.PackageList
@@ -6,7 +6,7 @@ import com.facebook.react.ReactApplication
 import com.facebook.react.ReactHost
 import com.facebook.react.ReactNativeApplicationEntryPoint.loadReactNative
 import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
-import com.sonostv.imagecolors.ImageColorsPackage
+import com.adg.remos.imagecolors.ImageColorsPackage
 
 class MainApplication : Application(), ReactApplication {
 

@@ -446,7 +446,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.14)',
     borderColor: 'rgba(255, 255, 255, 0.16)',
   },
-  // Focused state: Crisp high-contrast circular Sonos TV focus surface with subtle shadow
+  // Focused state: Crisp high-contrast circular focus surface with subtle shadow
   buttonFocused: {
     backgroundColor: '#FFFFFF',
     borderColor: '#FFFFFF',

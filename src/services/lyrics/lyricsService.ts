@@ -55,7 +55,7 @@ export async function fetchLyrics(
       params,
       timeout: 4000,
       headers: {
-        'User-Agent': 'SonosTV/1.0 (https://github.com/sonostv)',
+        'User-Agent': 'RemosPlayer/1.0 (https://github.com/alidogangullu/Remos-Player)',
       },
     });
 
@@ -78,7 +78,7 @@ export async function fetchLyrics(
       },
       timeout: 4000,
       headers: {
-        'User-Agent': 'SonosTV/1.0 (https://github.com/sonostv)',
+        'User-Agent': 'RemosPlayer/1.0 (https://github.com/alidogangullu/Remos-Player)',
       },
     });
 

@@ -1,4 +1,4 @@
-package com.sonostv.imagecolors
+package com.adg.remos.imagecolors
 
 import android.graphics.BitmapFactory
 import android.util.Log

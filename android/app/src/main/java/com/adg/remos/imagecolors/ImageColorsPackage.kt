@@ -1,4 +1,4 @@
-package com.sonostv.imagecolors
+package com.adg.remos.imagecolors
 
 import com.facebook.react.ReactPackage
 import com.facebook.react.bridge.NativeModule
