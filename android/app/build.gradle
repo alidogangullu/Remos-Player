@@ -2,6 +2,10 @@ apply plugin: "com.android.application"
 apply plugin: "org.jetbrains.kotlin.android"
 apply plugin: "com.facebook.react"
 
+// package.json "version" is the single source of truth: the app compares it
+// against the remote config's min/latest versions for force-update checks.
+def appVersionName = new groovy.json.JsonSlurper().parse(file("../../package.json")).version
+
 /**
  * This is the configuration block to customize your React Native Android app.
  * By default you don't need to apply any configuration, just uncomment the lines you need.
@@ -83,7 +87,7 @@ android {
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName appVersionName
     }
     signingConfigs {
         debug {

@@ -8,12 +8,15 @@ import {
 import { colors, spacing } from '../../theme';
 
 export interface TVFocusableCardProps {
-  onPress: () => void;
+  /** Optional: read-only cards still take focus so the D-pad can scroll through them. */
+  onPress?: () => void;
   onFocus?: () => void;
   onBlur?: () => void;
   children: React.ReactNode;
   style?: StyleProp<ViewStyle>;
   hasTVPreferredFocus?: boolean;
+  /** Focus zoom. Lower it for full-width or tall cards so they don't spill into their neighbours. */
+  focusScale?: number;
   testID?: string;
   /** Native node handles for explicit cross-region D-pad wiring (see NowPlayingScreen's findNodeHandle pattern). */
   nextFocusUp?: number;
@@ -29,6 +32,7 @@ export const TVFocusableCard: React.FC<TVFocusableCardProps> = ({
   children,
   style,
   hasTVPreferredFocus,
+  focusScale = 1.04,
   testID,
   nextFocusUp,
   nextFocusDown,
@@ -63,6 +67,7 @@ export const TVFocusableCard: React.FC<TVFocusableCardProps> = ({
         styles.card,
         style,
         isFocused && styles.focusedCard,
+        isFocused && { transform: [{ scale: focusScale }] },
         pressed && styles.pressedCard,
       ]}
     >
@@ -83,7 +88,6 @@ const styles = StyleSheet.create({
   focusedCard: {
     borderColor: colors.focusBorder,
     backgroundColor: 'rgba(255, 255, 255, 0.12)',
-    transform: [{ scale: 1.04 }],
   },
   pressedCard: {
     transform: [{ scale: 0.98 }],

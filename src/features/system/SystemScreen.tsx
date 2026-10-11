@@ -4,20 +4,13 @@ import { colors, spacing } from '../../theme';
 import { TVFocusableCard, TVPillButton } from '../../components/tv';
 import { SonosDevice } from '../../types/sonos';
 import { SonosDiscoveryService } from '../../services/sonos/discovery/sonosDiscoveryService';
+import { describeRoomHardware } from '../../services/sonos/roomDisplay';
 
 export interface SystemScreenProps {
   speaker: SonosDevice | null;
   speakers?: SonosDevice[];
   onSelectSpeaker?: (speaker: SonosDevice) => void;
   onRescanNetwork?: () => Promise<void> | void;
-}
-
-/** "Sonos Beam + Surrounds + Sub" — the main player plus the speakers bonded to it. */
-function describeRoomHardware(room: SonosDevice): string {
-  const parts = [room.modelName || 'Sonos Speaker'];
-  if (room.hasSurrounds) parts.push('Surrounds');
-  if (room.hasSub) parts.push('Sub');
-  return parts.join(' + ');
 }
 
 export const SystemScreen: React.FC<SystemScreenProps> = ({

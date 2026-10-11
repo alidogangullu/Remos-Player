@@ -15,6 +15,8 @@ import { SonosUpnpClient } from './src/services/sonos/upnp/sonosUpnpClient';
 import { useSmartTvAutoplay } from './src/services/sonos/autoplay/useSmartTvAutoplay';
 import { SonosDevice } from './src/types/sonos';
 import { TVPillButton } from './src/components/tv';
+import { RemoteConfigProvider, useRemoteConfig } from './src/services/remoteConfig/RemoteConfigProvider';
+import { ForceUpdateScreen } from './src/features/update/ForceUpdateScreen';
 
 const NOW_PLAYING_POLL_MS = 5000;
 
@@ -28,6 +30,7 @@ const queryClient = new QueryClient({
 });
 
 function AppContent() {
+  const { updateInfo, hasUnreadAnnouncements } = useRemoteConfig();
   const [activeTab, setActiveTab] = useState<TopBarTab>('home');
   // Tabs stay mounted (hidden) after their first visit so switching back doesn't reload them.
   const [visitedTabs, setVisitedTabs] = useState<TopBarTab[]>(['home']);
@@ -143,6 +146,7 @@ function AppContent() {
         deviceName={deviceLabel}
         deviceVolume={deviceVolume}
         onPressDevice={() => setActiveTab('system')}
+        showSettingsBadge={hasUnreadAnnouncements || updateInfo?.status === 'optional_update'}
       />
       <View style={styles.content}>
         {renderTab('home',
@@ -219,17 +223,8 @@ function AppContent() {
               </Text>
             </View>
           )))}
-        {renderTab('settings',
-          (speaker ? (
-            <SettingsScreen speaker={speaker} />
-          ) : (
-            <View style={styles.emptyStateContainer}>
-              <Text style={styles.emptyTitle}>Speaker Required</Text>
-              <Text style={styles.emptySubtitle}>
-                Connect to a Sonos speaker to configure audio and sound settings.
-              </Text>
-            </View>
-          )))}
+        {/* Notifications, Update and About work without a speaker; the Sound pane shows its own empty state. */}
+        {renderTab('settings', <SettingsScreen speaker={speaker} />)}
         {activeTab === 'system' && (
           <SystemScreen
             speaker={speaker}
@@ -243,11 +238,22 @@ function AppContent() {
   );
 }
 
+/** Blocks the whole app (discovery and polling included) while a force update is pending. */
+function AppGate() {
+  const { updateInfo } = useRemoteConfig();
+  if (updateInfo?.status === 'force_update') {
+    return <ForceUpdateScreen updateInfo={updateInfo} />;
+  }
+  return <AppContent />;
+}
+
 export default function App() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <AppContent />
+        <RemoteConfigProvider>
+          <AppGate />
+        </RemoteConfigProvider>
       </QueryClientProvider>
     </SafeAreaProvider>
   );

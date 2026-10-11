@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Pressable, Text, Image } from 'react-native';
 import { colors } from '../../theme';
 import { MarqueeText } from '../../components/common/MarqueeText';
+import { NotificationDot } from '../../components/common/NotificationDot';
 
 export type TopBarTab = 'home' | 'search' | 'favorites' | 'settings' | 'system' | 'nowPlaying';
 
@@ -16,6 +17,8 @@ export interface TopBarProps {
   /** Current speaker volume (0–100), shown on the right of the device button. */
   deviceVolume?: number;
   onPressDevice?: () => void;
+  /** Amber dot on the Settings tab: unread notification or available update. */
+  showSettingsBadge?: boolean;
 }
 
 const TABS: { id: TopBarTab; label: string }[] = [
@@ -35,6 +38,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   deviceName,
   deviceVolume,
   onPressDevice,
+  showSettingsBadge = false,
 }) => {
   const [focusedTab, setFocusedTab] = useState<TopBarTab | null>(null);
   const [isMiniPlayerFocused, setIsMiniPlayerFocused] = useState(false);
@@ -126,6 +130,9 @@ export const TopBar: React.FC<TopBarProps> = ({
                 >
                   {tab.label}
                 </Text>
+                {tab.id === 'settings' && showSettingsBadge ? (
+                  <NotificationDot size={7} style={styles.tabBadge} />
+                ) : null}
               </Pressable>
             );
           })}
@@ -330,6 +337,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 4,
     elevation: 4,
+  },
+  tabBadge: {
+    position: 'absolute',
+    top: 5,
+    right: 7,
   },
   tabText: {
     fontSize: 14,
