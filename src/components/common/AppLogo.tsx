@@ -6,7 +6,7 @@ export interface AppLogoProps {
   size?: number;
 }
 
-/** The black REMOS tile; outlined so it stays visible on the matte black UI. */
+/** The Remos tile (amber TV frame on matte dark); outlined so it stays visible on the black UI. */
 export const AppLogo: React.FC<AppLogoProps> = ({ size = 96 }) => (
   <Image
     source={require('../../assets/images/logo.png')}

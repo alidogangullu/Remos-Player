@@ -1,0 +1,35 @@
+Remos Player turns your Android TV or Google TV into a big-screen controller for your Sonos system. Browse your music, see what is playing, tune the sound and manage every room, all with your TV remote.
+
+WHAT YOU CAN DO
+
+• Search your music services: Search and browse the services you have linked in the Sonos app, such as Apple Music, Spotify and YouTube Music, plus Sonos Radio. Press Synchronize once and your accounts are imported straight from your speaker, so there is nothing to sign in to again.
+
+• Now Playing on the big screen: Album art, queue, progress and time-synced lyrics, with a background that adapts to the colors of the current cover.
+
+• Favorites and recently played: Your Sonos favorites and the music you played lately, one click away.
+
+• See the real audio quality: The app shows what your speaker actually reports, such as Lossless 24-Bit/48 kHz or Dolby Atmos, and the incoming format of the TV input.
+
+• Rooms as you know them: A home theater with surrounds and a sub is one room, not four speakers, exactly like in the Sonos app.
+
+• Only the settings you have: EQ, loudness, night mode, speech enhancement, sub, surround and height audio appear only when your speaker supports them. The app asks your speaker instead of guessing from the model name.
+
+• TV Autoplay control: Choose how your soundbar reacts to TV navigation sounds so interface clicks do not interrupt your music.
+
+• Built for the remote: Full D-pad navigation, an on-screen keyboard and large, readable text you can see from the couch.
+
+PRIVACY FIRST
+
+There is no account, no ads and no analytics. Everything runs between your TV and your speakers on your own network. Lyrics are fetched from the public LRCLIB database only when you open the lyrics view. Read the full policy at https://www.adgn.me/en/remos-for-sonos/privacy
+
+WHAT YOU NEED
+
+• An Android TV or Google TV device
+• Sonos S2 speakers on the same home network as your TV (S1-only systems are not supported)
+• Optional: music services linked in the Sonos app, if you want to search them
+
+IMPORTANT
+
+Remos Player is an independent app. It is not affiliated with, endorsed by or sponsored by Sonos, Inc. Sonos is a trademark of Sonos, Inc. The app uses interfaces that Sonos does not officially document, so a Sonos firmware update can change or break some features.
+
+Questions or feedback? https://www.adgn.me/en/support?project=sonos-tv

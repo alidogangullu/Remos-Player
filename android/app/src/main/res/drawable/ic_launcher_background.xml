@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Matte dark ground for the adaptive icon. Gradient is placed in the visible 72dp window so
+     masked launcher icons match docs/play-store/icon.svg. Rendered assets come from that design. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path android:pathData="M0,0h108v108h-108z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:type="radial"
+                android:centerX="39.6"
+                android:centerY="33.84"
+                android:gradientRadius="68.4">
+                <item android:offset="0" android:color="#FF232327" />
+                <item android:offset="1" android:color="#FF0E0E10" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>
