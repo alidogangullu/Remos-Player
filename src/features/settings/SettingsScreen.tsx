@@ -45,16 +45,19 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker }) => {
 
   return (
     <View style={styles.root}>
-      {/* autoFocus returns D-pad entry to the last focused tab — the active one — instead
-          of the nearest tab, which would switch sections just by moving into the rail. */}
-      <TVFocusGuideView autoFocus style={styles.rail} accessibilityRole="tablist">
+      <View style={styles.rail}>
         <Text style={styles.roomName} numberOfLines={1}>
           {speaker?.name || 'Settings'}
         </Text>
         <Text style={styles.roomHardware} numberOfLines={2}>
           {speaker ? describeRoomHardware(speaker) : 'No speaker connected'}
         </Text>
-        <View style={styles.tabList}>
+        {/* autoFocus returns D-pad entry to the last focused tab — the active one — instead
+            of the nearest tab, which would switch sections just by moving into the rail.
+            It wraps only the tabs: from outside, Android sees the guide as one focusable with
+            its own bounds, and bounds reaching up under the absolute TopBar are never a DOWN
+            target from it, leaving no way in when the pane has nothing focusable. */}
+        <TVFocusGuideView autoFocus style={styles.tabList} accessibilityRole="tablist">
           {tabs.map(tab => (
             <TVSideTab
               key={tab.id}
@@ -66,8 +69,8 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker }) => {
               testID={`settings-tab-${tab.id}`}
             />
           ))}
-        </View>
-      </TVFocusGuideView>
+        </TVFocusGuideView>
+      </View>
 
       <View style={styles.content}>
         {renderPane('sound', <SoundSettingsPane speaker={speaker} />)}
