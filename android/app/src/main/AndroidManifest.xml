@@ -4,7 +4,8 @@
  
     <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
     <uses-feature android:name="android.hardware.faketouch" android:required="false" />
-    <uses-feature android:name="android.software.leanback" android:required="false" />
+    <!-- TV-only: Google Play offers the app to Android TV / Google TV devices and hides it from phones and tablets. -->
+    <uses-feature android:name="android.software.leanback" android:required="true" />
 
     <!-- Cleartext is required in every build type: Sonos UPnP/SOAP on the LAN is plain HTTP on port 1400.
          The RN template's ${usesCleartextTraffic} placeholder is false for release and blocks discovery. -->
