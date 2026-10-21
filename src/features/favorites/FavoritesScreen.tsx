@@ -6,6 +6,7 @@ import { TVFocusableButton } from '../../components/tv/TVFocusableButton';
 import { SonosUpnpClient } from '../../services/sonos/upnp/sonosUpnpClient';
 import { playFavorite, isShortcutFavorite } from '../../services/sonos/favoritePlayback';
 import { labelSingleTrackAlbums } from '../../services/sonos/favoriteDisplay';
+import { useToast } from '../../components/common';
 
 
 export interface FavoritesScreenProps {
@@ -22,8 +23,7 @@ export const FavoritesScreen: React.FC<FavoritesScreenProps> = ({
 }) => {
   const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(Boolean(speakerIp));
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const toast = useToast();
   const isMountedRef = useRef(true);
 
   const fetchLiveFavorites = useCallback(async () => {
@@ -64,34 +64,20 @@ export const FavoritesScreen: React.FC<FavoritesScreenProps> = ({
     }
   }, [speakerIp, fetchLiveFavorites]);
 
-  useEffect(() => {
-    return () => {
-      if (toastTimeoutRef.current) {
-        clearTimeout(toastTimeoutRef.current);
-      }
-    };
-  }, []);
-
   const handleSelect = async (item: FavoriteItem) => {
     onSelectFavorite?.(item);
 
-    // Show interactive confirmation toast
-    if (toastTimeoutRef.current) {
-      clearTimeout(toastTimeoutRef.current);
-    }
-    toastTimeoutRef.current = setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
     if (isShortcutFavorite(item)) {
-      setToastMessage(`"${item.title}" is a browse shortcut — open it in the Sonos app`);
+      toast.info(`"${item.title}" is a browse shortcut — open it in the Sonos app`);
       return;
     }
-    setToastMessage(`Now Playing: ${item.title}`);
+    toast.info(`Starting "${item.title}"…`);
 
     try {
       await playFavorite(speakerIp, speakerId, item, '');
+      toast.success(`Playing "${item.title}"`);
     } catch {
-      setToastMessage(`Couldn't play ${item.title}`);
+      toast.error(`Couldn't play "${item.title}"`);
     }
   };
 
@@ -116,15 +102,6 @@ export const FavoritesScreen: React.FC<FavoritesScreenProps> = ({
 
   return (
     <View style={styles.container}>
-      {toastMessage && (
-        <View style={styles.toast} testID="favorites-toast">
-          <View style={styles.toastIndicator} />
-          <Text style={styles.toastText} numberOfLines={1}>
-            {toastMessage}
-          </Text>
-        </View>
-      )}
-
       {isLoading ? (
         <View style={styles.loadingContainer} testID="favorites-loading">
           <ActivityIndicator size="large" color={colors.primary} />
@@ -202,36 +179,6 @@ const styles = StyleSheet.create({
     marginTop: 2,
     letterSpacing: 0.2,
     marginBottom: spacing.xs,
-  },
-  toast: {
-    position: 'absolute',
-    top: spacing.lg,
-    right: spacing.screenPaddingHorizontal,
-    zIndex: 100,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.surfaceElevated,
-    borderRadius: 8,
-    borderWidth: 1.5,
-    borderColor: colors.statusPlaying,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    gap: spacing.sm,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
-  },
-  toastIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.statusPlaying,
-  },
-  toastText: {
-    color: colors.textPrimary,
-    fontSize: 16,
-    fontWeight: '600',
   },
   listContainer: {
     paddingTop: 76,

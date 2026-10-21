@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, BackHandler } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { colors, spacing } from '../../theme';
 import { TVFocusableCard } from '../../components/tv/TVFocusableCard';
-import { ArtworkImage } from '../../components/common';
+import { ArtworkImage, useToast } from '../../components/common';
 import { SonosUpnpClient } from '../../services/sonos/upnp/sonosUpnpClient';
 import { playFavorite, isShortcutFavorite } from '../../services/sonos/favoritePlayback';
 import { labelSingleTrackAlbums } from '../../services/sonos/favoriteDisplay';
@@ -61,10 +61,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   featuredStations: propFeaturedStations,
   onSelectItem,
 }) => {
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const toast = useToast();
   const [liveFavorites, setLiveFavorites] = useState<HomeCarouselItem[]>([]);
   const [playbackHistory, setPlaybackHistory] = useState<HomeCarouselItem[]>([]);
-  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const scrollRef = useRef<ScrollView>(null);
   const musicServices = useMusicServices(speakerIp);
   const [serviceContexts, setServiceContexts] = useState<SmapiContext[]>([]);
@@ -85,22 +84,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       isMounted = false;
     };
   }, [speakerIp, musicServices.services]);
-
-  useEffect(() => {
-    if (!isActive || !openServiceCtx) return;
-    const subscription = BackHandler.addEventListener('hardwareBackPress', () => {
-      closeService();
-      return true;
-    });
-    return () => subscription.remove();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isActive, openServiceCtx]);
-
-  useEffect(() => {
-    return () => {
-      if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
-    };
-  }, []);
 
   // Sonos Favorites (ContentDirectory "FV:2") for the Favorites shelf. Re-read
   // each time Home is shown, since favorites are edited from the Sonos app.
@@ -168,16 +151,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const favorites = propFavorites ?? liveFavorites.slice(0, FAVORITES_SHELF_LIMIT);
   const featuredStations = propFeaturedStations ?? [];
 
-  const showToast = (message: string) => {
-    if (toastTimeoutRef.current) {
-      clearTimeout(toastTimeoutRef.current);
-    }
-    setToastMessage(message);
-    toastTimeoutRef.current = setTimeout(() => {
-      setToastMessage(null);
-    }, 3000);
-  };
-
   const handleSelectService = async ({ service }: LinkedService) => {
     let ctx = serviceContexts.find((c) => c.service.serviceId === service.serviceId);
     if (!ctx) {
@@ -189,7 +162,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       }
     }
     if (!ctx) {
-      showToast(`Couldn't open ${service.name}`);
+      toast.error(`Couldn't open ${service.name}`);
       return;
     }
     setReturnFocusServiceId(null);
@@ -204,16 +177,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const handlePlay = async (item: HomeQuickAccessItem | HomeCarouselItem) => {
     onSelectItem?.(item);
     if (isShortcutFavorite(item)) {
-      showToast(`"${item.title}" is a browse shortcut — open it in the Sonos app`);
+      toast.info(`"${item.title}" is a browse shortcut — open it in the Sonos app`);
       return;
     }
-    showToast(`Playing "${item.title}"`);
+    toast.info(`Starting "${item.title}"…`);
 
     try {
       await playFavorite(speakerIp, speakerId, item, buildBasicDidl(item), serviceContexts);
+      toast.success(`Playing "${item.title}"`);
     } catch (error) {
       log.error(TAG, `Failed to play "${item.title}"`, error);
-      showToast(`Couldn't play "${item.title}"`);
+      toast.error(`Couldn't play "${item.title}"`);
     }
   };
 
@@ -394,19 +368,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           speakerIp={speakerIp}
           speakerId={speakerId}
           ctx={openServiceCtx}
+          isActive={isActive}
           onBack={closeService}
-          onFeedback={showToast}
         />
-      )}
-
-      {/* Toast feedback (absolute overlay, rendered last so it sits above the browse panel too) */}
-      {toastMessage && (
-        <View style={[styles.toast, openServiceCtx && styles.toastOverBrowse]} testID="home-toast">
-          <View style={styles.toastIndicator} />
-          <Text style={styles.toastText} numberOfLines={1}>
-            {toastMessage}
-          </Text>
-        </View>
       )}
     </View>
   );
@@ -422,37 +386,6 @@ const styles = StyleSheet.create({
   },
   hidden: {
     display: 'none',
-  },
-  toast: {
-    position: 'absolute',
-    top: 76,
-    left: 36,
-    zIndex: 100,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'rgba(28, 28, 30, 0.95)',
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 8,
-    paddingHorizontal: spacing.md,
-    paddingVertical: spacing.sm,
-    gap: spacing.sm,
-  },
-  // The browse panel's back button sits where the toast normally does.
-  toastOverBrowse: {
-    left: undefined,
-    right: 36,
-  },
-  toastIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.primary,
-  },
-  toastText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
   },
   sectionHeader: {
     marginTop: 0,

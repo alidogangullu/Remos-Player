@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { StyleSheet, StatusBar, View, Text } from 'react-native';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { StyleSheet, StatusBar, View, Text, BackHandler, Platform, ToastAndroid } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { colors } from './src/theme';
@@ -15,10 +15,14 @@ import { SonosUpnpClient } from './src/services/sonos/upnp/sonosUpnpClient';
 import { useSmartTvAutoplay } from './src/services/sonos/autoplay/useSmartTvAutoplay';
 import { SonosDevice } from './src/types/sonos';
 import { TVPillButton } from './src/components/tv';
+import { ToastProvider } from './src/components/common';
+import { useBackHandler } from './src/hooks';
 import { RemoteConfigProvider, useRemoteConfig } from './src/services/remoteConfig/RemoteConfigProvider';
 import { ForceUpdateScreen } from './src/features/update/ForceUpdateScreen';
 
 const NOW_PLAYING_POLL_MS = 5000;
+/** A second Back within this window exits the app; matches ToastAndroid.SHORT (~2s) so it ends with the hint. */
+const EXIT_CONFIRM_MS = 2000;
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -45,6 +49,54 @@ function AppContent() {
   };
   const [speaker, setSpeaker] = useState<SonosDevice | null>(null);
   const [speakers, setSpeakers] = useState<SonosDevice[]>([]);
+
+  // App-level Back, reached only when no open panel or sub-view handled it:
+  // content → TopBar → Home tab → "press again" hint → exit.
+  const [isTopBarFocused, setIsTopBarFocused] = useState(false);
+  const [topBarFocusSignal, setTopBarFocusSignal] = useState(0);
+  const isExitArmedRef = useRef(false);
+  const exitTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => {
+    return () => {
+      if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+    };
+  }, []);
+  const disarmExit = useCallback(() => {
+    if (exitTimerRef.current) clearTimeout(exitTimerRef.current);
+    exitTimerRef.current = null;
+    isExitArmedRef.current = false;
+  }, []);
+  // Focus leaving the TopBar, or picking another tab, cancels a pending exit.
+  const handleTopBarFocusWithin = useCallback((isFocusWithin: boolean) => {
+    setIsTopBarFocused(isFocusWithin);
+    if (!isFocusWithin) disarmExit();
+  }, [disarmExit]);
+  const selectTab = useCallback((tab: TopBarTab) => {
+    disarmExit();
+    setActiveTab(tab);
+  }, [disarmExit]);
+  useBackHandler(true, () => {
+    if (!isTopBarFocused) {
+      setTopBarFocusSignal((n) => n + 1);
+      return;
+    }
+    if (activeTab !== 'home') {
+      selectTab('home');
+      setTopBarFocusSignal((n) => n + 1);
+      return;
+    }
+    if (isExitArmedRef.current) {
+      disarmExit();
+      BackHandler.exitApp();
+      return;
+    }
+    isExitArmedRef.current = true;
+    exitTimerRef.current = setTimeout(disarmExit, EXIT_CONFIRM_MS);
+    // The system toast, like other Android TV apps' exit hint (it can't be dismissed early).
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('Press Back again to exit', ToastAndroid.SHORT);
+    }
+  });
   useSmartTvAutoplay(speaker);
   const [isSearching, setIsSearching] = useState(true);
   const [deviceVolume, setDeviceVolume] = useState<number | undefined>(undefined);
@@ -138,15 +190,17 @@ function AppContent() {
       <StatusBar hidden />
       <TopBar
         activeTab={activeTab}
-        onSelectTab={setActiveTab}
+        onSelectTab={selectTab}
         miniPlayerTitle={nowPlaying.title || 'Audio'}
         miniPlayerArtist={nowPlaying.artist || (speaker ? getDisplaySpeakerName(speaker) : 'Standby')}
         miniPlayerArtworkUri={nowPlaying.albumArtUri}
         isPlaying={nowPlaying.isPlaying}
         deviceName={deviceLabel}
         deviceVolume={deviceVolume}
-        onPressDevice={() => setActiveTab('system')}
+        onPressDevice={() => selectTab('system')}
         showSettingsBadge={hasUnreadAnnouncements || updateInfo?.status === 'optional_update'}
+        focusActiveSignal={topBarFocusSignal}
+        onFocusWithinChange={handleTopBarFocusWithin}
       />
       <View style={styles.content}>
         {renderTab('home',
@@ -252,7 +306,9 @@ export default function App() {
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
         <RemoteConfigProvider>
-          <AppGate />
+          <ToastProvider>
+            <AppGate />
+          </ToastProvider>
         </RemoteConfigProvider>
       </QueryClientProvider>
     </SafeAreaProvider>

@@ -12,6 +12,8 @@ import { GetMetadataResult, MediaCollection, MediaMetadata } from '../../service
 import { SonosUpnpClient } from '../../services/sonos/upnp/sonosUpnpClient';
 import { PlaybackHistoryService } from '../../services/history/playbackHistoryService';
 import { colors, spacing } from '../../theme';
+import { useBackHandler } from '../../hooks';
+import { useToast } from '../../components/common';
 import { log } from '../../utils/logger';
 
 const TAG = 'ServiceBrowseScreen';
@@ -29,9 +31,10 @@ export interface ServiceBrowseScreenProps {
    * Queue actions. */
   speakerId: string;
   ctx: SmapiContext;
+  /** False while Home is kept mounted but hidden; remote Back must not reach this panel then. */
+  isActive?: boolean;
+  /** Leaves the panel (Back from its root page). */
   onBack: () => void;
-  /** Short confirmation or failure message for an action (shown as a toast). */
-  onFeedback: (message: string) => void;
 }
 
 interface StackEntry {
@@ -52,9 +55,10 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
   speakerIp,
   speakerId,
   ctx,
+  isActive = true,
   onBack,
-  onFeedback,
 }) => {
+  const toast = useToast();
   const [stack, setStack] = useState<StackEntry[]>([{ containerId: 'root', label: ctx.service.name }]);
   const [result, setResult] = useState<GetMetadataResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -113,13 +117,14 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
    * `containerPlaybackUri.ts`).
    */
   const playTrack = async (item: MediaMetadata) => {
+    toast.info(`Starting "${item.title}"…`);
     try {
       const { uri, metadata } = await playMediaItem(speakerIp, speakerId, ctx, item);
       await PlaybackHistoryService.addTrack({ title: item.title, artist: item.artist, albumArtUri: item.albumArtUri, uri, metadata });
-      onFeedback(`Playing "${item.title}"`);
+      toast.success(`Playing "${item.title}"`);
     } catch (err) {
       log.error(TAG, `Failed to play "${item.title}"`, err);
-      onFeedback(`Couldn't play "${item.title}"`);
+      toast.error(`Couldn't play "${item.title}"`);
     }
   };
 
@@ -141,6 +146,9 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
   const runContainerAction = async (item: MediaCollection, action: ContainerAction) => {
     if (actionInFlightRef.current) return;
     actionInFlightRef.current = true;
+    const isPlayAction = action === 'playNow' || action === 'replaceQueue';
+    // These run several UPnP calls in a row; acknowledge the press right away.
+    toast.info(isPlayAction ? `Starting "${item.title}"…` : `Adding "${item.title}" to the queue…`);
     try {
       const { uri, metadata } = buildContainerPlaybackTarget(ctx, item);
 
@@ -160,17 +168,17 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
         await SonosUpnpClient.seekTrack(speakerIp, 1, speakerId);
       }
 
-      if (action === 'playNow' || action === 'replaceQueue') {
+      if (isPlayAction) {
         await PlaybackHistoryService.addTrack({ title: item.title, albumArtUri: item.albumArtUri, uri, metadata });
-        onFeedback(`Playing "${item.title}"`);
+        toast.success(`Playing "${item.title}"`);
       } else if (action === 'playNext') {
-        onFeedback(`"${item.title}" will play next`);
+        toast.success(`"${item.title}" will play next`);
       } else {
-        onFeedback(`Added "${item.title}" to the queue`);
+        toast.success(`Added "${item.title}" to the queue`);
       }
     } catch (err) {
       log.error(TAG, `Failed to run "${action}" on container "${item.title}"`, err);
-      onFeedback(action === 'playNow' || action === 'replaceQueue' ? `Couldn't play "${item.title}"` : "Couldn't update the queue");
+      toast.error(isPlayAction ? `Couldn't play "${item.title}"` : "Couldn't update the queue");
     } finally {
       actionInFlightRef.current = false;
     }
@@ -183,6 +191,8 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
     }
     onBack();
   };
+  // The remote's Back walks up one folder at a time, like the on-screen button.
+  useBackHandler(isActive, handleBackPress);
 
   let body: React.ReactNode;
   if (isLoading) {
@@ -206,6 +216,9 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
 
   const backButton = (
     <TVFocusableCard
+      // Remount per page so focus lands here again after the remote's Back
+      // swaps the page out from under the focused row.
+      key={`back-${stack.length}`}
       onPress={handleBackPress}
       // A playable container's page starts on its Play button instead.
       hasTVPreferredFocus={!playable}

@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { colors, spacing } from '../../theme';
+import { View, StyleSheet } from 'react-native';
 import { SearchKeyboardRail } from './SearchKeyboardRail';
 import { SearchResultsPane } from './SearchResultsPane';
 import { RecentSearchesStore } from '../../services/search/recentSearchesStore';
@@ -11,9 +10,9 @@ import { MediaMetadata } from '../../services/sonos/smapi/smapiTypes';
 import { PlaybackHistoryService } from '../../services/history/playbackHistoryService';
 import { SearchResultItem } from '../../services/search/crossServiceSearch';
 import { log } from '../../utils/logger';
+import { useToast } from '../../components/common';
 
 const TAG = 'SearchScreen';
-const TOAST_DURATION_MS = 3000;
 
 export interface SearchScreenProps {
   speakerIp: string;
@@ -37,8 +36,7 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({ speakerIp, speakerId
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [searchableContexts, setSearchableContexts] = useState<SmapiContext[]>([]);
   const [isLoadingContexts, setIsLoadingContexts] = useState(true);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const toast = useToast();
   const isMountedRef = useRef(true);
 
   const refreshRecent = useCallback(async () => {
@@ -64,7 +62,6 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({ speakerIp, speakerId
     refreshContexts();
     return () => {
       isMountedRef.current = false;
-      if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [speakerIp]);
@@ -77,17 +74,11 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({ speakerIp, speakerId
     wasActiveRef.current = isActive;
   }, [isActive, refreshContexts]);
 
-  const showToast = (message: string) => {
-    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
-    setToastMessage(message);
-    toastTimeoutRef.current = setTimeout(() => setToastMessage(null), TOAST_DURATION_MS);
-  };
-
   const handleSelectResult = async (item: SearchResultItem) => {
     const ctx = searchableContexts.find((c) => c.service.serviceId === item.serviceId);
     if (!ctx) return;
 
-    showToast(`Now Playing: ${item.title}`);
+    toast.info(`Starting "${item.title}"…`);
 
     try {
       const { uri, metadata } = await playMediaItem(speakerIp, speakerId, ctx, item.raw as MediaMetadata);
@@ -98,22 +89,15 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({ speakerIp, speakerId
         uri,
         metadata,
       });
+      toast.success(`Playing "${item.title}"`);
     } catch (error) {
       log.error(TAG, `Failed to play result ${item.id} from ${item.serviceName}`, error);
-      showToast(`Couldn't play "${item.title}"`);
+      toast.error(`Couldn't play "${item.title}"`);
     }
   };
 
   return (
     <View style={styles.container} testID="search-screen">
-      {toastMessage && (
-        <View style={styles.toast} testID="search-toast">
-          <View style={styles.toastIndicator} />
-          <Text style={styles.toastText} numberOfLines={1}>
-            {toastMessage}
-          </Text>
-        </View>
-      )}
       <View style={styles.content}>
         <SearchKeyboardRail
           query={query}
@@ -152,35 +136,5 @@ const styles = StyleSheet.create({
     // further. Individual non-scrolling elements (header buttons, chip
     // rows) add their own trailing inset instead.
     paddingLeft: 32,
-  },
-  toast: {
-    position: 'absolute',
-    top: spacing.lg,
-    right: 36,
-    zIndex: 100,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.surfaceElevated,
-    borderRadius: 8,
-    borderWidth: 1.5,
-    borderColor: colors.statusPlaying,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    gap: spacing.sm,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
-  },
-  toastIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.statusPlaying,
-  },
-  toastText: {
-    color: colors.textPrimary,
-    fontSize: 16,
-    fontWeight: '600',
   },
 });

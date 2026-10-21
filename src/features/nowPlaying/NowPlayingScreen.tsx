@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   ActivityIndicator,
   Animated,
@@ -27,6 +26,8 @@ import {
 } from '../../services/sonos/upnp/sonosUpnpClient';
 import { PlaybackHistoryService } from '../../services/history/playbackHistoryService';
 import { TVVolumePanel } from '../../components/tv';
+import { useBackHandler } from '../../hooks';
+import { useToast } from '../../components/common';
 
 export interface NowPlayingTrack extends TrackMetadata {
   format?: string;
@@ -83,8 +84,7 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   const [isLoadingQueue, setIsLoadingQueue] = useState(false);
 
   const [isFavorite, setIsFavorite] = useState(false);
-  const [toastMessage, setToastMessage] = useState<string | null>(null);
-  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const toast = useToast();
 
   // Scale animation for artwork on track change (AirTune signature)
   const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -153,14 +153,6 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
     timestamp: Date.now(),
     trackKey: initialTrack?.uri || initialTrack?.title || '',
   });
-
-  const showToast = (message: string) => {
-    if (toastTimeoutRef.current) clearTimeout(toastTimeoutRef.current);
-    setToastMessage(message);
-    toastTimeoutRef.current = setTimeout(() => {
-      setToastMessage(null);
-    }, 2800);
-  };
 
   // Check if current track is in saved favorites
   useEffect(() => {
@@ -434,14 +426,22 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
     if (next) setShowLyrics(false);
   };
 
+  // Back closes an open Lyrics/Queue view before leaving the screen.
+  const isSidePanelVisible = !isRadio && (showLyrics || (showQueue && queue.length > 0));
+  useBackHandler(isSidePanelVisible, () => {
+    setShowLyrics(false);
+    setShowQueue(false);
+  });
+
   const handleSelectQueueItem = async (queueItem: QueueItem) => {
     try {
-      showToast(`Jumping to #${queueItem.trackNumber} ${queueItem.title}`);
+      toast.info(`Starting "${queueItem.title}"…`);
       await SonosUpnpClient.seekTrack(speakerIp, queueItem.trackNumber, speakerId);
+      toast.success(`Playing "${queueItem.title}"`);
       setShowQueue(false);
       setTimeout(fetchLiveStatus, 500);
     } catch {
-      showToast('Failed to play queue track');
+      toast.error(`Couldn't play "${queueItem.title}"`);
     }
   };
 
@@ -458,10 +458,9 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
           (item.uri && track.uri && item.uri === track.uri)
       );
 
-      if (existsIndex >= 0) {
+      const isRemoving = existsIndex >= 0;
+      if (isRemoving) {
         list.splice(existsIndex, 1);
-        setIsFavorite(false);
-        showToast(`Removed "${track.title}" from favorites`);
       } else {
         list.push({
           id: track.uri || `fav-${Date.now()}`,
@@ -471,12 +470,13 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
           albumArtUri: track.albumArtUri,
           uri: track.uri,
         });
-        setIsFavorite(true);
-        showToast(`Added "${track.title}" to favorites`);
       }
+      // Confirm only once it's actually saved.
       await AsyncStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(list));
+      setIsFavorite(!isRemoving);
+      toast.success(isRemoving ? `Removed "${track.title}" from favorites` : `Added "${track.title}" to favorites`);
     } catch {
-      showToast('Could not update favorites');
+      toast.error("Couldn't update favorites");
     }
   };
 
@@ -545,15 +545,6 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
             style={StyleSheet.absoluteFill}
           />
         </Animated.View>
-      )}
-      {/* Toast Feedback Overlay */}
-      {toastMessage && (
-        <View style={styles.toast} testID="now-playing-toast">
-          <View style={styles.toastIndicator} />
-          <Text style={styles.toastText} numberOfLines={1}>
-            {toastMessage}
-          </Text>
-        </View>
       )}
 
       {/* Centered Content: Artwork, Split Lyrics, or Integrated Queue (AirTune layout) */}
@@ -647,39 +638,6 @@ const styles = StyleSheet.create({
   controlsRadio: {
     // Moved with a transform (not layout) so the footer, and the artwork above it, don't shift.
     transform: [{ translateY: 28 }],
-  },
-  /* Toast Notification */
-  toast: {
-    position: 'absolute',
-    top: spacing.lg,
-    right: spacing.screenPaddingHorizontal,
-    zIndex: 100,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: colors.surfaceElevated,
-    borderRadius: 8,
-    borderWidth: 1.5,
-    borderColor: colors.statusPlaying,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm,
-    gap: spacing.sm,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.5,
-    shadowRadius: 8,
-    elevation: 10,
-  },
-  toastIndicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.statusPlaying,
-  },
-  toastText: {
-    color: colors.textPrimary,
-    fontSize: 14,
-    fontWeight: '600',
-    letterSpacing: 0.2,
   },
   /* Split Lyrics View (AirTune style) */
   lyricsSplitView: {

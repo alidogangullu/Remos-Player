@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Pressable, Text, Image } from 'react-native';
 import { colors } from '../../theme';
 import { MarqueeText } from '../../components/common/MarqueeText';
@@ -19,6 +19,10 @@ export interface TopBarProps {
   onPressDevice?: () => void;
   /** Amber dot on the Settings tab: unread notification or available update. */
   showSettingsBadge?: boolean;
+  /** Bumping this moves D-pad focus to the active item (Back from a screen's content). */
+  focusActiveSignal?: number;
+  /** Reports whether D-pad focus is currently on any TopBar item. */
+  onFocusWithinChange?: (isFocusWithin: boolean) => void;
 }
 
 const TABS: { id: TopBarTab; label: string }[] = [
@@ -39,19 +43,37 @@ export const TopBar: React.FC<TopBarProps> = ({
   deviceVolume,
   onPressDevice,
   showSettingsBadge = false,
+  focusActiveSignal,
+  onFocusWithinChange,
 }) => {
   const [focusedTab, setFocusedTab] = useState<TopBarTab | null>(null);
   const [isMiniPlayerFocused, setIsMiniPlayerFocused] = useState(false);
   const [isDeviceButtonFocused, setIsDeviceButtonFocused] = useState(false);
+  const itemRefs = useRef<Partial<Record<TopBarTab, View | null>>>({});
 
   const isMiniPlayerActive = activeTab === 'nowPlaying';
   const isDeviceActive = activeTab === 'system';
+  const isFocusWithin = focusedTab !== null || isMiniPlayerFocused || isDeviceButtonFocused;
+
+  useEffect(() => {
+    onFocusWithinChange?.(isFocusWithin);
+  }, [isFocusWithin, onFocusWithinChange]);
+
+  useEffect(() => {
+    if (!focusActiveSignal) return;
+    // Deferred so a tab switched in the same press has rendered first.
+    const timer = setTimeout(() => (itemRefs.current[activeTab] as any)?.requestTVFocus?.(), 0);
+    return () => clearTimeout(timer);
+    // Only a new signal should move focus, not a tab change on its own.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focusActiveSignal]);
 
   return (
     <View style={styles.container}>
       {/* Left Section: Compact Spotify TV Style Mini Player Card */}
       <View style={styles.leftSection}>
         <Pressable
+          ref={(node) => { itemRefs.current.nowPlaying = node; }}
           accessibilityRole="button"
           testID="topbar-mini-player"
           hasTVPreferredFocus={isMiniPlayerActive}
@@ -108,6 +130,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             return (
               <Pressable
                 key={tab.id}
+                ref={(node) => { itemRefs.current[tab.id] = node; }}
                 testID={`topbar-tab-${tab.id}`}
                 hasTVPreferredFocus={isActive}
                 accessibilityRole="tab"
@@ -142,6 +165,7 @@ export const TopBar: React.FC<TopBarProps> = ({
       {/* Right Section: System / Connected Device Button */}
       <View style={styles.rightSection}>
         <Pressable
+          ref={(node) => { itemRefs.current.system = node; }}
           accessibilityRole="button"
           testID="topbar-device-button"
           hasTVPreferredFocus={isDeviceActive}
