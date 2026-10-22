@@ -5,6 +5,7 @@ import { SONOS_DEFAULTS, UPNP_SERVICES } from '../../../constants';
 import { SonosDevice, ZoneGroup } from '../../../types/sonos';
 import { SonosUpnpClient } from '../upnp/sonosUpnpClient';
 import { getLocalNetworks, hostsToScan, ssdpSearch } from './localNetwork';
+import { i18n } from '../../../i18n';
 
 const parser = new XMLParser({
   ignoreAttributes: false,
@@ -35,7 +36,7 @@ function parseZoneGroupState(xmlState: string): ZoneGroup[] {
       );
 
       const rawCoordinator = memberList.find((m: any) => m.UUID === g.Coordinator) || memberList[0];
-      const coordinatorName = rawCoordinator ? String(rawCoordinator.ZoneName || 'Group') : 'Group';
+      const coordinatorName = String(rawCoordinator?.ZoneName || i18n.t('common.group'));
 
       const members: SonosDevice[] = memberList.map((m: any) => {
         let ip = '';
@@ -44,7 +45,7 @@ function parseZoneGroupState(xmlState: string): ZoneGroup[] {
           if (match) ip = match[1];
         }
         const otherMembers = memberList.filter((other: any) => other.UUID !== m.UUID);
-        const groupedWith = otherMembers.map((other: any) => String(other.ZoneName || 'Sonos Room'));
+        const groupedWith = otherMembers.map((other: any) => String(other.ZoneName || i18n.t('common.room')));
 
         // Home theater bonds (surrounds, sub) are listed in HTSatChanMapSet, e.g.
         // "<main>:LF,RF;<sat>:LR;<sat>:RR;<sub>:SW". ChannelMapSet covers stereo pairs.
@@ -54,7 +55,7 @@ function parseZoneGroupState(xmlState: string): ZoneGroup[] {
 
         return {
           id: String(m.UUID || ''),
-          name: String(m.ZoneName || 'Sonos Room'),
+          name: String(m.ZoneName || i18n.t('common.room')),
           ip,
           port: SONOS_DEFAULTS.UPNP_PORT,
           isCoordinator: m.UUID === g.Coordinator,
@@ -71,7 +72,7 @@ function parseZoneGroupState(xmlState: string): ZoneGroup[] {
       return {
         id: String(g.ID || ''),
         coordinatorId: String(g.Coordinator || ''),
-        name: coordinator?.name || 'Group',
+        name: coordinator?.name || i18n.t('common.group'),
         members,
       };
     });
@@ -157,7 +158,7 @@ export class SonosDiscoveryService {
       const hasTvInput = /serviceId:HTControl\b/.test(String(response.data));
 
       const rawFriendly = dev.friendlyName ? String(dev.friendlyName) : undefined;
-      let cleanName = modelName || 'Sonos Speaker';
+      let cleanName = modelName || i18n.t('common.speaker');
       if (rawFriendly) {
         let cleaned = rawFriendly
           .replace(/^(\d{1,3}\.){3}\d{1,3}\s*[-–:]\s*/i, '')

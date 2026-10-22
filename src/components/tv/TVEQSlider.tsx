@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Pressable } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 
 export interface TVEQSliderProps {
@@ -27,6 +28,7 @@ export const TVEQSlider: React.FC<TVEQSliderProps> = ({
   hasTVPreferredFocus,
   testID,
 }) => {
+  const { t } = useTranslation();
   const [minusFocused, setMinusFocused] = useState(false);
   const [plusFocused, setPlusFocused] = useState(false);
 
@@ -72,7 +74,7 @@ export const TVEQSlider: React.FC<TVEQSliderProps> = ({
       <View style={styles.controlGroup}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`Decrease ${title}, currently ${formatValue(value)}`}
+          accessibilityLabel={t('common.slider.decrease', { title, value: formatValue(value) })}
           disabled={isMin}
           hasTVPreferredFocus={hasTVPreferredFocus}
           onFocus={() => setMinusFocused(true)}
@@ -120,7 +122,7 @@ export const TVEQSlider: React.FC<TVEQSliderProps> = ({
 
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`Increase ${title}, currently ${formatValue(value)}`}
+          accessibilityLabel={t('common.slider.increase', { title, value: formatValue(value) })}
           disabled={isMax}
           onFocus={() => setPlusFocused(true)}
           onBlur={() => setPlusFocused(false)}

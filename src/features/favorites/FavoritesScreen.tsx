@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 import { FavoriteCard, FavoriteItem } from './FavoriteCard';
 import { TVFocusableButton } from '../../components/tv/TVFocusableButton';
@@ -23,6 +24,7 @@ export const FavoritesScreen: React.FC<FavoritesScreenProps> = ({
 }) => {
   const [favorites, setFavorites] = useState<FavoriteItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(Boolean(speakerIp));
+  const { t } = useTranslation();
   const toast = useToast();
   const isMountedRef = useRef(true);
 
@@ -68,16 +70,16 @@ export const FavoritesScreen: React.FC<FavoritesScreenProps> = ({
     onSelectFavorite?.(item);
 
     if (isShortcutFavorite(item)) {
-      toast.info(`"${item.title}" is a browse shortcut — open it in the Sonos app`);
+      toast.info(t('toast.browseShortcut', { title: item.title }));
       return;
     }
-    toast.info(`Starting "${item.title}"…`);
+    toast.info(t('toast.starting', { title: item.title }));
 
     try {
       await playFavorite(speakerIp, speakerId, item, '');
-      toast.success(`Playing "${item.title}"`);
+      toast.success(t('toast.playing', { title: item.title }));
     } catch {
-      toast.error(`Couldn't play "${item.title}"`);
+      toast.error(t('toast.couldntPlay', { title: item.title }));
     }
   };
 
@@ -109,16 +111,14 @@ export const FavoritesScreen: React.FC<FavoritesScreenProps> = ({
       ) : favorites.length === 0 ? (
         <View style={styles.emptyContainer}>
           <View style={styles.headerRow}>
-            <Text style={styles.header}>Sonos Favorites</Text>
-            <Text style={styles.headerSubtitle}>Pinned Radios, Mixes & Playlists</Text>
+            <Text style={styles.header}>{t('favorites.title')}</Text>
+            <Text style={styles.headerSubtitle}>{t('favorites.subtitle')}</Text>
           </View>
           <Text style={styles.emptyIcon}>★</Text>
-          <Text style={styles.emptyTitle}>No Favorites Found</Text>
-          <Text style={styles.emptySubtitle}>
-            Add radios, playlists, or albums to "My Sonos" in the Sonos mobile app to quickly access them here.
-          </Text>
+          <Text style={styles.emptyTitle}>{t('favorites.emptyTitle')}</Text>
+          <Text style={styles.emptySubtitle}>{t('favorites.emptySubtitle')}</Text>
           <TVFocusableButton
-            label="Refresh Favorites"
+            label={t('favorites.refresh')}
             onPress={handleRefresh}
             style={styles.refreshButton}
             testID="refresh-favorites-button"
@@ -136,8 +136,8 @@ export const FavoritesScreen: React.FC<FavoritesScreenProps> = ({
           showsVerticalScrollIndicator={false}
           ListHeaderComponent={
             <View style={styles.headerRow}>
-              <Text style={styles.header}>Sonos Favorites</Text>
-              <Text style={styles.headerSubtitle}>Pinned Radios, Mixes & Playlists</Text>
+              <Text style={styles.header}>{t('favorites.title')}</Text>
+              <Text style={styles.headerSubtitle}>{t('favorites.subtitle')}</Text>
             </View>
           }
           columnWrapperStyle={styles.columnWrapper}

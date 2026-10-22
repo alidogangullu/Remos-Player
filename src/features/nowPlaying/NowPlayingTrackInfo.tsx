@@ -1,6 +1,12 @@
 import React from 'react';
 import { Animated, Image, StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
+
+const NO_ARTWORK_GLYPH = '🎵';
+/** Input names as printed on the TV and speaker ports — the same in every language. */
+const TV_INPUT_MARK = 'TV';
+const TV_INPUT_PORTS = 'OPTICAL / EARC';
 
 export interface TrackDisplayInfo {
   title?: string;
@@ -30,6 +36,7 @@ export const NowPlayingTrackInfo: React.FC<NowPlayingTrackInfoProps> = ({
   isLive = false,
   style,
 }) => {
+  const { t } = useTranslation();
   const containerStyle = [
     styles.container,
     align === 'flex-start' && styles.alignStart,
@@ -40,8 +47,8 @@ export const NowPlayingTrackInfo: React.FC<NowPlayingTrackInfoProps> = ({
     return (
       <View style={containerStyle}>
         <View style={[styles.artworkShadow, styles.tvAudioBox]}>
-          <Text style={styles.tvAudioIcon}>TV</Text>
-          <Text style={styles.tvAudioBadge}>OPTICAL / EARC</Text>
+          <Text style={styles.tvAudioIcon}>{TV_INPUT_MARK}</Text>
+          <Text style={styles.tvAudioBadge}>{TV_INPUT_PORTS}</Text>
         </View>
         {/* Invisible metadata keeps the artwork in the same spot as for a normal track. */}
         <View style={[styles.meta, align === 'flex-start' && styles.metaStart, styles.hidden]} importantForAccessibility="no-hide-descendants">
@@ -69,14 +76,14 @@ export const NowPlayingTrackInfo: React.FC<NowPlayingTrackInfoProps> = ({
           />
         ) : (
           <View style={[styles.artwork, styles.artworkPlaceholder]}>
-            <Text style={styles.placeholderIcon}>🎵</Text>
+            <Text style={styles.placeholderIcon}>{NO_ARTWORK_GLYPH}</Text>
           </View>
         )}
 
         {isLive ? (
           <View style={[styles.formatBadgeContainer, styles.liveBadge]} testID="track-live-badge">
             <View style={styles.liveDot} />
-            <Text style={styles.formatBadgeText}>LIVE</Text>
+            <Text style={styles.formatBadgeText}>{t('nowPlaying.live')}</Text>
           </View>
         ) : track?.format ? (
           <View style={styles.formatBadgeContainer} testID="track-format-badge">
@@ -87,10 +94,10 @@ export const NowPlayingTrackInfo: React.FC<NowPlayingTrackInfoProps> = ({
 
       <View style={[styles.meta, align === 'flex-start' && styles.metaStart]}>
         <Text style={styles.title} numberOfLines={1}>
-          {track?.title || 'Sonos Speaker Ready'}
+          {track?.title || t('nowPlaying.idleTitle')}
         </Text>
         <Text style={styles.artist} numberOfLines={1}>
-          {track?.artist || 'Idle'}
+          {track?.artist || t('nowPlaying.idleArtist')}
         </Text>
         <Text style={styles.album} numberOfLines={1}>
           {track?.album || ' '}

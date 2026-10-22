@@ -1,0 +1,165 @@
+{
+  "title": "Instellingen",
+  "noSpeaker": "Geen speaker verbonden",
+  "tabs": {
+    "sound": "Geluid",
+    "language": "Taal",
+    "notifications": "Meldingen",
+    "update": "Update",
+    "about": "Over"
+  },
+  "toggle": {
+    "on": "AAN",
+    "off": "UIT"
+  },
+  "sound": {
+    "speakerRequired": {
+      "title": "Speaker vereist",
+      "subtitle": "Maak verbinding met een Sonos-speaker om de audio- en geluidsinstellingen te wijzigen."
+    },
+    "tvAutoplay": {
+      "title": "Tv automatisch afspelen",
+      "reading": "Huidige instelling wordt van de speaker gelezen…",
+      "modes": {
+        "off": {
+          "label": "UIT",
+          "description": "Sonos blijft bij de huidige muziek. Tv-geluid speelt alleen af als je het zelf kiest."
+        },
+        "on": {
+          "label": "AAN",
+          "description": "Sonos schakelt automatisch over naar tv-geluid zodra er een audiosignaal op de tv-ingang binnenkomt — ook bij geluiden van de Android TV-interface."
+        },
+        "smart": {
+          "label": "SLIM",
+          "description": "Gaat uit als je deze app opent en weer aan als je hem verlaat, zodat interfacegeluiden je muziek niet onderbreken."
+        }
+      },
+      "tip": "Tip: stoppen navigatieklikken op de tv steeds je muziek? Kies {{smart}} — tv automatisch afspelen gaat uit als je deze app opent en weer aan als je hem verlaat."
+    },
+    "eq": {
+      "title": "Equalizer (EQ)",
+      "bass": {
+        "title": "Lage tonen",
+        "description": "Pas de balans van lage frequenties aan van -10 tot +10"
+      },
+      "treble": {
+        "title": "Hoge tonen",
+        "description": "Pas de balans van hoge frequenties aan van -10 tot +10"
+      },
+      "loudness": {
+        "title": "Loudness",
+        "description": "Versterkt bepaalde frequenties bij een laag volume voor een voller, evenwichtig geluid"
+      },
+      "reset": "Equalizer resetten"
+    },
+    "tvEnhancements": {
+      "title": "Tv-geluidsverbeteringen",
+      "nightMode": {
+        "title": "Nachtstand",
+        "description": "Comprimeert het dynamisch bereik om 's avonds laat zacht te luisteren"
+      },
+      "speech": {
+        "title": "Spraakverbetering",
+        "description": "Verbetert de verstaanbaarheid van dialogen en stemmen in het middenkanaal bij tv-geluid"
+      },
+      "ungroup": {
+        "title": "Degroeperen bij automatisch afspelen",
+        "description": "Haalt deze ruimte automatisch uit muziekgroepen zodra het tv-geluid start"
+      }
+    },
+    "sub": {
+      "title": "Sub-audio",
+      "enable": {
+        "title": "Sub",
+        "description": "Schakel de diepe lage tonen naar de gekoppelde Sonos Sub in of uit"
+      },
+      "level": {
+        "title": "Sub-niveau",
+        "description": "Pas het vermogen en de impact van de subwoofer aan van -10 tot +10"
+      },
+      "crossover": {
+        "title": "Kantelfrequentie",
+        "description": "Een lage waarde past bij grote vloerspeakers, een hoge waarde bij compacte speakers."
+      },
+      "phase": {
+        "title": "Fasebediening",
+        "description": "Stem de timing van de subwooferconus af op de hoofdspeakers (0° of 180°)"
+      },
+      "reset": "Sub-audio resetten"
+    },
+    "surround": {
+      "title": "Surround-audio",
+      "enable": {
+        "title": "Surrounds",
+        "description": "Schakel de achterste surroundspeakers in deze ruimte in of uit"
+      },
+      "tvLevel": {
+        "title": "Tv-niveau",
+        "description": "Pas het relatieve volume van de achterste surroundspeakers voor tv aan van -15 tot +15"
+      },
+      "musicLevel": {
+        "title": "Muziekniveau",
+        "description": "Pas het relatieve volume van de achterste surroundspeakers voor muziek aan van -15 tot +15"
+      },
+      "musicPlayback": {
+        "title": "Muziek afspelen",
+        "description": "Kies of de surrounds bij muziek subtiel sfeergeluid of volledig stereogeluid weergeven",
+        "ambient": "Sfeer",
+        "full": "Volledig"
+      }
+    },
+    "height": {
+      "title": "Hoogte-audio",
+      "level": {
+        "title": "Hoogteniveau",
+        "description": "Pas het niveau van het hoogtekanaal aan bij het afspelen van immersieve audioformaten."
+      },
+      "reset": "Resetten"
+    }
+  },
+  "language": {
+    "title": "Taal",
+    "subtitle": "Kies de taal van Remos Player",
+    "system": "Systeemstandaard",
+    "systemDetail": "Volgt de taal van je tv ({{language}})"
+  },
+  "notifications": {
+    "title": "Meldingen",
+    "subtitle": "Nieuws en updates over Remos Player",
+    "emptyTitle": "Geen meldingen",
+    "emptySubtitle": "Aankondigingen over Remos Player verschijnen hier.",
+    "new": "NIEUW",
+    "readMore": "Druk op OK om meer te lezen",
+    "showLess": "Druk op OK om minder te tonen"
+  },
+  "update": {
+    "title": "Software-update",
+    "subtitle": "Remos Player zoekt automatisch naar nieuwe versies",
+    "checking": "Zoeken naar updates…",
+    "checkFailed": "Kan niet zoeken naar updates",
+    "youHaveVersion": "Je hebt versie {{version}}.",
+    "available": "Versie {{version}} is beschikbaar",
+    "availableDetail": "Je hebt versie {{version}}. Update via de Google Play Store.",
+    "upToDate": "Remos Player is up-to-date",
+    "versionLabel": "Versie {{version}}",
+    "serverUnreachable": "Kan de updateserver niet bereiken. Controleer je internetverbinding.",
+    "lastChecked": "Laatst gecontroleerd om {{time}}",
+    "whatsNew": "Wat is er nieuw",
+    "updateNow": "Nu updaten",
+    "checkButton": "Zoeken naar updates",
+    "checkingButton": "Controleren…"
+  },
+  "about": {
+    "title": "Over",
+    "version": "Versie {{version}}",
+    "description": "Blader, zoek en bedien je Sonos-systeem met de afstandsbediening van je tv. Remos Player communiceert rechtstreeks via je lokale netwerk met je speakers.",
+    "lyricsCredit": "Gesynchroniseerde songteksten worden geleverd door LRCLib (lrclib.net).",
+    "rows": {
+      "version": "Versie",
+      "website": "Website",
+      "support": "Ondersteuning",
+      "privacy": "Privacybeleid"
+    },
+    "legal": "Remos Player is een onafhankelijk project. Het is niet verbonden aan, goedgekeurd door of gesponsord door Sonos, Inc. Sonos is een handelsmerk van Sonos, Inc. Android TV en Google Play zijn handelsmerken van Google LLC."
+  }
+}

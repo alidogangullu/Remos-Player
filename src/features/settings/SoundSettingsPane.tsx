@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 import { SettingsToggle } from './SettingsToggle';
 import {
@@ -17,29 +18,6 @@ import {
 
 const TV_AUTOPLAY_MODES: TvAutoplayMode[] = ['off', 'on', 'smart'];
 
-const TV_AUTOPLAY_MODE_CONFIG: Record<
-  TvAutoplayMode,
-  { label: string; description: string }
-> = {
-  off: {
-    label: 'OFF',
-    description:
-      'Sonos stays on the current music. TV audio only plays when you select it yourself.',
-  },
-  on: {
-    label: 'ON',
-    description:
-      'Sonos automatically switches to TV audio when any audio signal is detected on the TV input — including Android TV interface sounds.',
-  },
-  smart: {
-    label: 'SMART',
-    description:
-      "Turns off when you open this app and back on when you leave it, so interface sounds can't interrupt your music.",
-  },
-};
-
-const TV_AUTOPLAY_UNKNOWN_DESCRIPTION =
-  'Reading the current setting from the speaker…';
 
 /**
  * Settings the speaker actually has. Each one is detected by reading it: the
@@ -82,6 +60,7 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
   onToggleNightMode,
   onToggleSpeechEnhancement,
 }) => {
+  const { t } = useTranslation();
   const [bass, setBass] = useState(0);
   const [treble, setTreble] = useState(0);
   const [loudness, setLoudness] = useState(true);
@@ -217,10 +196,8 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
   if (!speaker) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyTitle}>Speaker Required</Text>
-        <Text style={styles.emptySubtitle}>
-          Connect to a Sonos speaker to configure audio and sound settings.
-        </Text>
+        <Text style={styles.emptyTitle}>{t('settings.sound.speakerRequired.title')}</Text>
+        <Text style={styles.emptySubtitle}>{t('settings.sound.speakerRequired.subtitle')}</Text>
       </View>
     );
   }
@@ -475,15 +452,15 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
 
   // Build TV Autoplay mode card (only for soundbars — devices with TV input)
   const tvAutoplayDescription = tvAutoplayMode
-    ? TV_AUTOPLAY_MODE_CONFIG[tvAutoplayMode].description
-    : TV_AUTOPLAY_UNKNOWN_DESCRIPTION;
+    ? t(`settings.sound.tvAutoplay.modes.${tvAutoplayMode}.description`)
+    : t('settings.sound.tvAutoplay.reading');
 
   const tvAutoplayCard = isSoundbar ? (
     <View style={styles.autoplayCard} testID="tv-autoplay-card">
       {/* Top row: title + description of the selected mode on the left, mode selector on the right */}
       <View style={styles.autoplayCardRow}>
         <View style={styles.autoplayTextContainer}>
-          <Text style={styles.autoplayTitle}>TV Autoplay</Text>
+          <Text style={styles.autoplayTitle}>{t('settings.sound.tvAutoplay.title')}</Text>
           <Text style={styles.autoplayDescription}>
             {tvAutoplayDescription}
           </Text>
@@ -492,7 +469,7 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
           {TV_AUTOPLAY_MODES.map(mode => (
             <TVFilterChip
               key={mode}
-              label={TV_AUTOPLAY_MODE_CONFIG[mode].label}
+              label={t(`settings.sound.tvAutoplay.modes.${mode}.label`)}
               active={tvAutoplayMode === mode}
               onPress={() => handleSelectTVAutoplayMode(mode)}
               testID={`tv-autoplay-mode-${mode}`}
@@ -504,9 +481,7 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
       {/* Tip callout — inside the card, below the row */}
       <View style={styles.tipBox}>
         <Text style={styles.tipText}>
-          {
-            'Tip: If TV navigation clicks keep stopping your music, choose SMART — TV Autoplay turns off when you open this app and back on when you leave it.'
-          }
+          {t('settings.sound.tvAutoplay.tip', { smart: t('settings.sound.tvAutoplay.modes.smart.label') })}
         </Text>
       </View>
     </View>
@@ -521,13 +496,13 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
       {tvAutoplayCard}
 
       {capabilities.bass || capabilities.treble || capabilities.loudness ? (
-        <Text style={styles.sectionTitle}>Equalizer (EQ)</Text>
+        <Text style={styles.sectionTitle}>{t('settings.sound.eq.title')}</Text>
       ) : null}
 
       {capabilities.bass ? (
         <TVEQSlider
-          title="Bass"
-          description="Adjust low-frequency balance from -10 to +10"
+          title={t('settings.sound.eq.bass.title')}
+          description={t('settings.sound.eq.bass.description')}
           value={bass}
           onChange={handleChangeBass}
           testID="eq-bass"
@@ -536,8 +511,8 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
 
       {capabilities.treble ? (
         <TVEQSlider
-          title="Treble"
-          description="Adjust high-frequency balance from -10 to +10"
+          title={t('settings.sound.eq.treble.title')}
+          description={t('settings.sound.eq.treble.description')}
           value={treble}
           onChange={handleChangeTreble}
           testID="eq-treble"
@@ -546,8 +521,8 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
 
       {capabilities.loudness ? (
         <SettingsToggle
-          title="Loudness"
-          description="Boosts certain frequencies at lower volumes to produce a fuller, balanced sound"
+          title={t('settings.sound.eq.loudness.title')}
+          description={t('settings.sound.eq.loudness.description')}
           isEnabled={loudness}
           onToggle={handleToggleLoudness}
           onPress={handleToggleLoudness}
@@ -558,7 +533,7 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
       {capabilities.bass || capabilities.treble ? (
         <View style={styles.resetRow}>
           <TVFocusableButton
-            label="Reset Equalizer to Flat"
+            label={t('settings.sound.eq.reset')}
             onPress={handleResetEQ}
             testID="button-reset-eq"
             style={styles.resetButton}
@@ -571,12 +546,12 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
       capabilities.speechEnhancement ||
       isSoundbar ? (
         <>
-          <Text style={styles.sectionTitle}>TV Audio Enhancements</Text>
+          <Text style={styles.sectionTitle}>{t('settings.sound.tvEnhancements.title')}</Text>
 
           {capabilities.nightMode ? (
             <SettingsToggle
-              title="Night Mode"
-              description="Compresses audio dynamic range for quiet late-night listening"
+              title={t('settings.sound.tvEnhancements.nightMode.title')}
+              description={t('settings.sound.tvEnhancements.nightMode.description')}
               isEnabled={nightMode}
               onToggle={handleToggleNight}
               onPress={handleToggleNight}
@@ -586,8 +561,8 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
 
           {capabilities.speechEnhancement ? (
             <SettingsToggle
-              title="Speech Enhancement"
-              description="Boosts dialogue clarity and center voice channels for TV sound"
+              title={t('settings.sound.tvEnhancements.speech.title')}
+              description={t('settings.sound.tvEnhancements.speech.description')}
               isEnabled={speechEnhancement}
               onToggle={handleToggleSpeech}
               onPress={handleToggleSpeech}
@@ -597,8 +572,8 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
 
           {isSoundbar ? (
             <SettingsToggle
-              title="Ungroup on Autoplay"
-              description="Automatically drop this room from music groups when TV audio starts playing"
+              title={t('settings.sound.tvEnhancements.ungroup.title')}
+              description={t('settings.sound.tvEnhancements.ungroup.description')}
               isEnabled={tvAutoplayUngroup}
               onToggle={handleToggleTVUngroup}
               onPress={handleToggleTVUngroup}
@@ -611,11 +586,11 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
       {/* Subwoofer Controls - only when Sub is bonded */}
       {hasSub ? (
         <>
-          <Text style={styles.sectionTitle}>Sub Audio</Text>
+          <Text style={styles.sectionTitle}>{t('settings.sound.sub.title')}</Text>
 
           <SettingsToggle
-            title="Sub"
-            description="Enable or disable deep low-frequency output to the bonded Sonos Sub"
+            title={t('settings.sound.sub.enable.title')}
+            description={t('settings.sound.sub.enable.description')}
             isEnabled={subEnabled}
             onToggle={handleToggleSub}
             onPress={handleToggleSub}
@@ -623,8 +598,8 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
           />
 
           <TVEQSlider
-            title="Sub Level"
-            description="Adjust subwoofer output power and punch from -10 to +10"
+            title={t('settings.sound.sub.level.title')}
+            description={t('settings.sound.sub.level.description')}
             value={subGain}
             min={-10}
             max={10}
@@ -633,8 +608,8 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
           />
 
           <TVEQSlider
-            title="Crossover Frequency"
-            description="Lower end is best for large floor speakers, higher end for compact speakers."
+            title={t('settings.sound.sub.crossover.title')}
+            description={t('settings.sound.sub.crossover.description')}
             value={subCrossover}
             min={50}
             max={110}
@@ -645,8 +620,8 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
           />
 
           <SettingsToggle
-            title="Phase Control"
-            description="Align subwoofer speaker cone timing with main speakers (0° or 180°)"
+            title={t('settings.sound.sub.phase.title')}
+            description={t('settings.sound.sub.phase.description')}
             isEnabled={subPolarity === 180}
             actionLabel={`${subPolarity}°`}
             onToggle={handleToggleSubPolarity}
@@ -656,7 +631,7 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
 
           <View style={styles.resetRow}>
             <TVFocusableButton
-              label="Reset Sub Audio"
+              label={t('settings.sound.sub.reset')}
               onPress={handleResetSub}
               testID="button-reset-sub"
               style={styles.resetButton}
@@ -668,11 +643,11 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
       {/* Surround Sound Controls - only when rear surround speakers are bonded */}
       {hasSurrounds ? (
         <>
-          <Text style={styles.sectionTitle}>Surround Audio</Text>
+          <Text style={styles.sectionTitle}>{t('settings.sound.surround.title')}</Text>
 
           <SettingsToggle
-            title="Surrounds"
-            description="Enable or disable rear surround sound speakers in this room"
+            title={t('settings.sound.surround.enable.title')}
+            description={t('settings.sound.surround.enable.description')}
             isEnabled={surroundEnabled}
             onToggle={handleToggleSurround}
             onPress={handleToggleSurround}
@@ -680,8 +655,8 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
           />
 
           <TVEQSlider
-            title="TV Level"
-            description="Adjust relative volume balance of rear surround speakers for TV from -15 to +15"
+            title={t('settings.sound.surround.tvLevel.title')}
+            description={t('settings.sound.surround.tvLevel.description')}
             value={surroundLevel}
             min={-15}
             max={15}
@@ -690,8 +665,8 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
           />
 
           <TVEQSlider
-            title="Music Level"
-            description="Adjust relative volume balance of rear surround speakers for music from -15 to +15"
+            title={t('settings.sound.surround.musicLevel.title')}
+            description={t('settings.sound.surround.musicLevel.description')}
             value={surroundMusicLevel}
             min={-15}
             max={15}
@@ -700,10 +675,14 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
           />
 
           <SettingsToggle
-            title="Music Playback"
-            description="Set whether surrounds play subtle ambient accompaniment or full stereo sound for music"
+            title={t('settings.sound.surround.musicPlayback.title')}
+            description={t('settings.sound.surround.musicPlayback.description')}
             isEnabled={surroundMode === 'Full'}
-            actionLabel={surroundMode}
+            actionLabel={
+              surroundMode === 'Full'
+                ? t('settings.sound.surround.musicPlayback.full')
+                : t('settings.sound.surround.musicPlayback.ambient')
+            }
             onToggle={handleToggleSurroundMode}
             onPress={handleToggleSurroundMode}
             testID="toggle-surround-mode"
@@ -714,11 +693,11 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
       {/* Height Audio Controls - only on Dolby Atmos supported hardware (Arc, Arc Ultra, Beam Gen 2, Era 300) */}
       {hasHeightAudio ? (
         <>
-          <Text style={styles.sectionTitle}>Height Audio</Text>
+          <Text style={styles.sectionTitle}>{t('settings.sound.height.title')}</Text>
 
           <TVEQSlider
-            title="Height Level"
-            description="Adjust the height channel audio level during playback of immersive audio formats."
+            title={t('settings.sound.height.level.title')}
+            description={t('settings.sound.height.level.description')}
             value={heightLevel}
             min={-10}
             max={10}
@@ -728,7 +707,7 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
 
           <View style={styles.resetRow}>
             <TVFocusableButton
-              label="Reset"
+              label={t('settings.sound.height.reset')}
               onPress={handleResetHeight}
               testID="button-reset-height"
               style={styles.resetButton}

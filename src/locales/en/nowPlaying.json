@@ -1,0 +1,43 @@
+{
+  "idleTitle": "Sonos Speaker Ready",
+  "idleArtist": "Idle",
+  "live": "LIVE",
+  "playingBadge": "PLAYING",
+  "progress": "Playback progress",
+  "controls": {
+    "previous": "Previous",
+    "play": "Play",
+    "pause": "Pause",
+    "next": "Next",
+    "shuffle": "Shuffle",
+    "repeat": "Repeat",
+    "save": "Save",
+    "saved": "Saved",
+    "lyrics": "Lyrics",
+    "showLyrics": "Show Lyrics",
+    "hideLyrics": "Hide Lyrics",
+    "showQueue": "Show Queue",
+    "hideQueue": "Hide Queue"
+  },
+  "queue": {
+    "loading": "Loading Sonos Queue...",
+    "emptyTitle": "Queue Is Empty",
+    "emptySubtitle": "No queued tracks found on this speaker. Select an album or playlist to populate the queue."
+  },
+  "lyrics": {
+    "loading": "Loading synced lyrics...",
+    "emptyTitle": "Lyrics Not Available",
+    "emptySubtitle": "No synchronized lyrics found for this track."
+  },
+  "fallback": {
+    "tvAudio": "TV Audio",
+    "tvSource": "HDMI eARC / Optical",
+    "homeTheater": "Home Theater",
+    "sonosAudio": "Sonos Audio",
+    "liveRadio": "Live Radio",
+    "unknownArtist": "Unknown Artist",
+    "unknownTrack": "Unknown Track",
+    "radioStream": "Radio Stream",
+    "noAudio": "No audio"
+  }
+}

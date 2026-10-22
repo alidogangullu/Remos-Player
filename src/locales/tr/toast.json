@@ -1,0 +1,14 @@
+{
+  "starting": "“{{title}}” başlatılıyor…",
+  "playing": "“{{title}}” çalıyor",
+  "couldntPlay": "“{{title}}” çalınamadı",
+  "couldntOpen": "{{name}} açılamadı",
+  "browseShortcut": "“{{title}}” bir göz atma kısayolu, Sonos uygulamasında açın",
+  "addingToQueue": "“{{title}}” sıraya ekleniyor…",
+  "addedToQueue": "“{{title}}” sıraya eklendi",
+  "playNext": "“{{title}}” sıradaki olarak çalacak",
+  "couldntUpdateQueue": "Sıra güncellenemedi",
+  "addedToFavorites": "“{{title}}” favorilere eklendi",
+  "removedFromFavorites": "“{{title}}” favorilerden çıkarıldı",
+  "couldntUpdateFavorites": "Favoriler güncellenemedi"
+}

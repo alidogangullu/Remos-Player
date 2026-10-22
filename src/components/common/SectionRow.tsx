@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator, Pressable } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 
 export interface SectionRowProps {
@@ -35,6 +36,7 @@ export const SectionRow: React.FC<SectionRowProps> = ({
   children,
   testID,
 }) => {
+  const { t } = useTranslation();
   const inset = { paddingLeft: leadingInset };
   return (
     <View style={[styles.section, !isFirst && styles.sectionSubsequent]} testID={testID}>
@@ -45,7 +47,7 @@ export const SectionRow: React.FC<SectionRowProps> = ({
         </View>
         {onPressMore && (
           <Pressable onPress={onPressMore} hitSlop={8}>
-            <Text style={styles.more}>More &gt;</Text>
+            <Text style={styles.more}>{t('common.more')}</Text>
           </Pressable>
         )}
       </View>
@@ -61,7 +63,7 @@ export const SectionRow: React.FC<SectionRowProps> = ({
           </Text>
           {onRetry && (
             <Pressable onPress={onRetry} hitSlop={8}>
-              <Text style={styles.retryText}>Retry</Text>
+              <Text style={styles.retryText}>{t('common.retry')}</Text>
             </Pressable>
           )}
         </View>

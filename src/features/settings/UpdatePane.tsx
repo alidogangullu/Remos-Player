@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
+import { formatTime } from '../../i18n';
 import { NotificationDot, PaneHeader } from '../../components/common';
 import { TVPillButton } from '../../components/tv';
 import { APP_INFO } from '../../constants/appInfo';
@@ -8,11 +10,8 @@ import { useRemoteConfig } from '../../services/remoteConfig/RemoteConfigProvide
 import { openStoreListing } from '../../services/remoteConfig/versionCheck';
 import { paneStyles } from './paneStyles';
 
-function formatTime(ts: number): string {
-  return new Date(ts).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-}
-
 export const UpdatePane: React.FC = () => {
+  const { t } = useTranslation();
   const { updateInfo, refresh, isRefreshing, lastCheckedAt } = useRemoteConfig();
   const [checkFailed, setCheckFailed] = useState(false);
 
@@ -25,25 +24,25 @@ export const UpdatePane: React.FC = () => {
   let statusTitle: string;
   let statusDetail: string;
   if (!updateInfo) {
-    statusTitle = isRefreshing ? 'Checking for updates…' : "Couldn't check for updates";
-    statusDetail = `You have version ${APP_INFO.VERSION}.`;
+    statusTitle = isRefreshing ? t('settings.update.checking') : t('settings.update.checkFailed');
+    statusDetail = t('settings.update.youHaveVersion', { version: APP_INFO.VERSION });
   } else if (hasUpdate) {
-    statusTitle = `Version ${updateInfo.latestVersion} is available`;
-    statusDetail = `You have version ${updateInfo.currentVersion}. Update from the Google Play Store.`;
+    statusTitle = t('settings.update.available', { version: updateInfo.latestVersion });
+    statusDetail = t('settings.update.availableDetail', { version: updateInfo.currentVersion });
   } else {
-    statusTitle = 'Remos Player is up to date';
-    statusDetail = `Version ${updateInfo.currentVersion}`;
+    statusTitle = t('settings.update.upToDate');
+    statusDetail = t('settings.update.versionLabel', { version: updateInfo.currentVersion });
   }
 
   let checkNote: string | null = null;
-  if (checkFailed) checkNote = "Couldn't reach the update server. Check your internet connection.";
-  else if (lastCheckedAt) checkNote = `Last checked at ${formatTime(lastCheckedAt)}`;
+  if (checkFailed) checkNote = t('settings.update.serverUnreachable');
+  else if (lastCheckedAt) checkNote = t('settings.update.lastChecked', { time: formatTime(lastCheckedAt) });
 
   return (
     <ScrollView style={paneStyles.scroll} contentContainerStyle={paneStyles.content}>
       <PaneHeader
-        title="Software Update"
-        subtitle="Remos Player checks for new versions automatically"
+        title={t('settings.update.title')}
+        subtitle={t('settings.update.subtitle')}
       />
 
       <View style={[paneStyles.card, hasUpdate && styles.cardHighlighted]} testID="update-status-card">
@@ -55,7 +54,7 @@ export const UpdatePane: React.FC = () => {
 
         {hasUpdate && updateInfo.releaseNotes.length > 0 ? (
           <View style={styles.notes}>
-            <Text style={styles.notesTitle}>What's new</Text>
+            <Text style={styles.notesTitle}>{t('settings.update.whatsNew')}</Text>
             {updateInfo.releaseNotes.map(note => (
               <Text key={note} style={paneStyles.bodyText}>
                 {`•  ${note}`}
@@ -67,13 +66,13 @@ export const UpdatePane: React.FC = () => {
         <View style={styles.actions}>
           {hasUpdate ? (
             <TVPillButton
-              label="Update Now"
+              label={t('settings.update.updateNow')}
               onPress={() => openStoreListing(updateInfo.storeUrl)}
               testID="button-update-now"
             />
           ) : null}
           <TVPillButton
-            label={isRefreshing ? 'Checking…' : 'Check for Updates'}
+            label={isRefreshing ? t('settings.update.checkingButton') : t('settings.update.checkButton')}
             disabled={isRefreshing}
             onPress={handleCheck}
             testID="button-check-updates"

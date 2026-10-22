@@ -1,0 +1,26 @@
+{
+  "placeholder": "Rechercher",
+  "recentTitle": "RECHERCHES RÉCENTES",
+  "clear": "Effacer",
+  "confirmClear": "Confirmer ?",
+  "noServicesTitle": "Aucun service à rechercher",
+  "noServicesSubtitle": "Synchronisez d’abord vos services de musique depuis « Vos services » sur l’accueil.",
+  "selectServiceTitle": "Choisissez un service",
+  "selectServiceSubtitle": "Choisissez un ou plusieurs services ci-dessus pour lancer la recherche.",
+  "startTyping": "Commencez à taper pour rechercher.",
+  "noResultsTitle": "Aucun résultat pour « {{query}} »",
+  "noResultsSubtitle": "Vérifiez l’orthographe, essayez moins de mots ou recherchez dans un autre service.",
+  "category": "Catégorie : {{label}}",
+  "trackBadge": "Morceau",
+  "searching": "Recherche…",
+  "categoryPrefix": {
+    "library": "Bibliothèque : {{label}}",
+    "catalog": "Catalogue : {{label}}"
+  },
+  "errors": {
+    "noCategories": "Aucune catégorie de recherche disponible pour ce service",
+    "failed": "Échec de la recherche",
+    "failedHttp": "Échec de la recherche (HTTP {{status}})",
+    "noResponse": "Aucune réponse du service"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "retry": "Opnieuw",
+  "more": "Meer >",
+  "volume": "Volume",
+  "volumeValue": "Volume {{value}}",
+  "newBadge": "{{label}}, nieuw",
+  "speaker": "Sonos-speaker",
+  "room": "Sonos-ruimte",
+  "group": "Groep",
+  "slider": {
+    "decrease": "{{title}} verlagen, nu {{value}}",
+    "increase": "{{title}} verhogen, nu {{value}}"
+  },
+  "keyboard": {
+    "space": "spatie",
+    "clear": "wissen",
+    "backspace": "Verwijderen"
+  },
+  "speakerRequired": "Speaker vereist"
+}

@@ -4,6 +4,7 @@ import { SONOS_DEFAULTS, UPNP_SERVICES } from '../../../constants';
 import { TrackMetadata } from '../../../types/sonos';
 import { FavoriteItem } from '../../../features/favorites/FavoriteCard';
 import { log } from '../../../utils/logger';
+import { i18n } from '../../../i18n';
 
 const TAG = 'SonosUPnP';
 
@@ -57,20 +58,18 @@ export function describeTrackQuality(quality: TrackQuality | null | undefined): 
 
 /**
  * `DeviceProperties#GetZoneInfo` → `HTAudioIn`: the format arriving on the TV input.
- * Codes from SoCo's `AUDIO_INPUT_FORMATS`; Clic ships the same labels.
+ * Codes from SoCo's `AUDIO_INPUT_FORMATS`; Clic ships the same labels. Codec names
+ * are the same in every language; the two "no audio" codes are translated in
+ * `getTvAudioFormat`, and the no-input codes (0, 21) are never shown.
  */
 const TV_AUDIO_FORMATS: Record<number, string> = {
-  0: 'No input connected',
   2: 'Stereo',
   7: 'Dolby 2.0',
   18: 'Dolby 5.1',
-  21: 'No input',
-  22: 'No audio',
   59: 'Dolby Atmos (DD+)',
   61: 'Dolby Atmos (TrueHD)',
   63: 'Dolby Atmos (MAT 2.0)',
   33554434: 'PCM 2.0',
-  33554454: 'PCM 2.0 no audio',
   33554488: 'Dolby 2.0',
   33554490: 'Dolby Digital Plus 2.0',
   33554492: 'Dolby TrueHD 2.0',
@@ -88,6 +87,8 @@ const TV_AUDIO_FORMATS: Record<number, string> = {
 
 // No signal on the input: nothing useful to show instead of the generic label.
 const TV_NO_INPUT_CODES = new Set([0, 21]);
+const TV_NO_AUDIO_CODE = 22;
+const TV_PCM_NO_AUDIO_CODE = 33554454;
 
 // Group ids change whenever rooms are regrouped, so they're re-resolved on failure.
 const groupIdCache = new Map<string, string>();
@@ -102,7 +103,7 @@ function parseServiceFormat(uri: string): string {
   if (uri.includes('sid=303')) return 'Sonos Radio';
   if (uri.includes('sid=325')) return 'BBC Sounds';
   if (uri.includes('sid=254')) return 'TuneIn';
-  if (uri.includes('x-sonosapi-stream')) return 'Radio Stream';
+  if (uri.includes('x-sonosapi-stream')) return i18n.t('nowPlaying.fallback.radioStream');
   return '';
 }
 
@@ -183,8 +184,10 @@ const RADIO_SOURCE_URI = /^(x-sonosapi-stream|x-sonosapi-radio|x-sonosapi-hls|x-
 
 /** Subtitle when the source names no artist: a station with no "now playing" info is simply live radio. */
 function fallbackArtist(trackUri: string): string {
-  if (trackUri.includes('x-sonos-htastream')) return 'Home Theater';
-  return isRadioStreamUri(trackUri) ? 'Live Radio' : 'Unknown Artist';
+  if (trackUri.includes('x-sonos-htastream')) return i18n.t('nowPlaying.fallback.homeTheater');
+  return isRadioStreamUri(trackUri)
+    ? i18n.t('nowPlaying.fallback.liveRadio')
+    : i18n.t('nowPlaying.fallback.unknownArtist');
 }
 
 /**
@@ -762,9 +765,9 @@ export class SonosUpnpClient {
     let format = parseServiceFormat(trackUri);
 
     if (trackUri.includes('x-sonos-htastream')) {
-      title = 'TV Audio';
-      artist = 'HDMI eARC / Optical';
-      album = 'Home Theater';
+      title = i18n.t('nowPlaying.fallback.tvAudio');
+      artist = i18n.t('nowPlaying.fallback.tvSource');
+      album = i18n.t('nowPlaying.fallback.homeTheater');
       format = 'OPTICAL / EARC';
     }
 
@@ -852,7 +855,9 @@ export class SonosUpnpClient {
       relTime,
       trackUri,
       metadata: {
-        title: title || (trackUri.includes('x-sonos-htastream') ? 'TV Audio' : 'Sonos Audio'),
+        title:
+          title ||
+          i18n.t(trackUri.includes('x-sonos-htastream') ? 'nowPlaying.fallback.tvAudio' : 'nowPlaying.fallback.sonosAudio'),
         artist: artist || fallbackArtist(trackUri),
         album: album || '',
         albumArtUri,
@@ -902,9 +907,9 @@ export class SonosUpnpClient {
         const item = itemsList[i];
         if (!item) continue;
 
-        const title = String(item.title || 'Unknown Favorite');
+        const title = String(item.title || i18n.t('favorites.unknown'));
         const id = String(item.id || item.parentID || `fav-${i}`);
-        const typeDesc = String(item.description || item.type || 'Favorite');
+        const typeDesc = String(item.description || item.type || i18n.t('home.favoriteFallback'));
         const subtitle = typeDesc;
 
         let albumArtUri: string | undefined;
@@ -1012,8 +1017,8 @@ export class SonosUpnpClient {
 
         const id = String(item.id || `Q:0/${startingIndex + i + 1}`);
         const trackNumber = Number(id.replace(/^Q:\d+\//, '')) || (startingIndex + i + 1);
-        const title = String(item.title || 'Unknown Track');
-        const artist = String(item.creator || item.artist || 'Unknown Artist');
+        const title = String(item.title || i18n.t('nowPlaying.fallback.unknownTrack'));
+        const artist = String(item.creator || item.artist || i18n.t('nowPlaying.fallback.unknownArtist'));
         const album = String(item.album || '');
 
         let albumArtUri: string | undefined;
@@ -1126,6 +1131,8 @@ export class SonosUpnpClient {
     const parsed = parseSoapResponse<{ HTAudioIn?: string | number }>(res, 'GetZoneInfoResponse');
     const code = Number(parsed?.HTAudioIn);
     if (!Number.isFinite(code) || TV_NO_INPUT_CODES.has(code)) return null;
+    if (code === TV_NO_AUDIO_CODE) return i18n.t('nowPlaying.fallback.noAudio');
+    if (code === TV_PCM_NO_AUDIO_CODE) return `PCM 2.0 · ${i18n.t('nowPlaying.fallback.noAudio')}`;
     return TV_AUDIO_FORMATS[code] ?? null;
   }
 

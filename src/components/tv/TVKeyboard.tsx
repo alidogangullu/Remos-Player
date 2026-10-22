@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { TVKeyboardKey } from './TVKeyboardKey';
 
 export interface TVKeyboardProps {
@@ -37,6 +38,7 @@ export const TVKeyboard: React.FC<TVKeyboardProps> = ({
   hasTVPreferredFocus,
   testID,
 }) => {
+  const { t } = useTranslation();
   return (
     <View style={styles.container} testID={testID}>
       {ROWS.map((row, rowIndex) => (
@@ -56,7 +58,7 @@ export const TVKeyboard: React.FC<TVKeyboardProps> = ({
       ))}
       <View style={styles.row}>
         <TVKeyboardKey
-          label="space"
+          label={t('common.keyboard.space')}
           onPress={() => onKeyPress(' ')}
           onFocus={onNavigate}
           style={styles.spaceKey}
@@ -64,13 +66,14 @@ export const TVKeyboard: React.FC<TVKeyboardProps> = ({
         />
         <TVKeyboardKey
           label="⌫"
+          accessibilityLabel={t('common.keyboard.backspace')}
           onPress={onBackspace}
           onFocus={onNavigate}
           style={styles.key}
           testID="keyboard-key-backspace"
         />
         <TVKeyboardKey
-          label="clear"
+          label={t('common.keyboard.clear')}
           onPress={onClear}
           onFocus={onNavigate}
           style={styles.clearKey}

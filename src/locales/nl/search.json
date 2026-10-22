@@ -1,0 +1,26 @@
+{
+  "placeholder": "Zoeken",
+  "recentTitle": "RECENTE ZOEKOPDRACHTEN",
+  "clear": "Wissen",
+  "confirmClear": "Zeker?",
+  "noServicesTitle": "Geen diensten om te doorzoeken",
+  "noServicesSubtitle": "Synchroniseer eerst je muziekdiensten via “Jouw diensten” op het startscherm.",
+  "selectServiceTitle": "Kies een dienst",
+  "selectServiceSubtitle": "Kies hierboven een of meer diensten om te zoeken.",
+  "startTyping": "Begin met typen om te zoeken.",
+  "noResultsTitle": "Geen resultaten voor “{{query}}”",
+  "noResultsSubtitle": "Controleer de spelling, gebruik minder woorden of zoek in een andere dienst.",
+  "category": "Categorie: {{label}}",
+  "trackBadge": "Nummer",
+  "searching": "Zoeken…",
+  "categoryPrefix": {
+    "library": "Bibliotheek: {{label}}",
+    "catalog": "Catalogus: {{label}}"
+  },
+  "errors": {
+    "noCategories": "Geen zoekcategorieën beschikbaar voor deze dienst",
+    "failed": "Zoeken mislukt",
+    "failedHttp": "Zoeken mislukt (HTTP {{status}})",
+    "noResponse": "Geen reactie van de dienst"
+  }
+}

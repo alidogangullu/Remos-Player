@@ -4,6 +4,7 @@ import { MusicAccountStore } from '../../services/sonos/accounts/musicAccountSto
 import { synchronizeMusicServices } from '../../services/sonos/accounts/musicAccountSync';
 import { clearSearchCategoryCache } from '../../services/sonos/smapi/searchCategories';
 import { SearchServiceFilterStore } from '../../services/search/searchServiceFilterStore';
+import { i18n } from '../../i18n';
 import { log } from '../../utils/logger';
 import { MusicService } from '../../services/sonos/smapi/smapiTypes';
 
@@ -95,7 +96,8 @@ export function useMusicServices(speakerIp: string | undefined): UseMusicService
     } catch (error) {
       log.error(TAG, 'Synchronize Music Services failed', error);
       if (isMountedRef.current) {
-        setSyncError(error instanceof Error ? error.message : 'Failed to synchronize music services');
+        // The raw error (often a UPnP timeout) is in the log above; users get a plain explanation.
+        setSyncError(i18n.t('services.syncFailed'));
       }
     } finally {
       if (isMountedRef.current) setIsSyncing(false);

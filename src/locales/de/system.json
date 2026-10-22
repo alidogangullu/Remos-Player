@@ -1,0 +1,24 @@
+{
+  "title": "System & verbundene Geräte",
+  "subtitle": "Verbundene Sonos-Hardware, Verbindungsstatus und lokale Netzwerkdiagnose verwalten",
+  "groupedWithOne": "Gruppiert mit {{name}}",
+  "groupedWithTwo": "Gruppiert mit {{first}} & {{second}}",
+  "groupedMore_one": "+ {{count}} Lautsprecher gruppiert",
+  "groupedMore_other": "+ {{count}} Lautsprecher gruppiert",
+  "active": "AKTIV",
+  "select": "Auswählen",
+  "emptyTitle": "Keine Sonos-Lautsprecher gefunden",
+  "emptySubtitle": "In diesem lokalen WLAN-Subnetz wurde kein aktiver Sonos-Player erkannt. Prüfe Stromversorgung und Verbindung des Geräts.",
+  "diagnostics": "Netzwerkdiagnose",
+  "scanStatus": {
+    "scanning": "Lokales Netzwerk wird nach Sonos-Playern durchsucht...",
+    "complete": "Netzwerksuche abgeschlossen.",
+    "timeout": "Zeitüberschreitung bei der Suche. Bitte prüfe die Netzwerkverbindung."
+  },
+  "scanningButton": "Netzwerk wird durchsucht...",
+  "rescanButton": "Netzwerk erneut durchsuchen",
+  "hardware": {
+    "surrounds": "Surround-Lautsprecher",
+    "sub": "Sub"
+  }
+}

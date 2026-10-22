@@ -1,0 +1,30 @@
+{
+  "yourServices": "Jouw diensten",
+  "emptySubtitle": "Importeer de muziekdiensten die al aan je Sonos-app zijn gekoppeld.",
+  "synchronize": "Muziekdiensten synchroniseren",
+  "synchronizing": "Synchroniseren…",
+  "resync": "Synchroniseren",
+  "resyncing": "Synchroniseren…",
+  "syncFailed": "Kan je muziekdiensten niet synchroniseren. Controleer of de speaker online is en probeer het opnieuw.",
+  "loadFailed": "Kan dit onderdeel niet laden.",
+  "empty": "Hier staat nog niets.",
+  "itemCount_one": "{{count}} item",
+  "itemCount_other": "{{count}} items",
+  "itemTypes": {
+    "playlist": "Playlist",
+    "album": "Album",
+    "artist": "Artiest",
+    "station": "Zender",
+    "collection": "Collectie"
+  },
+  "actions": {
+    "play": "Afspelen",
+    "playNext": "Hierna afspelen",
+    "addToQueue": "Aan wachtrij toevoegen",
+    "replaceQueue": "Wachtrij vervangen"
+  },
+  "errors": {
+    "relink": "Je {{service}}-account moet opnieuw worden gekoppeld in de Sonos-app",
+    "signIn": "Kan je aanmelding bij {{service}} niet vernieuwen. Probeer het opnieuw of koppel de dienst opnieuw in de Sonos-app."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "placeholder": "Suchen",
+  "recentTitle": "LETZTE SUCHEN",
+  "clear": "Löschen",
+  "confirmClear": "Sicher?",
+  "noServicesTitle": "Keine Dienste zum Durchsuchen",
+  "noServicesSubtitle": "Synchronisiere zuerst deine Musikdienste unter „Deine Dienste“ auf der Startseite.",
+  "selectServiceTitle": "Wähle einen Dienst",
+  "selectServiceSubtitle": "Wähle oben einen oder mehrere Dienste für die Suche.",
+  "startTyping": "Tippe, um zu suchen.",
+  "noResultsTitle": "Keine Ergebnisse für „{{query}}“",
+  "noResultsSubtitle": "Prüfe die Schreibweise, verwende weniger Wörter oder durchsuche einen anderen Dienst.",
+  "category": "Kategorie: {{label}}",
+  "trackBadge": "Titel",
+  "searching": "Suche läuft…",
+  "categoryPrefix": {
+    "library": "Mediathek: {{label}}",
+    "catalog": "Katalog: {{label}}"
+  },
+  "errors": {
+    "noCategories": "Für diesen Dienst sind keine Suchkategorien verfügbar",
+    "failed": "Suche fehlgeschlagen",
+    "failedHttp": "Suche fehlgeschlagen (HTTP {{status}})",
+    "noResponse": "Keine Antwort vom Dienst"
+  }
+}

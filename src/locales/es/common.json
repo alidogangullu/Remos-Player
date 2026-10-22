@@ -1,0 +1,20 @@
+{
+  "retry": "Reintentar",
+  "more": "Más >",
+  "volume": "Volumen",
+  "volumeValue": "Volumen {{value}}",
+  "newBadge": "{{label}}, nuevo",
+  "speaker": "Altavoz Sonos",
+  "room": "Habitación Sonos",
+  "group": "Grupo",
+  "slider": {
+    "decrease": "Bajar {{title}}, valor actual {{value}}",
+    "increase": "Subir {{title}}, valor actual {{value}}"
+  },
+  "keyboard": {
+    "space": "espacio",
+    "clear": "borrar",
+    "backspace": "Eliminar"
+  },
+  "speakerRequired": "Se necesita un altavoz"
+}

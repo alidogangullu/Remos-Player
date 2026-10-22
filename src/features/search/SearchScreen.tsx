@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { SearchKeyboardRail } from './SearchKeyboardRail';
 import { SearchResultsPane } from './SearchResultsPane';
 import { RecentSearchesStore } from '../../services/search/recentSearchesStore';
@@ -36,6 +37,7 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({ speakerIp, speakerId
   const [recentSearches, setRecentSearches] = useState<string[]>([]);
   const [searchableContexts, setSearchableContexts] = useState<SmapiContext[]>([]);
   const [isLoadingContexts, setIsLoadingContexts] = useState(true);
+  const { t } = useTranslation();
   const toast = useToast();
   const isMountedRef = useRef(true);
 
@@ -78,7 +80,7 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({ speakerIp, speakerId
     const ctx = searchableContexts.find((c) => c.service.serviceId === item.serviceId);
     if (!ctx) return;
 
-    toast.info(`Starting "${item.title}"…`);
+    toast.info(t('toast.starting', { title: item.title }));
 
     try {
       const { uri, metadata } = await playMediaItem(speakerIp, speakerId, ctx, item.raw as MediaMetadata);
@@ -89,10 +91,10 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({ speakerIp, speakerId
         uri,
         metadata,
       });
-      toast.success(`Playing "${item.title}"`);
+      toast.success(t('toast.playing', { title: item.title }));
     } catch (error) {
       log.error(TAG, `Failed to play result ${item.id} from ${item.serviceName}`, error);
-      toast.error(`Couldn't play "${item.title}"`);
+      toast.error(t('toast.couldntPlay', { title: item.title }));
     }
   };
 

@@ -1,0 +1,43 @@
+{
+  "idleTitle": "Enceinte Sonos prête",
+  "idleArtist": "Inactif",
+  "live": "EN DIRECT",
+  "playingBadge": "EN LECTURE",
+  "progress": "Progression de la lecture",
+  "controls": {
+    "previous": "Précédent",
+    "play": "Lire",
+    "pause": "Pause",
+    "next": "Suivant",
+    "shuffle": "Aléatoire",
+    "repeat": "Répéter",
+    "save": "Enregistrer",
+    "saved": "Enregistré",
+    "lyrics": "Paroles",
+    "showLyrics": "Afficher les paroles",
+    "hideLyrics": "Masquer les paroles",
+    "showQueue": "Afficher la file d’attente",
+    "hideQueue": "Masquer la file d’attente"
+  },
+  "queue": {
+    "loading": "Chargement de la file d’attente Sonos...",
+    "emptyTitle": "La file d’attente est vide",
+    "emptySubtitle": "Aucun morceau en file d’attente sur cette enceinte. Sélectionnez un album ou une playlist pour la remplir."
+  },
+  "lyrics": {
+    "loading": "Chargement des paroles synchronisées...",
+    "emptyTitle": "Paroles indisponibles",
+    "emptySubtitle": "Aucune parole synchronisée trouvée pour ce morceau."
+  },
+  "fallback": {
+    "tvAudio": "Son de la TV",
+    "tvSource": "HDMI eARC / Optique",
+    "homeTheater": "Home cinéma",
+    "sonosAudio": "Audio Sonos",
+    "liveRadio": "Radio en direct",
+    "unknownArtist": "Artiste inconnu",
+    "unknownTrack": "Morceau inconnu",
+    "radioStream": "Flux radio",
+    "noAudio": "Pas de son"
+  }
+}

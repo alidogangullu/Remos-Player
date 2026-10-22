@@ -1,0 +1,26 @@
+{
+  "placeholder": "Ara",
+  "recentTitle": "SON ARAMALAR",
+  "clear": "Temizle",
+  "confirmClear": "Emin misin?",
+  "noServicesTitle": "Aranacak Servis Yok",
+  "noServicesSubtitle": "Önce Ana Sayfa'daki “Servislerin” bölümünden müzik servislerinizi senkronize edin.",
+  "selectServiceTitle": "Bir Servis Seçin",
+  "selectServiceSubtitle": "Aramak için yukarıdan bir veya daha fazla servis seçin.",
+  "startTyping": "Aramak için yazmaya başlayın.",
+  "noResultsTitle": "“{{query}}” için sonuç yok",
+  "noResultsSubtitle": "Yazımı kontrol edin, daha az kelime deneyin ya da başka bir serviste arayın.",
+  "category": "Kategori: {{label}}",
+  "trackBadge": "Parça",
+  "searching": "Aranıyor…",
+  "categoryPrefix": {
+    "library": "Kitaplık {{label}}",
+    "catalog": "Katalog {{label}}"
+  },
+  "errors": {
+    "noCategories": "Bu servis için arama kategorisi yok",
+    "failed": "Arama başarısız",
+    "failedHttp": "Arama başarısız (HTTP {{status}})",
+    "noResponse": "Servisten yanıt yok"
+  }
+}

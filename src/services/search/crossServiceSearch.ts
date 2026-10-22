@@ -1,6 +1,7 @@
 import { search, SmapiContext } from '../sonos/smapi/smapiClient';
 import { resolveSearchCategories } from '../sonos/smapi/searchCategories';
 import { log } from '../../utils/logger';
+import { i18n } from '../../i18n';
 import { MediaCollection, MediaMetadata, SearchCategory } from '../sonos/smapi/smapiTypes';
 
 const TAG = 'CrossServiceSearch';
@@ -59,7 +60,7 @@ async function searchOneService(
         service: ctx.service,
         status: 'error',
         items: [],
-        errorMessage: 'No search categories available for this service',
+        errorMessage: i18n.t('search.errors.noCategories'),
       });
       return;
     }
@@ -124,8 +125,9 @@ function toSearchResultItems(
 
 function describeSearchError(error: unknown): string {
   const anyErr = error as any;
-  if (anyErr?.name === 'SmapiFault') return anyErr.message || 'Search failed';
-  if (anyErr?.response) return `Search failed (HTTP ${anyErr.response.status})`;
-  if (anyErr?.request) return 'No response from service';
-  return 'Search failed';
+  // A SmapiFault message comes from the service itself and is shown as-is.
+  if (anyErr?.name === 'SmapiFault') return anyErr.message || i18n.t('search.errors.failed');
+  if (anyErr?.response) return i18n.t('search.errors.failedHttp', { status: anyErr.response.status });
+  if (anyErr?.request) return i18n.t('search.errors.noResponse');
+  return i18n.t('search.errors.failed');
 }

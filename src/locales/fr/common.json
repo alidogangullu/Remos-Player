@@ -1,0 +1,20 @@
+{
+  "retry": "Réessayer",
+  "more": "Plus >",
+  "volume": "Volume",
+  "volumeValue": "Volume {{value}}",
+  "newBadge": "{{label}}, nouveau",
+  "speaker": "Enceinte Sonos",
+  "room": "Pièce Sonos",
+  "group": "Groupe",
+  "slider": {
+    "decrease": "Diminuer {{title}}, actuellement {{value}}",
+    "increase": "Augmenter {{title}}, actuellement {{value}}"
+  },
+  "keyboard": {
+    "space": "espace",
+    "clear": "effacer",
+    "backspace": "Supprimer"
+  },
+  "speakerRequired": "Enceinte requise"
+}

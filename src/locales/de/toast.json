@@ -1,0 +1,14 @@
+{
+  "starting": "„{{title}}“ wird gestartet…",
+  "playing": "„{{title}}“ wird abgespielt",
+  "couldntPlay": "„{{title}}“ konnte nicht abgespielt werden",
+  "couldntOpen": "{{name}} konnte nicht geöffnet werden",
+  "browseShortcut": "„{{title}}“ ist eine Verknüpfung zum Durchsuchen – öffne sie in der Sonos App",
+  "addingToQueue": "„{{title}}“ wird zur Warteschlange hinzugefügt…",
+  "addedToQueue": "„{{title}}“ zur Warteschlange hinzugefügt",
+  "playNext": "„{{title}}“ wird als Nächstes abgespielt",
+  "couldntUpdateQueue": "Warteschlange konnte nicht aktualisiert werden",
+  "addedToFavorites": "„{{title}}“ zu Favoriten hinzugefügt",
+  "removedFromFavorites": "„{{title}}“ aus Favoriten entfernt",
+  "couldntUpdateFavorites": "Favoriten konnten nicht aktualisiert werden"
+}

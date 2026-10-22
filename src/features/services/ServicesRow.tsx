@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   TVFocusGuideView,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { TVServiceTile, TVFocusableButton } from '../../components/tv';
 import { colors, spacing } from '../../theme';
 import { LinkedService } from './useMusicServices';
@@ -45,6 +46,7 @@ export const ServicesRow: React.FC<ServicesRowProps> = ({
   isFirst = false,
   testID,
 }) => {
+  const { t } = useTranslation();
   let body: React.ReactNode;
   if (isLoading) {
     body = (
@@ -57,11 +59,9 @@ export const ServicesRow: React.FC<ServicesRowProps> = ({
   } else if (services.length === 0) {
     body = (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptySubtitle}>
-          Import the music services already linked in your Sonos app.
-        </Text>
+        <Text style={styles.emptySubtitle}>{t('services.emptySubtitle')}</Text>
         <TVFocusableButton
-          label={isSyncing ? 'Synchronizing…' : 'Synchronize Music Services'}
+          label={isSyncing ? t('services.synchronizing') : t('services.synchronize')}
           onPress={onSynchronize}
           onFocus={onFocusShelf}
           disabled={isSyncing}
@@ -98,7 +98,7 @@ export const ServicesRow: React.FC<ServicesRowProps> = ({
           {/* Trails the tiles (not beside the title) so D-pad down from the
             shelf above lands on a service, not on this secondary action. */}
           <TVFocusableButton
-            label={isSyncing ? 'Syncing…' : 'Synchronize'}
+            label={isSyncing ? t('services.resyncing') : t('services.resync')}
             onPress={onSynchronize}
             onFocus={onFocusShelf}
             disabled={isSyncing}
@@ -114,7 +114,7 @@ export const ServicesRow: React.FC<ServicesRowProps> = ({
   return (
     <View testID={testID}>
       <View style={[styles.header, isFirst && styles.headerFirst]}>
-        <Text style={styles.title}>Your Services</Text>
+        <Text style={styles.title}>{t('services.yourServices')}</Text>
       </View>
       {syncError && <Text style={styles.errorText}>{syncError}</Text>}
       {body}

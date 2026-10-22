@@ -1,0 +1,32 @@
+{
+  "exitHint": "Druk nogmaals op Terug om af te sluiten",
+  "status": {
+    "searching": "Zoeken...",
+    "notConnected": "Niet verbonden",
+    "standby": "Stand-by",
+    "audio": "Audio",
+    "system": "Systeem"
+  },
+  "tabs": {
+    "home": "Start",
+    "search": "Zoeken",
+    "favorites": "Favorieten",
+    "settings": "Instellingen"
+  },
+  "discovery": {
+    "searching": "Sonos-speakers zoeken...",
+    "notFound": "Geen Sonos-speakers gevonden",
+    "notFoundHint": "Controleer of je Sonos-speaker aanstaat en met hetzelfde wifinetwerk is verbonden.",
+    "scanning": "Zoeken...",
+    "searchAgain": "Opnieuw zoeken"
+  },
+  "speakerRequired": {
+    "search": "Maak verbinding met een Sonos-speaker om in je muziekdiensten te zoeken.",
+    "favorites": "Maak verbinding met een Sonos-speaker om je favorieten te openen."
+  },
+  "forceUpdate": {
+    "title": "Update vereist",
+    "message": "Deze versie van {{appName}} wordt niet meer ondersteund. Update naar de nieuwste versie om je Sonos-systeem te blijven bedienen.",
+    "updateNow": "Nu updaten"
+  }
+}

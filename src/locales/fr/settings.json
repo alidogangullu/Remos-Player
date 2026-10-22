@@ -1,0 +1,165 @@
+{
+  "title": "Réglages",
+  "noSpeaker": "Aucune enceinte connectée",
+  "tabs": {
+    "sound": "Son",
+    "language": "Langue",
+    "notifications": "Notifications",
+    "update": "Mise à jour",
+    "about": "À propos"
+  },
+  "toggle": {
+    "on": "OUI",
+    "off": "NON"
+  },
+  "sound": {
+    "speakerRequired": {
+      "title": "Enceinte requise",
+      "subtitle": "Connectez-vous à une enceinte Sonos pour configurer les réglages audio."
+    },
+    "tvAutoplay": {
+      "title": "Lecture auto. TV",
+      "reading": "Lecture du réglage actuel sur l’enceinte…",
+      "modes": {
+        "off": {
+          "label": "NON",
+          "description": "Sonos reste sur la musique en cours. Le son de la TV n’est lu que si vous le sélectionnez vous-même."
+        },
+        "on": {
+          "label": "OUI",
+          "description": "Sonos passe automatiquement au son de la TV dès qu’un signal audio est détecté sur l’entrée TV — y compris les sons de l’interface Android TV."
+        },
+        "smart": {
+          "label": "AUTO",
+          "description": "Se désactive quand vous ouvrez cette app et se réactive quand vous la quittez, pour que les sons de l’interface n’interrompent pas votre musique."
+        }
+      },
+      "tip": "Astuce : si les clics de navigation de la TV arrêtent sans cesse votre musique, choisissez {{smart}} — la lecture auto. TV se désactive quand vous ouvrez cette app et se réactive quand vous la quittez."
+    },
+    "eq": {
+      "title": "Égaliseur (EQ)",
+      "bass": {
+        "title": "Graves",
+        "description": "Réglez l’équilibre des basses fréquences de -10 à +10"
+      },
+      "treble": {
+        "title": "Aigus",
+        "description": "Réglez l’équilibre des hautes fréquences de -10 à +10"
+      },
+      "loudness": {
+        "title": "Loudness",
+        "description": "Renforce certaines fréquences à faible volume pour un son plus riche et équilibré"
+      },
+      "reset": "Réinitialiser l’égaliseur"
+    },
+    "tvEnhancements": {
+      "title": "Améliorations audio TV",
+      "nightMode": {
+        "title": "Mode Nuit",
+        "description": "Compresse la dynamique du son pour une écoute discrète tard le soir"
+      },
+      "speech": {
+        "title": "Amélioration des dialogues",
+        "description": "Renforce la clarté des dialogues et des voix du canal central pour le son TV"
+      },
+      "ungroup": {
+        "title": "Dissocier lors de la lecture auto.",
+        "description": "Retire automatiquement cette pièce des groupes musicaux quand le son de la TV démarre"
+      }
+    },
+    "sub": {
+      "title": "Audio du Sub",
+      "enable": {
+        "title": "Sub",
+        "description": "Activez ou désactivez la sortie des basses profondes vers le Sonos Sub associé"
+      },
+      "level": {
+        "title": "Niveau du Sub",
+        "description": "Réglez la puissance et l’impact du caisson de basses de -10 à +10"
+      },
+      "crossover": {
+        "title": "Fréquence de coupure",
+        "description": "Les valeurs basses conviennent aux grandes enceintes colonnes, les valeurs hautes aux enceintes compactes."
+      },
+      "phase": {
+        "title": "Contrôle de phase",
+        "description": "Alignez le mouvement de la membrane du caisson sur les enceintes principales (0° ou 180°)"
+      },
+      "reset": "Réinitialiser l’audio du Sub"
+    },
+    "surround": {
+      "title": "Audio surround",
+      "enable": {
+        "title": "Enceintes surround",
+        "description": "Activez ou désactivez les enceintes surround arrière de cette pièce"
+      },
+      "tvLevel": {
+        "title": "Niveau TV",
+        "description": "Réglez le volume relatif des enceintes surround arrière pour la TV de -15 à +15"
+      },
+      "musicLevel": {
+        "title": "Niveau musique",
+        "description": "Réglez le volume relatif des enceintes surround arrière pour la musique de -15 à +15"
+      },
+      "musicPlayback": {
+        "title": "Lecture de musique",
+        "description": "Choisissez si les enceintes surround diffusent un accompagnement d’ambiance discret ou un son stéréo complet pour la musique",
+        "ambient": "Ambiance",
+        "full": "Complet"
+      }
+    },
+    "height": {
+      "title": "Audio en hauteur",
+      "level": {
+        "title": "Niveau des canaux en hauteur",
+        "description": "Réglez le niveau des canaux en hauteur lors de la lecture de formats audio immersifs."
+      },
+      "reset": "Réinitialiser"
+    }
+  },
+  "language": {
+    "title": "Langue",
+    "subtitle": "Choisissez la langue de Remos Player",
+    "system": "Langue du système",
+    "systemDetail": "Suit la langue de votre TV ({{language}})"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "Actualités et mises à jour de Remos Player",
+    "emptyTitle": "Aucune notification",
+    "emptySubtitle": "Les annonces concernant Remos Player apparaîtront ici.",
+    "new": "NOUVEAU",
+    "readMore": "Appuyez sur OK pour en lire plus",
+    "showLess": "Appuyez sur OK pour réduire"
+  },
+  "update": {
+    "title": "Mise à jour logicielle",
+    "subtitle": "Remos Player recherche automatiquement les nouvelles versions",
+    "checking": "Recherche de mises à jour…",
+    "checkFailed": "Impossible de rechercher les mises à jour",
+    "youHaveVersion": "Vous utilisez la version {{version}}.",
+    "available": "La version {{version}} est disponible",
+    "availableDetail": "Vous utilisez la version {{version}}. Mettez à jour depuis le Google Play Store.",
+    "upToDate": "Remos Player est à jour",
+    "versionLabel": "Version {{version}}",
+    "serverUnreachable": "Impossible de joindre le serveur de mise à jour. Vérifiez votre connexion Internet.",
+    "lastChecked": "Dernière vérification à {{time}}",
+    "whatsNew": "Nouveautés",
+    "updateNow": "Mettre à jour",
+    "checkButton": "Rechercher des mises à jour",
+    "checkingButton": "Vérification…"
+  },
+  "about": {
+    "title": "À propos",
+    "version": "Version {{version}}",
+    "description": "Parcourez, recherchez et contrôlez votre système Sonos avec la télécommande de votre TV. Remos Player communique directement avec vos enceintes via votre réseau local.",
+    "lyricsCredit": "Les paroles synchronisées sont fournies par LRCLib (lrclib.net).",
+    "rows": {
+      "version": "Version",
+      "website": "Site web",
+      "support": "Assistance",
+      "privacy": "Politique de confidentialité"
+    },
+    "legal": "Remos Player est un projet indépendant. Il n’est ni affilié à Sonos, Inc., ni approuvé ou sponsorisé par Sonos, Inc. Sonos est une marque de Sonos, Inc. Android TV et Google Play sont des marques de Google LLC."
+  }
+}

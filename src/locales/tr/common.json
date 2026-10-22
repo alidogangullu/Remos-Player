@@ -1,0 +1,20 @@
+{
+  "retry": "Tekrar Dene",
+  "more": "Daha Fazla >",
+  "volume": "Ses",
+  "volumeValue": "Ses {{value}}",
+  "newBadge": "{{label}}, yeni",
+  "speaker": "Sonos Hoparlörü",
+  "room": "Sonos Odası",
+  "group": "Grup",
+  "slider": {
+    "decrease": "{{title}} azalt, şu an {{value}}",
+    "increase": "{{title}} artır, şu an {{value}}"
+  },
+  "keyboard": {
+    "space": "boşluk",
+    "clear": "temizle",
+    "backspace": "Sil"
+  },
+  "speakerRequired": "Hoparlör Gerekli"
+}

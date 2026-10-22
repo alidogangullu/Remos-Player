@@ -1,0 +1,30 @@
+{
+  "yourServices": "Servislerin",
+  "emptySubtitle": "Sonos uygulamanızda zaten bağlı olan müzik servislerini içe aktarın.",
+  "synchronize": "Müzik Servislerini Senkronize Et",
+  "synchronizing": "Senkronize ediliyor…",
+  "resync": "Senkronize Et",
+  "resyncing": "Senkronize ediliyor…",
+  "syncFailed": "Müzik servisleriniz senkronize edilemedi. Hoparlörün çevrimiçi olduğundan emin olup tekrar deneyin.",
+  "loadFailed": "Bu bölüm yüklenemedi.",
+  "empty": "Burada henüz bir şey yok.",
+  "itemCount_one": "{{count}} öğe",
+  "itemCount_other": "{{count}} öğe",
+  "itemTypes": {
+    "playlist": "Çalma Listesi",
+    "album": "Albüm",
+    "artist": "Sanatçı",
+    "station": "İstasyon",
+    "collection": "Koleksiyon"
+  },
+  "actions": {
+    "play": "Çal",
+    "playNext": "Sıradaki Olarak Çal",
+    "addToQueue": "Sıraya Ekle",
+    "replaceQueue": "Sırayı Değiştir"
+  },
+  "errors": {
+    "relink": "{{service}} hesabınızın Sonos uygulamasında yeniden bağlanması gerekiyor",
+    "signIn": "{{service}} oturumunuz yenilenemedi. Tekrar deneyin ya da Sonos uygulamasında yeniden bağlayın."
+  }
+}

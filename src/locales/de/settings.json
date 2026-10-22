@@ -1,0 +1,165 @@
+{
+  "title": "Einstellungen",
+  "noSpeaker": "Kein Lautsprecher verbunden",
+  "tabs": {
+    "sound": "Klang",
+    "language": "Sprache",
+    "notifications": "Mitteilungen",
+    "update": "Update",
+    "about": "Info"
+  },
+  "toggle": {
+    "on": "AN",
+    "off": "AUS"
+  },
+  "sound": {
+    "speakerRequired": {
+      "title": "Lautsprecher erforderlich",
+      "subtitle": "Verbinde dich mit einem Sonos-Lautsprecher, um Audio- und Klangeinstellungen vorzunehmen."
+    },
+    "tvAutoplay": {
+      "title": "TV-Autoplay",
+      "reading": "Aktuelle Einstellung wird vom Lautsprecher gelesen…",
+      "modes": {
+        "off": {
+          "label": "AUS",
+          "description": "Sonos bleibt bei der aktuellen Musik. TV-Ton wird nur abgespielt, wenn du ihn selbst auswählst."
+        },
+        "on": {
+          "label": "AN",
+          "description": "Sonos wechselt automatisch zum TV-Ton, sobald am TV-Eingang ein Audiosignal erkannt wird – auch bei Android-TV-Bedientönen."
+        },
+        "smart": {
+          "label": "SMART",
+          "description": "Schaltet sich aus, wenn du diese App öffnest, und wieder ein, wenn du sie verlässt – so unterbrechen Bedientöne deine Musik nicht."
+        }
+      },
+      "tip": "Tipp: Wenn Navigationsklicks am TV deine Musik immer wieder stoppen, wähle {{smart}} – TV-Autoplay schaltet sich aus, wenn du diese App öffnest, und wieder ein, wenn du sie verlässt."
+    },
+    "eq": {
+      "title": "Equalizer (EQ)",
+      "bass": {
+        "title": "Bass",
+        "description": "Tiefenbalance von -10 bis +10 anpassen"
+      },
+      "treble": {
+        "title": "Höhen",
+        "description": "Höhenbalance von -10 bis +10 anpassen"
+      },
+      "loudness": {
+        "title": "Loudness",
+        "description": "Hebt bei geringer Lautstärke bestimmte Frequenzen an, für einen volleren, ausgewogenen Klang"
+      },
+      "reset": "Equalizer zurücksetzen"
+    },
+    "tvEnhancements": {
+      "title": "TV-Klangverbesserungen",
+      "nightMode": {
+        "title": "Nachtmodus",
+        "description": "Komprimiert den Dynamikumfang für leises Hören spät in der Nacht"
+      },
+      "speech": {
+        "title": "Sprachverbesserung",
+        "description": "Verbessert die Verständlichkeit von Dialogen und Stimmen im Center-Kanal beim TV-Ton"
+      },
+      "ungroup": {
+        "title": "Bei Autoplay Gruppe verlassen",
+        "description": "Entfernt diesen Raum automatisch aus Musikgruppen, wenn TV-Ton startet"
+      }
+    },
+    "sub": {
+      "title": "Sub-Audio",
+      "enable": {
+        "title": "Sub",
+        "description": "Tiefbassausgabe an den gekoppelten Sonos Sub ein- oder ausschalten"
+      },
+      "level": {
+        "title": "Sub-Pegel",
+        "description": "Leistung und Druck des Subwoofers von -10 bis +10 anpassen"
+      },
+      "crossover": {
+        "title": "Übergangsfrequenz",
+        "description": "Niedrige Werte eignen sich für große Standlautsprecher, höhere für kompakte Lautsprecher."
+      },
+      "phase": {
+        "title": "Phasensteuerung",
+        "description": "Timing der Subwoofer-Membran an die Hauptlautsprecher anpassen (0° oder 180°)"
+      },
+      "reset": "Sub-Audio zurücksetzen"
+    },
+    "surround": {
+      "title": "Surround-Audio",
+      "enable": {
+        "title": "Surround-Lautsprecher",
+        "description": "Hintere Surround-Lautsprecher in diesem Raum ein- oder ausschalten"
+      },
+      "tvLevel": {
+        "title": "TV-Pegel",
+        "description": "Relative Lautstärke der hinteren Surround-Lautsprecher für TV von -15 bis +15 anpassen"
+      },
+      "musicLevel": {
+        "title": "Musikpegel",
+        "description": "Relative Lautstärke der hinteren Surround-Lautsprecher für Musik von -15 bis +15 anpassen"
+      },
+      "musicPlayback": {
+        "title": "Musikwiedergabe",
+        "description": "Lege fest, ob die Surround-Lautsprecher bei Musik dezent ambient oder in vollem Stereo spielen",
+        "ambient": "Ambient",
+        "full": "Voll"
+      }
+    },
+    "height": {
+      "title": "Höhen-Audio",
+      "level": {
+        "title": "Höhenpegel",
+        "description": "Pegel des Höhenkanals bei der Wiedergabe immersiver Audioformate anpassen."
+      },
+      "reset": "Zurücksetzen"
+    }
+  },
+  "language": {
+    "title": "Sprache",
+    "subtitle": "Wähle die Sprache für Remos Player",
+    "system": "Systemstandard",
+    "systemDetail": "Folgt der Sprache deines Fernsehers ({{language}})"
+  },
+  "notifications": {
+    "title": "Mitteilungen",
+    "subtitle": "Neuigkeiten und Updates zu Remos Player",
+    "emptyTitle": "Keine Mitteilungen",
+    "emptySubtitle": "Ankündigungen zu Remos Player erscheinen hier.",
+    "new": "NEU",
+    "readMore": "OK drücken, um mehr zu lesen",
+    "showLess": "OK drücken, um weniger anzuzeigen"
+  },
+  "update": {
+    "title": "Software-Update",
+    "subtitle": "Remos Player sucht automatisch nach neuen Versionen",
+    "checking": "Suche nach Updates…",
+    "checkFailed": "Updates konnten nicht geprüft werden",
+    "youHaveVersion": "Installiert ist Version {{version}}.",
+    "available": "Version {{version}} ist verfügbar",
+    "availableDetail": "Installiert ist Version {{version}}. Aktualisiere über den Google Play Store.",
+    "upToDate": "Remos Player ist auf dem neuesten Stand",
+    "versionLabel": "Version {{version}}",
+    "serverUnreachable": "Der Update-Server ist nicht erreichbar. Prüfe deine Internetverbindung.",
+    "lastChecked": "Zuletzt geprüft um {{time}}",
+    "whatsNew": "Neuerungen",
+    "updateNow": "Jetzt aktualisieren",
+    "checkButton": "Nach Updates suchen",
+    "checkingButton": "Wird geprüft…"
+  },
+  "about": {
+    "title": "Info",
+    "version": "Version {{version}}",
+    "description": "Durchsuche und steuere dein Sonos-System mit der TV-Fernbedienung. Remos Player kommuniziert direkt über dein lokales Netzwerk mit deinen Lautsprechern.",
+    "lyricsCredit": "Synchronisierte Songtexte werden von LRCLib (lrclib.net) bereitgestellt.",
+    "rows": {
+      "version": "Version",
+      "website": "Website",
+      "support": "Support",
+      "privacy": "Datenschutzerklärung"
+    },
+    "legal": "Remos Player ist ein unabhängiges Projekt. Es steht in keiner Verbindung zu Sonos, Inc. und wird von Sonos, Inc. weder unterstützt noch gesponsert. Sonos ist eine Marke von Sonos, Inc. Android TV und Google Play sind Marken von Google LLC."
+  }
+}

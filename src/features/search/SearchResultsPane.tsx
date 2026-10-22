@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { TVFilterChip } from '../../components/tv';
 import { SectionRow, ResultCard } from '../../components/common';
 import { crossServiceSearch, ServiceSearchResult, SearchResultItem } from '../../services/search/crossServiceSearch';
@@ -55,6 +56,7 @@ export const SearchResultsPane: React.FC<SearchResultsPaneProps> = ({
   onSearchExecuted,
   testID,
 }) => {
+  const { t } = useTranslation();
   // May hold ids of services since unlinked; everything below intersects it with `contexts`.
   const [selectedServiceIds, setSelectedServiceIds] = useState<string[]>([]);
   const [resultsByService, setResultsByService] = useState<Record<string, ServiceSearchResult>>({});
@@ -176,23 +178,21 @@ export const SearchResultsPane: React.FC<SearchResultsPaneProps> = ({
   } else if (contexts.length === 0) {
     body = (
       <View style={styles.centeredMessage}>
-        <Text style={styles.emptyTitle}>No Services to Search</Text>
-        <Text style={styles.emptySubtitle}>
-          Synchronize your music services from "Your Services" on Home first.
-        </Text>
+        <Text style={styles.emptyTitle}>{t('search.noServicesTitle')}</Text>
+        <Text style={styles.emptySubtitle}>{t('search.noServicesSubtitle')}</Text>
       </View>
     );
   } else if (selectedContexts.length === 0) {
     body = (
       <View style={styles.centeredMessage}>
-        <Text style={styles.emptyTitle}>Select a Service</Text>
-        <Text style={styles.emptySubtitle}>Choose one or more services above to search.</Text>
+        <Text style={styles.emptyTitle}>{t('search.selectServiceTitle')}</Text>
+        <Text style={styles.emptySubtitle}>{t('search.selectServiceSubtitle')}</Text>
       </View>
     );
   } else if (!hasQuery) {
     body = (
       <View style={styles.centeredMessage}>
-        <Text style={styles.emptySubtitle}>Start typing to search.</Text>
+        <Text style={styles.emptySubtitle}>{t('search.startTyping')}</Text>
       </View>
     );
   } else {
@@ -213,10 +213,8 @@ export const SearchResultsPane: React.FC<SearchResultsPaneProps> = ({
     if (totalItems === 0 && !stillWaiting) {
       body = (
         <View style={styles.centeredMessage}>
-          <Text style={styles.emptyTitle}>No results for "{trimmedQuery}"</Text>
-          <Text style={styles.emptySubtitle}>
-            Check the spelling, try fewer words, or search a different service.
-          </Text>
+          <Text style={styles.emptyTitle}>{t('search.noResultsTitle', { query: trimmedQuery })}</Text>
+          <Text style={styles.emptySubtitle}>{t('search.noResultsSubtitle')}</Text>
         </View>
       );
     } else {
@@ -226,7 +224,7 @@ export const SearchResultsPane: React.FC<SearchResultsPaneProps> = ({
             <SectionRow
               key={result.service.serviceId}
               title={result.service.name}
-              subtitle={result.category ? `Category: ${result.category.label}` : undefined}
+              subtitle={result.category ? t('search.category', { label: result.category.label }) : undefined}
               isFirst={index === 0}
               leadingInset={RESULTS_LEADING_INSET}
               errorMessage={result.status === 'error' ? result.errorMessage : undefined}
@@ -240,7 +238,7 @@ export const SearchResultsPane: React.FC<SearchResultsPaneProps> = ({
                   title={item.title}
                   subtitle={item.subtitle}
                   albumArtUri={item.albumArtUri}
-                  typeBadge={item.kind === 'track' ? 'Track' : undefined}
+                  typeBadge={item.kind === 'track' ? t('search.trackBadge') : undefined}
                   onPress={() => onSelectResult(item)}
                   testID={`search-result-${item.serviceId}-${item.id}`}
                 />
@@ -249,7 +247,7 @@ export const SearchResultsPane: React.FC<SearchResultsPaneProps> = ({
           ))}
           {stillWaiting && (
             <View style={styles.waitingRow}>
-              <Text style={styles.waitingText}>Searching…</Text>
+              <Text style={styles.waitingText}>{t('search.searching')}</Text>
             </View>
           )}
         </ScrollView>

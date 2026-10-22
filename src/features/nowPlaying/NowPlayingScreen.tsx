@@ -6,6 +6,7 @@ import {
   Animated,
   findNodeHandle,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import { useArtworkColors, backgroundGradient } from './useArtworkColors';
@@ -84,6 +85,7 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   const [isLoadingQueue, setIsLoadingQueue] = useState(false);
 
   const [isFavorite, setIsFavorite] = useState(false);
+  const { t } = useTranslation();
   const toast = useToast();
 
   // Scale animation for artwork on track change (AirTune signature)
@@ -435,13 +437,13 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
 
   const handleSelectQueueItem = async (queueItem: QueueItem) => {
     try {
-      toast.info(`Starting "${queueItem.title}"…`);
+      toast.info(t('toast.starting', { title: queueItem.title }));
       await SonosUpnpClient.seekTrack(speakerIp, queueItem.trackNumber, speakerId);
-      toast.success(`Playing "${queueItem.title}"`);
+      toast.success(t('toast.playing', { title: queueItem.title }));
       setShowQueue(false);
       setTimeout(fetchLiveStatus, 500);
     } catch {
-      toast.error(`Couldn't play "${queueItem.title}"`);
+      toast.error(t('toast.couldntPlay', { title: queueItem.title }));
     }
   };
 
@@ -474,9 +476,9 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
       // Confirm only once it's actually saved.
       await AsyncStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(list));
       setIsFavorite(!isRemoving);
-      toast.success(isRemoving ? `Removed "${track.title}" from favorites` : `Added "${track.title}" to favorites`);
+      toast.success(t(isRemoving ? 'toast.removedFromFavorites' : 'toast.addedToFavorites', { title: track.title }));
     } catch {
-      toast.error("Couldn't update favorites");
+      toast.error(t('toast.couldntUpdateFavorites'));
     }
   };
 

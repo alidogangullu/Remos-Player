@@ -1,0 +1,26 @@
+{
+  "placeholder": "Buscar",
+  "recentTitle": "BÚSQUEDAS RECIENTES",
+  "clear": "Borrar",
+  "confirmClear": "¿Confirmar?",
+  "noServicesTitle": "No hay servicios para buscar",
+  "noServicesSubtitle": "Primero sincroniza tus servicios de música desde “Tus servicios” en Inicio.",
+  "selectServiceTitle": "Elige un servicio",
+  "selectServiceSubtitle": "Elige uno o más servicios arriba para buscar.",
+  "startTyping": "Empieza a escribir para buscar.",
+  "noResultsTitle": "No hay resultados para “{{query}}”",
+  "noResultsSubtitle": "Revisa la ortografía, prueba con menos palabras o busca en otro servicio.",
+  "category": "Categoría: {{label}}",
+  "trackBadge": "Canción",
+  "searching": "Buscando…",
+  "categoryPrefix": {
+    "library": "Biblioteca: {{label}}",
+    "catalog": "Catálogo: {{label}}"
+  },
+  "errors": {
+    "noCategories": "Este servicio no tiene categorías de búsqueda",
+    "failed": "La búsqueda falló",
+    "failedHttp": "La búsqueda falló (HTTP {{status}})",
+    "noResponse": "El servicio no responde"
+  }
+}

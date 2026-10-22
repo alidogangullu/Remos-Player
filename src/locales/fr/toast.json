@@ -1,0 +1,14 @@
+{
+  "starting": "Lancement de « {{title}} »…",
+  "playing": "Lecture de « {{title}} »",
+  "couldntPlay": "Impossible de lire « {{title}} »",
+  "couldntOpen": "Impossible d’ouvrir {{name}}",
+  "browseShortcut": "« {{title}} » est un raccourci de navigation — ouvrez-le dans l’app Sonos",
+  "addingToQueue": "Ajout de « {{title}} » à la file d’attente…",
+  "addedToQueue": "« {{title}} » ajouté à la file d’attente",
+  "playNext": "« {{title}} » sera lu ensuite",
+  "couldntUpdateQueue": "Impossible de mettre à jour la file d’attente",
+  "addedToFavorites": "« {{title}} » ajouté aux favoris",
+  "removedFromFavorites": "« {{title}} » retiré des favoris",
+  "couldntUpdateFavorites": "Impossible de mettre à jour les favoris"
+}

@@ -9,3 +9,4 @@ export * from './TVFilterChip';
 export * from './TVServiceTile';
 export * from './TVVolumePanel';
 export * from './TVSideTab';
+export * from './TVOptionRow';

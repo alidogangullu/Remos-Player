@@ -1,6 +1,7 @@
 import { getMetadata, SmapiContext } from './smapiClient';
 import { resolveSearchCategoriesFromManifest } from './presentationMap';
 import { log } from '../../../utils/logger';
+import { i18n } from '../../../i18n';
 import { SearchCategory } from './smapiTypes';
 
 const TAG = 'SearchCategories';
@@ -74,8 +75,9 @@ async function resolveTier1(ctx: SmapiContext): Promise<SearchCategory[]> {
       let label = item.title;
       if (hasAmbiguousTitles) {
         const idLower = item.id.toLowerCase();
-        if (idLower.includes('library')) label = `Library ${label}`;
-        else if (idLower.includes('catalog')) label = `Catalog ${label}`;
+        // Display-only prefix; the service's own title stays in the label for category matching.
+        if (idLower.includes('library')) label = i18n.t('search.categoryPrefix.library', { label });
+        else if (idLower.includes('catalog')) label = i18n.t('search.categoryPrefix.catalog', { label });
       }
       return { label, mappedId: item.id };
     });

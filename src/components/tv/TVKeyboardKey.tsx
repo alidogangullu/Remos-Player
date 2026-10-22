@@ -4,6 +4,8 @@ import { colors } from '../../theme';
 
 export interface TVKeyboardKeyProps {
   label: string;
+  /** Spoken name when the label is a glyph (e.g. "⌫"). */
+  accessibilityLabel?: string;
   onPress: () => void;
   onFocus?: () => void;
   style?: StyleProp<ViewStyle>;
@@ -18,6 +20,7 @@ export interface TVKeyboardKeyProps {
  */
 export const TVKeyboardKey: React.FC<TVKeyboardKeyProps> = ({
   label,
+  accessibilityLabel,
   onPress,
   onFocus,
   style,
@@ -29,7 +32,7 @@ export const TVKeyboardKey: React.FC<TVKeyboardKeyProps> = ({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel={label}
+      accessibilityLabel={accessibilityLabel ?? label}
       hasTVPreferredFocus={hasTVPreferredFocus}
       testID={testID}
       onFocus={() => {

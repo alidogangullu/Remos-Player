@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { i18n } from '../../i18n';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 import { TVFocusableCard } from '../../components/tv/TVFocusableCard';
 import { ArtworkImage, useToast } from '../../components/common';
@@ -61,6 +63,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   featuredStations: propFeaturedStations,
   onSelectItem,
 }) => {
+  const { t } = useTranslation();
   const toast = useToast();
   const [liveFavorites, setLiveFavorites] = useState<HomeCarouselItem[]>([]);
   const [playbackHistory, setPlaybackHistory] = useState<HomeCarouselItem[]>([]);
@@ -96,7 +99,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         const mapped: HomeCarouselItem[] = favs.map((f) => ({
           id: f.id,
           title: f.title,
-          subtitle: f.subtitle || f.type || 'Favorite',
+          subtitle: f.subtitle || f.type || i18n.t('home.favoriteFallback'),
           albumArtUri: f.albumArtUri ?? '',
           uri: f.uri ?? '',
           // The favorite's own DIDL — service favorites won't play from a bare URI.
@@ -162,7 +165,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       }
     }
     if (!ctx) {
-      toast.error(`Couldn't open ${service.name}`);
+      toast.error(t('toast.couldntOpen', { name: service.name }));
       return;
     }
     setReturnFocusServiceId(null);
@@ -177,17 +180,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   const handlePlay = async (item: HomeQuickAccessItem | HomeCarouselItem) => {
     onSelectItem?.(item);
     if (isShortcutFavorite(item)) {
-      toast.info(`"${item.title}" is a browse shortcut — open it in the Sonos app`);
+      toast.info(t('toast.browseShortcut', { title: item.title }));
       return;
     }
-    toast.info(`Starting "${item.title}"…`);
+    toast.info(t('toast.starting', { title: item.title }));
 
     try {
       await playFavorite(speakerIp, speakerId, item, buildBasicDidl(item), serviceContexts);
-      toast.success(`Playing "${item.title}"`);
+      toast.success(t('toast.playing', { title: item.title }));
     } catch (error) {
       log.error(TAG, `Failed to play "${item.title}"`, error);
-      toast.error(`Couldn't play "${item.title}"`);
+      toast.error(t('toast.couldntPlay', { title: item.title }));
     }
   };
 
@@ -220,10 +223,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         {isEmpty ? (
           <>
             <View style={styles.homeEmptyContainer} testID="home-empty-state">
-              <Text style={styles.homeEmptyTitle}>Ready to Play</Text>
-              <Text style={styles.homeEmptySubtitle}>
-                Browse Favorites, search music services, or stream directly to this speaker from the Sonos app.
-              </Text>
+              <Text style={styles.homeEmptyTitle}>{t('home.emptyTitle')}</Text>
+              <Text style={styles.homeEmptySubtitle}>{t('home.emptySubtitle')}</Text>
             </View>
             {servicesRow}
           </>
@@ -233,7 +234,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           {quickAccess.length > 0 && (
             <>
               <View style={styles.sectionHeader}>
-                <Text style={styles.sectionTitle}>Jump Back In</Text>
+                <Text style={styles.sectionTitle}>{t('home.jumpBackIn')}</Text>
               </View>
 
               <View style={styles.quickAccessGrid}>
@@ -281,7 +282,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           {favorites.length > 0 && (
             <>
               <View style={styles.sectionHeaderSubsequent}>
-                <Text style={styles.sectionTitle}>Favorites</Text>
+                <Text style={styles.sectionTitle}>{t('home.favorites')}</Text>
               </View>
 
               <ScrollView
@@ -322,7 +323,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           {featuredStations.length > 0 && (
             <>
               <View style={styles.sectionHeaderSubsequent}>
-                <Text style={styles.sectionTitle}>Sonos Radio HD & Curated</Text>
+                <Text style={styles.sectionTitle}>{t('home.featuredStations')}</Text>
               </View>
 
               <ScrollView

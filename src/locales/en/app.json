@@ -1,0 +1,32 @@
+{
+  "exitHint": "Press Back again to exit",
+  "status": {
+    "searching": "Searching...",
+    "notConnected": "Not Connected",
+    "standby": "Standby",
+    "audio": "Audio",
+    "system": "System"
+  },
+  "tabs": {
+    "home": "Home",
+    "search": "Search",
+    "favorites": "Favorites",
+    "settings": "Settings"
+  },
+  "discovery": {
+    "searching": "Searching for Sonos Speakers...",
+    "notFound": "No Sonos Speakers Found",
+    "notFoundHint": "Ensure your Sonos speaker is powered on and connected to the same Wi-Fi network.",
+    "scanning": "Scanning...",
+    "searchAgain": "Search Again"
+  },
+  "speakerRequired": {
+    "search": "Connect to a Sonos speaker to search your music services.",
+    "favorites": "Connect to a Sonos speaker to access your favorites."
+  },
+  "forceUpdate": {
+    "title": "Update Required",
+    "message": "This version of {{appName}} is no longer supported. Update to the latest version to keep controlling your Sonos system.",
+    "updateNow": "Update Now"
+  }
+}

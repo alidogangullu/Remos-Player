@@ -1,0 +1,26 @@
+{
+  "placeholder": "Search",
+  "recentTitle": "RECENT SEARCHES",
+  "clear": "Clear",
+  "confirmClear": "Confirm?",
+  "noServicesTitle": "No Services to Search",
+  "noServicesSubtitle": "Synchronize your music services from “Your Services” on Home first.",
+  "selectServiceTitle": "Select a Service",
+  "selectServiceSubtitle": "Choose one or more services above to search.",
+  "startTyping": "Start typing to search.",
+  "noResultsTitle": "No results for “{{query}}”",
+  "noResultsSubtitle": "Check the spelling, try fewer words, or search a different service.",
+  "category": "Category: {{label}}",
+  "trackBadge": "Track",
+  "searching": "Searching…",
+  "categoryPrefix": {
+    "library": "Library {{label}}",
+    "catalog": "Catalog {{label}}"
+  },
+  "errors": {
+    "noCategories": "No search categories available for this service",
+    "failed": "Search failed",
+    "failedHttp": "Search failed (HTTP {{status}})",
+    "noResponse": "No response from service"
+  }
+}

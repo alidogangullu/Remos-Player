@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { LayoutChangeEvent, StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
+import { formatDate } from '../../i18n';
 import { NotificationDot } from '../../components/common';
 import { TVFocusableCard } from '../../components/tv';
 import { Announcement } from '../../services/remoteConfig/remoteConfigService';
@@ -24,6 +26,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
   onToggle,
   onLayout,
 }) => {
+  const { t } = useTranslation();
   const [isLong, setIsLong] = useState(false);
 
   return (
@@ -36,8 +39,8 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
       >
         <View style={styles.metaRow}>
           {isNew ? <NotificationDot /> : null}
-          {isNew ? <Text style={styles.newLabel}>NEW</Text> : null}
-          {item.date ? <Text style={styles.date}>{item.date}</Text> : null}
+          {isNew ? <Text style={styles.newLabel}>{t('settings.notifications.new')}</Text> : null}
+          {item.date ? <Text style={styles.date}>{formatDate(item.date)}</Text> : null}
         </View>
         <Text style={styles.title}>{item.title}</Text>
 
@@ -61,7 +64,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
 
         {isLong ? (
           <Text style={styles.toggleHint}>
-            {expanded ? 'Press OK to show less' : 'Press OK to read more'}
+            {expanded ? t('settings.notifications.showLess') : t('settings.notifications.readMore')}
           </Text>
         ) : null}
       </TVFocusableCard>

@@ -7,9 +7,13 @@ import {
   Image,
   ActivityIndicator,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { QueueItem } from '../../services/sonos/upnp/sonosUpnpClient';
 import { TVFocusableCard } from '../../components/tv/TVFocusableCard';
 import { colors, spacing } from '../../theme';
+
+const EMPTY_QUEUE_GLYPH = '📋';
+const NO_ARTWORK_GLYPH = '🎵';
 
 const ITEM_WIDTH = 200;
 const ITEM_HEIGHT = 260;
@@ -29,6 +33,7 @@ export const QueueView: React.FC<QueueViewProps> = ({
   onSelectTrack,
   isLoading = false,
 }) => {
+  const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
 
   const activeIndex = queue.findIndex(
@@ -55,7 +60,7 @@ export const QueueView: React.FC<QueueViewProps> = ({
     return (
       <View style={styles.emptyContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={styles.emptySubtitle}>Loading Sonos Queue...</Text>
+        <Text style={styles.emptySubtitle}>{t('nowPlaying.queue.loading')}</Text>
       </View>
     );
   }
@@ -63,11 +68,9 @@ export const QueueView: React.FC<QueueViewProps> = ({
   if (!queue || queue.length === 0) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyIcon}>📋</Text>
-        <Text style={styles.emptyTitle}>Queue Is Empty</Text>
-        <Text style={styles.emptySubtitle}>
-          No queued tracks found on this speaker. Select an album or playlist to populate the queue.
-        </Text>
+        <Text style={styles.emptyIcon}>{EMPTY_QUEUE_GLYPH}</Text>
+        <Text style={styles.emptyTitle}>{t('nowPlaying.queue.emptyTitle')}</Text>
+        <Text style={styles.emptySubtitle}>{t('nowPlaying.queue.emptySubtitle')}</Text>
       </View>
     );
   }
@@ -101,12 +104,12 @@ export const QueueView: React.FC<QueueViewProps> = ({
                   <Image source={{ uri: item.albumArtUri }} style={styles.artwork} />
                 ) : (
                   <View style={styles.placeholder}>
-                    <Text style={styles.placeholderIcon}>🎵</Text>
+                    <Text style={styles.placeholderIcon}>{NO_ARTWORK_GLYPH}</Text>
                   </View>
                 )}
                 {isCurrent && (
                   <View style={styles.playingBadge}>
-                    <Text style={styles.playingBadgeText}>PLAYING</Text>
+                    <Text style={styles.playingBadgeText}>{t('nowPlaying.playingBadge')}</Text>
                   </View>
                 )}
               </View>

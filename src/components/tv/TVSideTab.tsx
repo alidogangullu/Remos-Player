@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors } from '../../theme';
 import { NotificationDot } from '../common/NotificationDot';
 
@@ -26,13 +27,14 @@ export const TVSideTab: React.FC<TVSideTabProps> = ({
   onPress,
   testID,
 }) => {
+  const { t } = useTranslation();
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <Pressable
       accessibilityRole="tab"
       accessibilityState={{ selected: active }}
-      accessibilityLabel={showBadge ? `${label}, new` : label}
+      accessibilityLabel={showBadge ? t('common.newBadge', { label }) : label}
       testID={testID}
       onFocus={() => {
         setIsFocused(true);

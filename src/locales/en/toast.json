@@ -1,0 +1,14 @@
+{
+  "starting": "Starting “{{title}}”…",
+  "playing": "Playing “{{title}}”",
+  "couldntPlay": "Couldn't play “{{title}}”",
+  "couldntOpen": "Couldn't open {{name}}",
+  "browseShortcut": "“{{title}}” is a browse shortcut — open it in the Sonos app",
+  "addingToQueue": "Adding “{{title}}” to the queue…",
+  "addedToQueue": "Added “{{title}}” to the queue",
+  "playNext": "“{{title}}” will play next",
+  "couldntUpdateQueue": "Couldn't update the queue",
+  "addedToFavorites": "Added “{{title}}” to favorites",
+  "removedFromFavorites": "Removed “{{title}}” from favorites",
+  "couldntUpdateFavorites": "Couldn't update favorites"
+}

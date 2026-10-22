@@ -1,0 +1,24 @@
+{
+  "title": "Systeem en verbonden apparaten",
+  "subtitle": "Beheer verbonden Sonos-hardware, de verbindingsstatus en de diagnose van het lokale netwerk",
+  "groupedWithOne": "Gegroepeerd met {{name}}",
+  "groupedWithTwo": "Gegroepeerd met {{first}} en {{second}}",
+  "groupedMore_one": "+ {{count}} speaker gegroepeerd",
+  "groupedMore_other": "+ {{count}} speakers gegroepeerd",
+  "active": "ACTIEF",
+  "select": "Kiezen",
+  "emptyTitle": "Geen Sonos-speakers gevonden",
+  "emptySubtitle": "Er is geen actieve Sonos-speler gevonden op dit lokale wifi-subnet. Controleer de stroom en de verbinding van het apparaat.",
+  "diagnostics": "Netwerkdiagnose",
+  "scanStatus": {
+    "scanning": "Lokaal netwerk doorzoeken op Sonos-spelers...",
+    "complete": "Netwerkscan voltooid.",
+    "timeout": "Time-out bij het scannen. Controleer de netwerkverbinding."
+  },
+  "scanningButton": "Netwerk scannen...",
+  "rescanButton": "Netwerk opnieuw scannen",
+  "hardware": {
+    "surrounds": "Surrounds",
+    "sub": "Sub"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "retry": "Erneut versuchen",
+  "more": "Mehr >",
+  "volume": "Lautstärke",
+  "volumeValue": "Lautstärke {{value}}",
+  "newBadge": "{{label}}, neu",
+  "speaker": "Sonos-Lautsprecher",
+  "room": "Sonos-Raum",
+  "group": "Gruppe",
+  "slider": {
+    "decrease": "{{title}} verringern, aktuell {{value}}",
+    "increase": "{{title}} erhöhen, aktuell {{value}}"
+  },
+  "keyboard": {
+    "space": "Leertaste",
+    "clear": "löschen",
+    "backspace": "Entfernen"
+  },
+  "speakerRequired": "Lautsprecher erforderlich"
+}

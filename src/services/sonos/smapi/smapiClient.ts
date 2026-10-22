@@ -2,6 +2,7 @@ import axios from 'axios';
 import { XMLParser } from 'fast-xml-parser';
 import { SONOS_DEFAULTS } from '../../../constants';
 import { log } from '../../../utils/logger';
+import { i18n } from '../../../i18n';
 import { accountSuffixedDeviceId } from '../security/thirdPartyAccounts';
 import { MusicAccountStore } from '../accounts/musicAccountStore';
 import { supportsTimeZoneContext } from './musicServiceRegistry';
@@ -221,7 +222,7 @@ export async function refreshAuthToken(
     });
     const bodyText = typeof response.data === 'string' ? response.data : String(response.data);
     if (bodyText.includes('AuthTokenExpired')) {
-      throw new SmapiFault('AuthTokenExpired', `${ctx.service.name} account must be re-linked in the Sonos app`);
+      throw new SmapiFault('AuthTokenExpired', i18n.t('services.errors.relink', { service: ctx.service.name }));
     }
     const credentials = extractFault(bodyText) ? null : extractCredentials(bodyText);
     if (!credentials) {
@@ -280,13 +281,14 @@ async function request<T>(
 
     if (shouldRefresh) {
       if (isRetry || !account) {
-        throw new SmapiFault('TokenRefreshRequired', `${action} requires a token refresh but none is available`);
+        log.warn(TAG, `${action} requires a token refresh but none is available`);
+        throw new SmapiFault('TokenRefreshRequired', i18n.t('services.errors.signIn', { service: service.name }));
       }
       log.warn(TAG, `${action} on ${service.name} requires token refresh; retrying once`);
       // TokenRefreshRequired faults usually carry the new token in <detail>; only call refreshAuthToken if not.
       const refreshed = extractCredentials(bodyText) ?? (await refreshAuthToken({ ...ctx, account }));
       if (!refreshed) {
-        throw new SmapiFault('TokenRefreshFailed', `Failed to refresh token for ${service.name}`);
+        throw new SmapiFault('TokenRefreshFailed', i18n.t('services.errors.signIn', { service: service.name }));
       }
       const refreshedAccount: MusicServiceAccount = {
         ...account,
@@ -377,7 +379,8 @@ function extractFault(xml: string): { faultcode: string; faultstring: string } |
     if (fault) {
       return {
         faultcode: String(fault.faultcode ?? 'Unknown'),
-        faultstring: String(fault.faultstring ?? 'Unknown SOAP fault'),
+        // The service's own faultstring is shown as-is; this is only the no-message fallback.
+        faultstring: String(fault.faultstring ?? i18n.t('search.errors.failed')),
       };
     }
   } catch {

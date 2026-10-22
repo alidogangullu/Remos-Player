@@ -12,6 +12,7 @@ import {
   findNodeHandle,
   useTVEventHandler,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Svg, { Path } from 'react-native-svg';
 
 const STEP = 2;
@@ -35,6 +36,7 @@ export function TVVolumePanel({
   onChangeVolume,
   onClose,
 }: Readonly<TVVolumePanelProps>) {
+  const { t } = useTranslation();
   const [volume, setVolume] = useState<number | null>(initialVolume);
   const [selfNode, setSelfNode] = useState<number | null>(null);
   const panelRef = useRef<View | null>(null);
@@ -125,7 +127,7 @@ export function TVVolumePanel({
             nextFocusRight={selfNode ?? undefined}
             onPress={onClose}
             accessibilityRole="adjustable"
-            accessibilityLabel="Volume"
+            accessibilityLabel={t('common.volume')}
             accessibilityValue={{ min: 0, max: 100, now: level }}
             style={styles.panel}
           >

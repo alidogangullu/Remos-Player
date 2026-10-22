@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { toDisplayUpperCase } from '../../i18n';
 import { TVFocusableCard } from '../tv/TVFocusableCard';
 import { ArtworkImage } from './ArtworkImage';
 import { colors } from '../../theme';
@@ -44,7 +45,7 @@ export const ResultCard: React.FC<ResultCardProps> = ({
         <ArtworkImage uri={albumArtUri} title={title} style={styles.image} fontSize={28} />
         {typeBadge && (
           <View style={styles.badge}>
-            <Text style={styles.badgeText}>{typeBadge.toLocaleUpperCase('en-US')}</Text>
+            <Text style={styles.badgeText}>{toDisplayUpperCase(typeBadge)}</Text>
           </View>
         )}
       </View>

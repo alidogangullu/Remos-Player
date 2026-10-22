@@ -1,0 +1,43 @@
+{
+  "idleTitle": "Sonos-speaker gereed",
+  "idleArtist": "Inactief",
+  "live": "LIVE",
+  "playingBadge": "SPEELT",
+  "progress": "Voortgang van afspelen",
+  "controls": {
+    "previous": "Vorige",
+    "play": "Afspelen",
+    "pause": "Pauze",
+    "next": "Volgende",
+    "shuffle": "Shuffle",
+    "repeat": "Herhalen",
+    "save": "Bewaren",
+    "saved": "Bewaard",
+    "lyrics": "Songtekst",
+    "showLyrics": "Songtekst tonen",
+    "hideLyrics": "Songtekst verbergen",
+    "showQueue": "Wachtrij tonen",
+    "hideQueue": "Wachtrij verbergen"
+  },
+  "queue": {
+    "loading": "Sonos-wachtrij laden...",
+    "emptyTitle": "Wachtrij is leeg",
+    "emptySubtitle": "Er staan geen nummers in de wachtrij van deze speaker. Kies een album of playlist om de wachtrij te vullen."
+  },
+  "lyrics": {
+    "loading": "Gesynchroniseerde songtekst laden...",
+    "emptyTitle": "Geen songtekst beschikbaar",
+    "emptySubtitle": "Geen gesynchroniseerde songtekst gevonden voor dit nummer."
+  },
+  "fallback": {
+    "tvAudio": "Tv-geluid",
+    "tvSource": "HDMI eARC / Optisch",
+    "homeTheater": "Thuisbioscoop",
+    "sonosAudio": "Sonos-audio",
+    "liveRadio": "Live radio",
+    "unknownArtist": "Onbekende artiest",
+    "unknownTrack": "Onbekend nummer",
+    "radioStream": "Radiostream",
+    "noAudio": "Geen geluid"
+  }
+}

@@ -7,6 +7,7 @@ import {
   View,
   useTVEventHandler,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 
 const SEEK_STEP_MS = 5000;
@@ -39,6 +40,7 @@ export const NowPlayingProgressBar: React.FC<NowPlayingProgressBarProps> = React
   onLayoutProgress,
   hidden = false,
 }) => {
+  const { t } = useTranslation();
   const [isFocused, setIsFocused] = useState(false);
   const [isScrubbing, setIsScrubbing] = useState(false);
   const [pendingSeekMs, setPendingSeekMs] = useState(0);
@@ -110,7 +112,7 @@ export const NowPlayingProgressBar: React.FC<NowPlayingProgressBarProps> = React
         onFocus={handleFocus}
         onBlur={handleBlur}
         onPress={handlePress}
-        accessibilityLabel="Playback progress"
+        accessibilityLabel={t('nowPlaying.progress')}
         accessibilityRole="adjustable"
       >
         {({ focused }) => (

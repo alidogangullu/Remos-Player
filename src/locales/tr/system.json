@@ -1,0 +1,24 @@
+{
+  "title": "Sistem ve Bağlı Cihazlar",
+  "subtitle": "Bağlı Sonos donanımını, bağlantı durumunu ve yerel ağ tanılamasını yönetin",
+  "groupedWithOne": "{{name}} ile gruplu",
+  "groupedWithTwo": "{{first}} ve {{second}} ile gruplu",
+  "groupedMore_one": "+ {{count}} hoparlör gruplu",
+  "groupedMore_other": "+ {{count}} hoparlör gruplu",
+  "active": "ETKİN",
+  "select": "Seç",
+  "emptyTitle": "Sonos Hoparlör Bulunamadı",
+  "emptySubtitle": "Bu yerel Wi-Fi alt ağında etkin bir Sonos cihazı bulunamadı. Cihazın gücünü ve bağlantısını kontrol edin.",
+  "diagnostics": "Ağ Tanılama",
+  "scanStatus": {
+    "scanning": "Yerel ağda Sonos cihazları taranıyor...",
+    "complete": "Ağ taraması tamamlandı.",
+    "timeout": "Tarama zaman aşımına uğradı. Lütfen ağ bağlantısını kontrol edin."
+  },
+  "scanningButton": "Ağ Taranıyor...",
+  "rescanButton": "Ağı Yeniden Tara",
+  "hardware": {
+    "surrounds": "Surround'lar",
+    "sub": "Sub"
+  }
+}

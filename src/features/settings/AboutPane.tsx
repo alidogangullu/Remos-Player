@@ -1,20 +1,23 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 import { AppLogo, PaneHeader } from '../../components/common';
 import { APP_INFO } from '../../constants/appInfo';
 import { paneStyles } from './paneStyles';
 
-const INFO_ROWS: { label: string; value: string }[] = [
-  { label: 'Version', value: APP_INFO.VERSION },
-  { label: 'Website', value: APP_INFO.WEBSITE },
-  { label: 'Support', value: APP_INFO.SUPPORT_EMAIL },
-  { label: 'Privacy Policy', value: APP_INFO.PRIVACY_URL },
-];
+const INFO_ROWS = [
+  { id: 'version', value: APP_INFO.VERSION },
+  { id: 'website', value: APP_INFO.WEBSITE },
+  { id: 'support', value: APP_INFO.SUPPORT_EMAIL },
+  { id: 'privacy', value: APP_INFO.PRIVACY_URL },
+] as const;
 
-export const AboutPane: React.FC = () => (
+export const AboutPane: React.FC = () => {
+  const { t } = useTranslation();
+  return (
   <ScrollView style={paneStyles.scroll} contentContainerStyle={paneStyles.content}>
-    <PaneHeader title="About" />
+    <PaneHeader title={t('settings.about.title')} />
 
     <View style={styles.columns}>
       <View style={styles.identity}>
@@ -22,39 +25,31 @@ export const AboutPane: React.FC = () => (
           <AppLogo size={72} />
           <View style={styles.identityText}>
             <Text style={styles.appName}>{APP_INFO.NAME}</Text>
-            <Text style={paneStyles.mutedText}>{`Version ${APP_INFO.VERSION}`}</Text>
+            <Text style={paneStyles.mutedText}>{t('settings.about.version', { version: APP_INFO.VERSION })}</Text>
           </View>
         </View>
-        <Text style={[paneStyles.bodyText, styles.description]}>
-          Browse, search and control your Sonos system with your TV remote. Remos Player talks to
-          your speakers directly over your local network.
-        </Text>
-        <Text style={paneStyles.mutedText}>
-          Synchronized lyrics are provided by LRCLib (lrclib.net).
-        </Text>
+        <Text style={[paneStyles.bodyText, styles.description]}>{t('settings.about.description')}</Text>
+        <Text style={paneStyles.mutedText}>{t('settings.about.lyricsCredit')}</Text>
       </View>
 
       <View style={[paneStyles.card, styles.infoCard]}>
         {INFO_ROWS.map((row, index) => (
           // Label above value: URLs are too long to share a line with their label.
           <View
-            key={row.label}
+            key={row.id}
             style={[styles.infoRow, index < INFO_ROWS.length - 1 && styles.infoRowDivider]}
           >
-            <Text style={styles.infoLabel}>{row.label}</Text>
+            <Text style={styles.infoLabel}>{t(`settings.about.rows.${row.id}`)}</Text>
             <Text style={styles.infoValue}>{row.value}</Text>
           </View>
         ))}
       </View>
     </View>
 
-    <Text style={[paneStyles.mutedText, styles.legal]}>
-      Remos Player is an independent project. It is not affiliated with, endorsed by or sponsored
-      by Sonos, Inc. Sonos is a trademark of Sonos, Inc. Android TV and Google Play are trademarks
-      of Google LLC.
-    </Text>
+    <Text style={[paneStyles.mutedText, styles.legal]}>{t('settings.about.legal')}</Text>
   </ScrollView>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   columns: {

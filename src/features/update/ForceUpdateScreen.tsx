@@ -1,5 +1,6 @@
 import React from 'react';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 import { AppLogo } from '../../components/common';
 import { TVPillButton } from '../../components/tv';
@@ -11,14 +12,16 @@ export interface ForceUpdateScreenProps {
 }
 
 /** Replaces the whole app while the installed version is below the remote min_version. */
-export const ForceUpdateScreen: React.FC<ForceUpdateScreenProps> = ({ updateInfo }) => (
+export const ForceUpdateScreen: React.FC<ForceUpdateScreenProps> = ({ updateInfo }) => {
+  const { t } = useTranslation();
+  return (
   <View style={styles.root} testID="force-update-screen">
     <StatusBar hidden />
     <View style={styles.inner}>
       <AppLogo size={96} />
-      <Text style={styles.title}>Update Required</Text>
+      <Text style={styles.title}>{t('app.forceUpdate.title')}</Text>
       <Text style={styles.message}>
-        {`This version of ${APP_INFO.NAME} is no longer supported. Update to the latest version to keep controlling your Sonos system.`}
+        {t('app.forceUpdate.message', { appName: APP_INFO.NAME })}
       </Text>
       <View style={styles.versionBadge}>
         <Text style={styles.versionText}>
@@ -26,14 +29,15 @@ export const ForceUpdateScreen: React.FC<ForceUpdateScreenProps> = ({ updateInfo
         </Text>
       </View>
       <TVPillButton
-        label="Update Now"
+        label={t('app.forceUpdate.updateNow')}
         hasTVPreferredFocus
         onPress={() => openStoreListing(updateInfo.storeUrl)}
         testID="button-force-update"
       />
     </View>
   </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   root: {

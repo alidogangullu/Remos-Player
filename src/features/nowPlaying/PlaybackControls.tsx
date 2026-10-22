@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { StyleSheet, View, Pressable, findNodeHandle } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Svg, { Path } from 'react-native-svg';
 import { spacing } from '../../theme';
 import { LyricIcon } from './LyricIcon';
@@ -131,6 +132,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
   nextFocusDown,
   onLayoutButton,
 }) => {
+  const { t } = useTranslation();
   const getIconColor = (focused: boolean, active: boolean = false) => {
     if (focused) return '#08080A'; // Deep obsidian on white focused surface
     if (active) return '#FFFFFF'; // Crisp solid white when active/toggled on
@@ -146,7 +148,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
             onPress={onPrevious}
             disabled={disabled}
             nextFocusDown={nextFocusDown}
-            accessibilityLabel="Previous"
+            accessibilityLabel={t('nowPlaying.controls.previous')}
             testID="control-prev"
             isPrimary
           >
@@ -168,7 +170,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
           disabled={disabled}
           nextFocusDown={nextFocusDown}
           hasTVPreferredFocus
-          accessibilityLabel={isPlaying ? 'Pause' : 'Play'}
+          accessibilityLabel={isPlaying ? t('nowPlaying.controls.pause') : t('nowPlaying.controls.play')}
           testID="control-play-pause"
           onLayout={(node: number | null) => onLayoutButton?.(node)}
           isPrimary
@@ -194,7 +196,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
             onPress={onNext}
             disabled={disabled}
             nextFocusDown={nextFocusDown}
-            accessibilityLabel="Next"
+            accessibilityLabel={t('nowPlaying.controls.next')}
             testID="control-next"
             isPrimary
           >
@@ -221,7 +223,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
             active={isShuffle}
             disabled={disabled}
             nextFocusDown={nextFocusDown}
-            accessibilityLabel="Shuffle"
+            accessibilityLabel={t('nowPlaying.controls.shuffle')}
             testID="control-shuffle"
           >
             {(focused, active) => (
@@ -252,7 +254,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
             active={isRepeat}
             disabled={disabled}
             nextFocusDown={nextFocusDown}
-            accessibilityLabel="Repeat"
+            accessibilityLabel={t('nowPlaying.controls.repeat')}
             testID="control-repeat"
           >
             {(focused, active) => (
@@ -283,7 +285,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
             activeTransparent
             disabled={disabled}
             nextFocusDown={nextFocusDown}
-            accessibilityLabel={isFavorite ? 'Saved' : 'Save'}
+            accessibilityLabel={isFavorite ? t('nowPlaying.controls.saved') : t('nowPlaying.controls.save')}
             testID="control-favorite"
           >
             {(focused, active) => {
@@ -321,7 +323,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
             active={showLyrics}
             disabled={disabled}
             nextFocusDown={nextFocusDown}
-            accessibilityLabel={showLyrics ? 'Hide Lyrics' : 'Show Lyrics'}
+            accessibilityLabel={showLyrics ? t('nowPlaying.controls.hideLyrics') : t('nowPlaying.controls.showLyrics')}
             testID="control-lyrics"
           >
             {(focused, active) => (
@@ -347,7 +349,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
             active={showQueue}
             disabled={disabled}
             nextFocusDown={nextFocusDown}
-            accessibilityLabel={showQueue ? 'Hide Queue' : 'Show Queue'}
+            accessibilityLabel={showQueue ? t('nowPlaying.controls.hideQueue') : t('nowPlaying.controls.showQueue')}
             testID="control-queue"
           >
             {(focused, active) => (
@@ -376,7 +378,7 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
             disabled={disabled}
             nextFocusDown={nextFocusDown}
             focusSignal={volumeFocusSignal}
-            accessibilityLabel="Volume"
+            accessibilityLabel={t('common.volume')}
             testID="control-volume"
           >
             {(focused, active) => (

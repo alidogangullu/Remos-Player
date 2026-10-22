@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet, ActivityIndicator, TVFocusGuideView } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { ServiceNavRow } from './ServiceNavRow';
 import { TrackListRow } from './TrackListRow';
 import { PlayableContainerPanel, ContainerAction } from './PlayableContainerPanel';
@@ -58,6 +59,7 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
   isActive = true,
   onBack,
 }) => {
+  const { t } = useTranslation();
   const toast = useToast();
   const [stack, setStack] = useState<StackEntry[]>([{ containerId: 'root', label: ctx.service.name }]);
   const [result, setResult] = useState<GetMetadataResult | null>(null);
@@ -85,13 +87,13 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
         setResult(fetched);
       } catch (err) {
         log.error(TAG, `Failed to load container "${containerId}" for ${ctx.service.name}`, err);
-        setError('Failed to load this section.');
+        setError(t('services.loadFailed'));
         setResult(null);
       } finally {
         setIsLoading(false);
       }
     },
-    [ctx],
+    [ctx, t],
   );
 
   useEffect(() => {
@@ -117,14 +119,14 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
    * `containerPlaybackUri.ts`).
    */
   const playTrack = async (item: MediaMetadata) => {
-    toast.info(`Starting "${item.title}"…`);
+    toast.info(t('toast.starting', { title: item.title }));
     try {
       const { uri, metadata } = await playMediaItem(speakerIp, speakerId, ctx, item);
       await PlaybackHistoryService.addTrack({ title: item.title, artist: item.artist, albumArtUri: item.albumArtUri, uri, metadata });
-      toast.success(`Playing "${item.title}"`);
+      toast.success(t('toast.playing', { title: item.title }));
     } catch (err) {
       log.error(TAG, `Failed to play "${item.title}"`, err);
-      toast.error(`Couldn't play "${item.title}"`);
+      toast.error(t('toast.couldntPlay', { title: item.title }));
     }
   };
 
@@ -148,7 +150,7 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
     actionInFlightRef.current = true;
     const isPlayAction = action === 'playNow' || action === 'replaceQueue';
     // These run several UPnP calls in a row; acknowledge the press right away.
-    toast.info(isPlayAction ? `Starting "${item.title}"…` : `Adding "${item.title}" to the queue…`);
+    toast.info(t(isPlayAction ? 'toast.starting' : 'toast.addingToQueue', { title: item.title }));
     try {
       const { uri, metadata } = buildContainerPlaybackTarget(ctx, item);
 
@@ -170,15 +172,15 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
 
       if (isPlayAction) {
         await PlaybackHistoryService.addTrack({ title: item.title, albumArtUri: item.albumArtUri, uri, metadata });
-        toast.success(`Playing "${item.title}"`);
+        toast.success(t('toast.playing', { title: item.title }));
       } else if (action === 'playNext') {
-        toast.success(`"${item.title}" will play next`);
+        toast.success(t('toast.playNext', { title: item.title }));
       } else {
-        toast.success(`Added "${item.title}" to the queue`);
+        toast.success(t('toast.addedToQueue', { title: item.title }));
       }
     } catch (err) {
       log.error(TAG, `Failed to run "${action}" on container "${item.title}"`, err);
-      toast.error(isPlayAction ? `Couldn't play "${item.title}"` : "Couldn't update the queue");
+      toast.error(isPlayAction ? t('toast.couldntPlay', { title: item.title }) : t('toast.couldntUpdateQueue'));
     } finally {
       actionInFlightRef.current = false;
     }
@@ -205,7 +207,7 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
     body = (
       <View style={styles.centered}>
         <Text style={styles.emptyText}>{error}</Text>
-        <TVFocusableButton label="Retry" onPress={() => loadContainer(currentEntry.containerId)} style={styles.retryButton} />
+        <TVFocusableButton label={t('common.retry')} onPress={() => loadContainer(currentEntry.containerId)} style={styles.retryButton} />
       </View>
     );
   } else if (playable) {
@@ -271,12 +273,13 @@ const ContainerContentsList: React.FC<{
   onSelectCollection: (item: MediaCollection) => void;
   onPlay: (item: MediaMetadata) => void;
 }> = ({ result, onSelectCollection, onPlay }) => {
+  const { t } = useTranslation();
   const collections = result?.mediaCollection ?? [];
   const tracks = result?.mediaMetadata ?? [];
   if (collections.length === 0 && tracks.length === 0) {
     return (
       <View style={styles.centered}>
-        <Text style={styles.emptyText}>Nothing here yet.</Text>
+        <Text style={styles.emptyText}>{t('services.empty')}</Text>
       </View>
     );
   }

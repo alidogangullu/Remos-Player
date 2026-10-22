@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TVFocusGuideView, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 import { TVSideTab } from '../../components/tv';
 import { SonosDevice } from '../../types/sonos';
 import { useRemoteConfig } from '../../services/remoteConfig/RemoteConfigProvider';
 import { describeRoomHardware } from '../../services/sonos/roomDisplay';
 import { SoundSettingsPane } from './SoundSettingsPane';
+import { LanguagePane } from './LanguagePane';
 import { NotificationsPane } from './NotificationsPane';
 import { UpdatePane } from './UpdatePane';
 import { AboutPane } from './AboutPane';
 
-type SettingsSection = 'sound' | 'notifications' | 'update' | 'about';
+type SettingsSection = 'sound' | 'language' | 'notifications' | 'update' | 'about';
 
 export interface SettingsScreenProps {
   speaker: SonosDevice | null;
@@ -18,6 +20,7 @@ export interface SettingsScreenProps {
 
 /** Settings: the room and section rail on the left, the selected section on the right. */
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker }) => {
+  const { t } = useTranslation();
   const { updateInfo, hasUnreadAnnouncements } = useRemoteConfig();
   const [section, setSection] = useState<SettingsSection>('sound');
   // Visited panes stay mounted so the speaker isn't re-probed on every switch.
@@ -26,11 +29,12 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker }) => {
     setVisited(prev => (prev.includes(section) ? prev : [...prev, section]));
   }, [section]);
 
-  const tabs: { id: SettingsSection; label: string; showBadge?: boolean }[] = [
-    { id: 'sound', label: 'Sound' },
-    { id: 'notifications', label: 'Notifications', showBadge: hasUnreadAnnouncements },
-    { id: 'update', label: 'Update', showBadge: updateInfo?.status === 'optional_update' },
-    { id: 'about', label: 'About' },
+  const tabs: { id: SettingsSection; showBadge?: boolean }[] = [
+    { id: 'sound' },
+    { id: 'language' },
+    { id: 'notifications', showBadge: hasUnreadAnnouncements },
+    { id: 'update', showBadge: updateInfo?.status === 'optional_update' },
+    { id: 'about' },
   ];
 
   const renderPane = (id: SettingsSection, node: React.ReactNode) => {
@@ -47,10 +51,10 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker }) => {
     <View style={styles.root}>
       <View style={styles.rail}>
         <Text style={styles.roomName} numberOfLines={1}>
-          {speaker?.name || 'Settings'}
+          {speaker?.name || t('settings.title')}
         </Text>
         <Text style={styles.roomHardware} numberOfLines={2}>
-          {speaker ? describeRoomHardware(speaker) : 'No speaker connected'}
+          {speaker ? describeRoomHardware(speaker) : t('settings.noSpeaker')}
         </Text>
         {/* autoFocus returns D-pad entry to the last focused tab — the active one — instead
             of the nearest tab, which would switch sections just by moving into the rail.
@@ -61,7 +65,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker }) => {
           {tabs.map(tab => (
             <TVSideTab
               key={tab.id}
-              label={tab.label}
+              label={t(`settings.tabs.${tab.id}`)}
               active={section === tab.id}
               showBadge={tab.showBadge}
               onFocus={() => setSection(tab.id)}
@@ -74,6 +78,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker }) => {
 
       <View style={styles.content}>
         {renderPane('sound', <SoundSettingsPane speaker={speaker} />)}
+        {renderPane('language', <LanguagePane />)}
         {renderPane('notifications', <NotificationsPane isActive={section === 'notifications'} />)}
         {renderPane('update', <UpdatePane />)}
         {renderPane('about', <AboutPane />)}

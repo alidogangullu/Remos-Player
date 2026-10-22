@@ -8,6 +8,7 @@ import {
   Animated,
   ActivityIndicator,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { LyricLine } from '../../services/lyrics/lrcParser';
 import { colors, spacing } from '../../theme';
 
@@ -87,6 +88,7 @@ export const LyricsView: React.FC<LyricsViewProps> = ({
   currentPositionMs,
   isLoading = false,
 }) => {
+  const { t } = useTranslation();
   const flatListRef = useRef<FlatList>(null);
   const scrollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -119,7 +121,7 @@ export const LyricsView: React.FC<LyricsViewProps> = ({
     return (
       <View style={styles.emptyContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={styles.emptySubtitle}>Loading synced lyrics...</Text>
+        <Text style={styles.emptySubtitle}>{t('nowPlaying.lyrics.loading')}</Text>
       </View>
     );
   }
@@ -127,10 +129,8 @@ export const LyricsView: React.FC<LyricsViewProps> = ({
   if (!lyrics || lyrics.length === 0) {
     return (
       <View style={styles.emptyContainer}>
-        <Text style={styles.emptyTitle}>Lyrics Not Available</Text>
-        <Text style={styles.emptySubtitle}>
-          No synchronized lyrics found for this track.
-        </Text>
+        <Text style={styles.emptyTitle}>{t('nowPlaying.lyrics.emptyTitle')}</Text>
+        <Text style={styles.emptySubtitle}>{t('nowPlaying.lyrics.emptySubtitle')}</Text>
       </View>
     );
   }

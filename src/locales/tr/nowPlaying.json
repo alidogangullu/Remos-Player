@@ -1,0 +1,43 @@
+{
+  "idleTitle": "Sonos Hoparlörü Hazır",
+  "idleArtist": "Boşta",
+  "live": "CANLI",
+  "playingBadge": "ÇALIYOR",
+  "progress": "Çalma ilerlemesi",
+  "controls": {
+    "previous": "Önceki",
+    "play": "Çal",
+    "pause": "Duraklat",
+    "next": "Sonraki",
+    "shuffle": "Karıştır",
+    "repeat": "Tekrarla",
+    "save": "Kaydet",
+    "saved": "Kaydedildi",
+    "lyrics": "Şarkı Sözleri",
+    "showLyrics": "Şarkı Sözlerini Göster",
+    "hideLyrics": "Şarkı Sözlerini Gizle",
+    "showQueue": "Sırayı Göster",
+    "hideQueue": "Sırayı Gizle"
+  },
+  "queue": {
+    "loading": "Sonos sırası yükleniyor...",
+    "emptyTitle": "Sıra Boş",
+    "emptySubtitle": "Bu hoparlörde sırada parça yok. Sırayı doldurmak için bir albüm ya da çalma listesi seçin."
+  },
+  "lyrics": {
+    "loading": "Senkronize şarkı sözleri yükleniyor...",
+    "emptyTitle": "Şarkı Sözü Yok",
+    "emptySubtitle": "Bu parça için senkronize şarkı sözü bulunamadı."
+  },
+  "fallback": {
+    "tvAudio": "TV Sesi",
+    "tvSource": "HDMI eARC / Optik",
+    "homeTheater": "Ev Sineması",
+    "sonosAudio": "Sonos Sesi",
+    "liveRadio": "Canlı Radyo",
+    "unknownArtist": "Bilinmeyen Sanatçı",
+    "unknownTrack": "Bilinmeyen Parça",
+    "radioStream": "Radyo Yayını",
+    "noAudio": "Ses yok"
+  }
+}

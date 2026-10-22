@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 import { TVFocusableCard, TVPillButton } from '../../components/tv';
 import { SonosDevice } from '../../types/sonos';
@@ -19,8 +20,9 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
   onSelectSpeaker,
   onRescanNetwork,
 }) => {
+  const { t } = useTranslation();
   const [isScanning, setIsScanning] = useState(false);
-  const [scanStatus, setScanStatus] = useState<string | null>(null);
+  const [scanStatus, setScanStatus] = useState<'scanning' | 'complete' | 'timeout' | null>(null);
 
   // If speakers list provided, use it; otherwise fallback to single speaker or empty array
   const speakerList: SonosDevice[] =
@@ -35,7 +37,7 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
   const handleRescan = async () => {
     if (isScanning) return;
     setIsScanning(true);
-    setScanStatus('Scanning local network for Sonos players...');
+    setScanStatus('scanning');
 
     try {
       if (onRescanNetwork) {
@@ -43,9 +45,9 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
       } else if (speaker?.ip) {
         await SonosDiscoveryService.probeSpeaker(speaker.ip);
       }
-      setScanStatus('Network scan complete.');
+      setScanStatus('complete');
     } catch {
-      setScanStatus('Scan timed out. Please check network connection.');
+      setScanStatus('timeout');
     } finally {
       setIsScanning(false);
     }
@@ -54,10 +56,8 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <View style={styles.headerRow}>
-        <Text style={styles.header}>System & Connected Devices</Text>
-        <Text style={styles.headerSubtitle}>
-          Manage connected Sonos hardware, connection status, and local network diagnostics
-        </Text>
+        <Text style={styles.header}>{t('system.title')}</Text>
+        <Text style={styles.headerSubtitle}>{t('system.subtitle')}</Text>
       </View>
 
       {isConnected ? (
@@ -80,7 +80,7 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
                   <View style={styles.cardInfo}>
                     {/* A room is what users pick; its main player's model is secondary. */}
                     <Text style={styles.cardDeviceName} numberOfLines={1}>
-                      {item.name || item.modelName || 'Sonos Room'}
+                      {item.name || item.modelName || t('common.room')}
                     </Text>
                     <View style={styles.cardMetaRow}>
                       <Text style={styles.cardModelText} numberOfLines={1}>
@@ -91,10 +91,10 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
                           <Text style={styles.metaDivider}>•</Text>
                           <Text style={styles.coordinatorBadge} testID="grouped-speakers-badge">
                             {item.groupedWith && item.groupedWith.length === 1
-                              ? `Grouped with ${item.groupedWith[0]}`
+                              ? t('system.groupedWithOne', { name: item.groupedWith[0] })
                               : item.groupedWith && item.groupedWith.length === 2
-                              ? `Grouped with ${item.groupedWith[0]} & ${item.groupedWith[1]}`
-                              : `+ ${item.groupMembersCount - 1} Speakers Grouped`}
+                              ? t('system.groupedWithTwo', { first: item.groupedWith[0], second: item.groupedWith[1] })
+                              : t('system.groupedMore', { count: item.groupMembersCount - 1 })}
                           </Text>
                         </>
                       ) : null}
@@ -105,11 +105,11 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
                   {isActive ? (
                     <View style={styles.activeBadge} testID="speaker-active-badge">
                       <View style={styles.activeDot} />
-                      <Text style={styles.activeBadgeText}>ACTIVE</Text>
+                      <Text style={styles.activeBadgeText}>{t('system.active')}</Text>
                     </View>
                   ) : (
                     <View style={styles.inactiveBadge}>
-                      <Text style={styles.inactiveBadgeText}>Select</Text>
+                      <Text style={styles.inactiveBadgeText}>{t('system.select')}</Text>
                     </View>
                   )}
                 </View>
@@ -119,18 +119,16 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
         </View>
       ) : (
         <View style={styles.emptyNoticeContainer} testID="no-speakers-notice">
-          <Text style={styles.emptyNoticeTitle}>No Sonos Speakers Found</Text>
-          <Text style={styles.emptyNoticeText}>
-            No active Sonos player detected on this local Wi-Fi subnet. Check device power and connection.
-          </Text>
+          <Text style={styles.emptyNoticeTitle}>{t('system.emptyTitle')}</Text>
+          <Text style={styles.emptyNoticeText}>{t('system.emptySubtitle')}</Text>
         </View>
       )}
 
       <View style={styles.networkSection}>
-        <Text style={styles.sectionTitle}>Network Diagnostics</Text>
-        {scanStatus && <Text style={styles.scanStatus}>{scanStatus}</Text>}
+        <Text style={styles.sectionTitle}>{t('system.diagnostics')}</Text>
+        {scanStatus && <Text style={styles.scanStatus}>{t(`system.scanStatus.${scanStatus}`)}</Text>}
         <TVPillButton
-          label={isScanning ? 'Scanning Network...' : 'Re-scan Network'}
+          label={isScanning ? t('system.scanningButton') : t('system.rescanButton')}
           onPress={handleRescan}
           disabled={isScanning}
           testID="network-rescan-button"

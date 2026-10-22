@@ -1,0 +1,25 @@
+{
+  "title": "Sistema y dispositivos conectados",
+  "subtitle": "Gestiona el hardware Sonos conectado, el estado de la conexión y el diagnóstico de la red local",
+  "groupedWithOne": "Agrupado con {{name}}",
+  "groupedWithTwo": "Agrupado con {{first}} y {{second}}",
+  "groupedMore_one": "+ {{count}} altavoz agrupado",
+  "groupedMore_many": "+ {{count}} de altavoces agrupados",
+  "groupedMore_other": "+ {{count}} altavoces agrupados",
+  "active": "ACTIVO",
+  "select": "Elegir",
+  "emptyTitle": "No se encontraron altavoces Sonos",
+  "emptySubtitle": "No se detectó ningún reproductor Sonos activo en esta subred Wi-Fi local. Comprueba la alimentación y la conexión del dispositivo.",
+  "diagnostics": "Diagnóstico de red",
+  "scanStatus": {
+    "scanning": "Buscando reproductores Sonos en la red local...",
+    "complete": "Análisis de red completado.",
+    "timeout": "Se agotó el tiempo de búsqueda. Comprueba la conexión de red."
+  },
+  "scanningButton": "Analizando la red...",
+  "rescanButton": "Volver a analizar la red",
+  "hardware": {
+    "surrounds": "Surround",
+    "sub": "Sub"
+  }
+}

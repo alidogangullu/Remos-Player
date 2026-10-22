@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { TVFocusableButton } from '../../components/tv/TVFocusableButton';
 import { colors, spacing } from '../../theme';
 
@@ -23,8 +24,9 @@ export const SettingsToggle: React.FC<SettingsToggleProps> = ({
   onPress,
   hasTVPreferredFocus,
 }) => {
+  const { t } = useTranslation();
   const handlePress = onPress || onToggle;
-  const displayLabel = actionLabel !== undefined ? actionLabel : (isEnabled ? 'ON' : 'OFF');
+  const displayLabel = actionLabel !== undefined ? actionLabel : isEnabled ? t('settings.toggle.on') : t('settings.toggle.off');
 
   return (
     <View style={styles.container}>

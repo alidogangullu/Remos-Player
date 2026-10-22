@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { HomeCarouselItem } from '../../features/home/HomeScreen';
 import { isStreamUrlTitle } from '../sonos/upnp/sonosUpnpClient';
+import { i18n, SUPPORTED_LANGUAGE_CODES } from '../../i18n';
 
 const RECENTLY_PLAYED_KEY = 'SONOS_TV_RECENTLY_PLAYED';
 const MAX_RECENT_ITEMS = 25;
@@ -26,17 +27,25 @@ export function buildBasicDidl(item: { title: string; subtitle?: string; albumAr
   return `${xml}<upnp:class>object.item.audioItem.musicTrack</upnp:class></item></DIDL-Lite>`;
 }
 
-/** Now Playing's placeholder when the speaker reports no title — not a real item. */
-const PLACEHOLDER_TITLES = new Set(['audio', 'sonos audio']);
+/** A fallback title in every supported language (the UI language can change between plays). */
+function translatedTitles(key: 'nowPlaying.fallback.sonosAudio' | 'nowPlaying.fallback.tvAudio'): string[] {
+  return SUPPORTED_LANGUAGE_CODES.map((lng) => i18n.t(key, { lng }).trim().toLowerCase());
+}
 
+/** Now Playing's placeholder when the speaker reports no title — not a real item. */
 function isPlaceholder(title: string): boolean {
-  return PLACEHOLDER_TITLES.has(title.trim().toLowerCase()) || isStreamUrlTitle(title);
+  const normalized = title.trim().toLowerCase();
+  return (
+    normalized === 'audio' ||
+    translatedTitles('nowPlaying.fallback.sonosAudio').includes(normalized) ||
+    isStreamUrlTitle(title)
+  );
 }
 
 function isTvAudio(item: { title?: string; uri?: string }): boolean {
   if (item.uri?.includes('x-sonos-htastream')) return true;
   const title = item.title?.trim().toLowerCase();
-  return title === 'tv' || title === 'tv audio';
+  return !!title && (title === 'tv' || translatedTitles('nowPlaying.fallback.tvAudio').includes(title));
 }
 
 export class PlaybackHistoryService {

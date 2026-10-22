@@ -1,0 +1,25 @@
+{
+  "title": "Système et appareils connectés",
+  "subtitle": "Gérez le matériel Sonos connecté, l’état de la connexion et le diagnostic du réseau local",
+  "groupedWithOne": "Groupé avec {{name}}",
+  "groupedWithTwo": "Groupé avec {{first}} et {{second}}",
+  "groupedMore_one": "+ {{count}} enceinte groupée",
+  "groupedMore_many": "+ {{count}} d’enceintes groupées",
+  "groupedMore_other": "+ {{count}} enceintes groupées",
+  "active": "ACTIF",
+  "select": "Choisir",
+  "emptyTitle": "Aucune enceinte Sonos trouvée",
+  "emptySubtitle": "Aucun lecteur Sonos actif détecté sur ce sous-réseau Wi-Fi local. Vérifiez l’alimentation et la connexion de l’appareil.",
+  "diagnostics": "Diagnostic réseau",
+  "scanStatus": {
+    "scanning": "Recherche de lecteurs Sonos sur le réseau local...",
+    "complete": "Analyse du réseau terminée.",
+    "timeout": "Délai d’analyse dépassé. Vérifiez la connexion réseau."
+  },
+  "scanningButton": "Analyse du réseau...",
+  "rescanButton": "Analyser à nouveau le réseau",
+  "hardware": {
+    "surrounds": "Surround",
+    "sub": "Sub"
+  }
+}

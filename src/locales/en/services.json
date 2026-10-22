@@ -1,0 +1,30 @@
+{
+  "yourServices": "Your Services",
+  "emptySubtitle": "Import the music services already linked in your Sonos app.",
+  "synchronize": "Synchronize Music Services",
+  "synchronizing": "Synchronizing…",
+  "resync": "Synchronize",
+  "resyncing": "Syncing…",
+  "syncFailed": "Couldn't synchronize your music services. Check that the speaker is online and try again.",
+  "loadFailed": "Failed to load this section.",
+  "empty": "Nothing here yet.",
+  "itemCount_one": "{{count}} item",
+  "itemCount_other": "{{count}} items",
+  "itemTypes": {
+    "playlist": "Playlist",
+    "album": "Album",
+    "artist": "Artist",
+    "station": "Station",
+    "collection": "Collection"
+  },
+  "actions": {
+    "play": "Play",
+    "playNext": "Play Next",
+    "addToQueue": "Add to Queue",
+    "replaceQueue": "Replace Queue"
+  },
+  "errors": {
+    "relink": "Your {{service}} account must be re-linked in the Sonos app",
+    "signIn": "Couldn't refresh your {{service}} sign-in. Try again, or re-link it in the Sonos app."
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "yourServices": "Tus servicios",
+  "emptySubtitle": "Importa los servicios de música que ya tienes vinculados en la app de Sonos.",
+  "synchronize": "Sincronizar servicios de música",
+  "synchronizing": "Sincronizando…",
+  "resync": "Sincronizar",
+  "resyncing": "Sincronizando…",
+  "syncFailed": "No se pudieron sincronizar tus servicios de música. Comprueba que el altavoz esté conectado y vuelve a intentarlo.",
+  "loadFailed": "No se pudo cargar esta sección.",
+  "empty": "Aún no hay nada aquí.",
+  "itemCount_one": "{{count}} elemento",
+  "itemCount_many": "{{count}} de elementos",
+  "itemCount_other": "{{count}} elementos",
+  "itemTypes": {
+    "playlist": "Lista",
+    "album": "Álbum",
+    "artist": "Artista",
+    "station": "Emisora",
+    "collection": "Colección"
+  },
+  "actions": {
+    "play": "Reproducir",
+    "playNext": "Reproducir a continuación",
+    "addToQueue": "Añadir a la cola",
+    "replaceQueue": "Reemplazar cola"
+  },
+  "errors": {
+    "relink": "Tienes que volver a vincular tu cuenta de {{service}} en la app de Sonos",
+    "signIn": "No se pudo renovar tu sesión de {{service}}. Vuelve a intentarlo o vincúlala de nuevo en la app de Sonos."
+  }
+}

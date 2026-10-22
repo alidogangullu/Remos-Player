@@ -1,0 +1,14 @@
+{
+  "starting": "Iniciando “{{title}}”…",
+  "playing": "Reproduciendo “{{title}}”",
+  "couldntPlay": "No se pudo reproducir “{{title}}”",
+  "couldntOpen": "No se pudo abrir {{name}}",
+  "browseShortcut": "“{{title}}” es un acceso directo de navegación: ábrelo en la app de Sonos",
+  "addingToQueue": "Añadiendo “{{title}}” a la cola…",
+  "addedToQueue": "“{{title}}” añadido a la cola",
+  "playNext": "“{{title}}” sonará a continuación",
+  "couldntUpdateQueue": "No se pudo actualizar la cola",
+  "addedToFavorites": "“{{title}}” añadido a favoritos",
+  "removedFromFavorites": "“{{title}}” eliminado de favoritos",
+  "couldntUpdateFavorites": "No se pudieron actualizar los favoritos"
+}

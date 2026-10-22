@@ -1,0 +1,43 @@
+{
+  "idleTitle": "Sonos-Lautsprecher bereit",
+  "idleArtist": "Inaktiv",
+  "live": "LIVE",
+  "playingBadge": "LÄUFT",
+  "progress": "Wiedergabefortschritt",
+  "controls": {
+    "previous": "Zurück",
+    "play": "Abspielen",
+    "pause": "Pause",
+    "next": "Weiter",
+    "shuffle": "Zufallswiedergabe",
+    "repeat": "Wiederholen",
+    "save": "Speichern",
+    "saved": "Gespeichert",
+    "lyrics": "Songtext",
+    "showLyrics": "Songtext anzeigen",
+    "hideLyrics": "Songtext ausblenden",
+    "showQueue": "Warteschlange anzeigen",
+    "hideQueue": "Warteschlange ausblenden"
+  },
+  "queue": {
+    "loading": "Sonos-Warteschlange wird geladen...",
+    "emptyTitle": "Warteschlange ist leer",
+    "emptySubtitle": "Auf diesem Lautsprecher sind keine Titel in der Warteschlange. Wähle ein Album oder eine Playlist, um sie zu füllen."
+  },
+  "lyrics": {
+    "loading": "Synchronisierter Songtext wird geladen...",
+    "emptyTitle": "Kein Songtext verfügbar",
+    "emptySubtitle": "Für diesen Titel wurde kein synchronisierter Songtext gefunden."
+  },
+  "fallback": {
+    "tvAudio": "TV-Ton",
+    "tvSource": "HDMI eARC / Optisch",
+    "homeTheater": "Heimkino",
+    "sonosAudio": "Sonos-Audio",
+    "liveRadio": "Live-Radio",
+    "unknownArtist": "Unbekannter Künstler",
+    "unknownTrack": "Unbekannter Titel",
+    "radioStream": "Radiostream",
+    "noAudio": "Kein Ton"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "exitHint": "Zum Beenden erneut Zurück drücken",
+  "status": {
+    "searching": "Suche läuft...",
+    "notConnected": "Nicht verbunden",
+    "standby": "Standby",
+    "audio": "Audio",
+    "system": "System"
+  },
+  "tabs": {
+    "home": "Start",
+    "search": "Suche",
+    "favorites": "Favoriten",
+    "settings": "Einstellungen"
+  },
+  "discovery": {
+    "searching": "Sonos-Lautsprecher werden gesucht...",
+    "notFound": "Keine Sonos-Lautsprecher gefunden",
+    "notFoundHint": "Stelle sicher, dass dein Sonos-Lautsprecher eingeschaltet und mit demselben WLAN verbunden ist.",
+    "scanning": "Suche läuft...",
+    "searchAgain": "Erneut suchen"
+  },
+  "speakerRequired": {
+    "search": "Verbinde dich mit einem Sonos-Lautsprecher, um deine Musikdienste zu durchsuchen.",
+    "favorites": "Verbinde dich mit einem Sonos-Lautsprecher, um auf deine Favoriten zuzugreifen."
+  },
+  "forceUpdate": {
+    "title": "Update erforderlich",
+    "message": "Diese Version von {{appName}} wird nicht mehr unterstützt. Aktualisiere auf die neueste Version, um dein Sonos-System weiter zu steuern.",
+    "updateNow": "Jetzt aktualisieren"
+  }
+}

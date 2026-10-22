@@ -1,0 +1,153 @@
+{
+  "title": "Settings",
+  "noSpeaker": "No speaker connected",
+  "tabs": {
+    "sound": "Sound",
+    "language": "Language",
+    "notifications": "Notifications",
+    "update": "Update",
+    "about": "About"
+  },
+  "toggle": {
+    "on": "ON",
+    "off": "OFF"
+  },
+  "sound": {
+    "speakerRequired": {
+      "title": "Speaker Required",
+      "subtitle": "Connect to a Sonos speaker to configure audio and sound settings."
+    },
+    "tvAutoplay": {
+      "title": "TV Autoplay",
+      "reading": "Reading the current setting from the speaker…",
+      "modes": {
+        "off": {
+          "label": "OFF",
+          "description": "Sonos stays on the current music. TV audio only plays when you select it yourself."
+        },
+        "on": {
+          "label": "ON",
+          "description": "Sonos automatically switches to TV audio when any audio signal is detected on the TV input — including Android TV interface sounds."
+        },
+        "smart": {
+          "label": "SMART",
+          "description": "Turns off when you open this app and back on when you leave it, so interface sounds can't interrupt your music."
+        }
+      },
+      "tip": "Tip: If TV navigation clicks keep stopping your music, choose {{smart}} — TV Autoplay turns off when you open this app and back on when you leave it."
+    },
+    "eq": {
+      "title": "Equalizer (EQ)",
+      "bass": { "title": "Bass", "description": "Adjust low-frequency balance from -10 to +10" },
+      "treble": { "title": "Treble", "description": "Adjust high-frequency balance from -10 to +10" },
+      "loudness": {
+        "title": "Loudness",
+        "description": "Boosts certain frequencies at lower volumes to produce a fuller, balanced sound"
+      },
+      "reset": "Reset Equalizer to Flat"
+    },
+    "tvEnhancements": {
+      "title": "TV Audio Enhancements",
+      "nightMode": {
+        "title": "Night Mode",
+        "description": "Compresses audio dynamic range for quiet late-night listening"
+      },
+      "speech": {
+        "title": "Speech Enhancement",
+        "description": "Boosts dialogue clarity and center voice channels for TV sound"
+      },
+      "ungroup": {
+        "title": "Ungroup on Autoplay",
+        "description": "Automatically drop this room from music groups when TV audio starts playing"
+      }
+    },
+    "sub": {
+      "title": "Sub Audio",
+      "enable": {
+        "title": "Sub",
+        "description": "Enable or disable deep low-frequency output to the bonded Sonos Sub"
+      },
+      "level": { "title": "Sub Level", "description": "Adjust subwoofer output power and punch from -10 to +10" },
+      "crossover": {
+        "title": "Crossover Frequency",
+        "description": "Lower end is best for large floor speakers, higher end for compact speakers."
+      },
+      "phase": {
+        "title": "Phase Control",
+        "description": "Align subwoofer speaker cone timing with main speakers (0° or 180°)"
+      },
+      "reset": "Reset Sub Audio"
+    },
+    "surround": {
+      "title": "Surround Audio",
+      "enable": { "title": "Surrounds", "description": "Enable or disable rear surround sound speakers in this room" },
+      "tvLevel": {
+        "title": "TV Level",
+        "description": "Adjust relative volume balance of rear surround speakers for TV from -15 to +15"
+      },
+      "musicLevel": {
+        "title": "Music Level",
+        "description": "Adjust relative volume balance of rear surround speakers for music from -15 to +15"
+      },
+      "musicPlayback": {
+        "title": "Music Playback",
+        "description": "Set whether surrounds play subtle ambient accompaniment or full stereo sound for music",
+        "ambient": "Ambient",
+        "full": "Full"
+      }
+    },
+    "height": {
+      "title": "Height Audio",
+      "level": {
+        "title": "Height Level",
+        "description": "Adjust the height channel audio level during playback of immersive audio formats."
+      },
+      "reset": "Reset"
+    }
+  },
+  "language": {
+    "title": "Language",
+    "subtitle": "Choose the language Remos Player uses",
+    "system": "System default",
+    "systemDetail": "Follows your TV's language ({{language}})"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "subtitle": "News and updates about Remos Player",
+    "emptyTitle": "No notifications",
+    "emptySubtitle": "Announcements about Remos Player will appear here.",
+    "new": "NEW",
+    "readMore": "Press OK to read more",
+    "showLess": "Press OK to show less"
+  },
+  "update": {
+    "title": "Software Update",
+    "subtitle": "Remos Player checks for new versions automatically",
+    "checking": "Checking for updates…",
+    "checkFailed": "Couldn't check for updates",
+    "youHaveVersion": "You have version {{version}}.",
+    "available": "Version {{version}} is available",
+    "availableDetail": "You have version {{version}}. Update from the Google Play Store.",
+    "upToDate": "Remos Player is up to date",
+    "versionLabel": "Version {{version}}",
+    "serverUnreachable": "Couldn't reach the update server. Check your internet connection.",
+    "lastChecked": "Last checked at {{time}}",
+    "whatsNew": "What's new",
+    "updateNow": "Update Now",
+    "checkButton": "Check for Updates",
+    "checkingButton": "Checking…"
+  },
+  "about": {
+    "title": "About",
+    "version": "Version {{version}}",
+    "description": "Browse, search and control your Sonos system with your TV remote. Remos Player talks to your speakers directly over your local network.",
+    "lyricsCredit": "Synchronized lyrics are provided by LRCLib (lrclib.net).",
+    "rows": {
+      "version": "Version",
+      "website": "Website",
+      "support": "Support",
+      "privacy": "Privacy Policy"
+    },
+    "legal": "Remos Player is an independent project. It is not affiliated with, endorsed by or sponsored by Sonos, Inc. Sonos is a trademark of Sonos, Inc. Android TV and Google Play are trademarks of Google LLC."
+  }
+}

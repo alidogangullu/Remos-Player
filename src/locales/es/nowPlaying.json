@@ -1,0 +1,43 @@
+{
+  "idleTitle": "Altavoz Sonos listo",
+  "idleArtist": "Inactivo",
+  "live": "EN DIRECTO",
+  "playingBadge": "SONANDO",
+  "progress": "Progreso de reproducción",
+  "controls": {
+    "previous": "Anterior",
+    "play": "Reproducir",
+    "pause": "Pausa",
+    "next": "Siguiente",
+    "shuffle": "Aleatorio",
+    "repeat": "Repetir",
+    "save": "Guardar",
+    "saved": "Guardado",
+    "lyrics": "Letra",
+    "showLyrics": "Mostrar letra",
+    "hideLyrics": "Ocultar letra",
+    "showQueue": "Mostrar cola",
+    "hideQueue": "Ocultar cola"
+  },
+  "queue": {
+    "loading": "Cargando la cola de Sonos...",
+    "emptyTitle": "La cola está vacía",
+    "emptySubtitle": "No hay canciones en la cola de este altavoz. Selecciona un álbum o una lista para llenarla."
+  },
+  "lyrics": {
+    "loading": "Cargando letra sincronizada...",
+    "emptyTitle": "Letra no disponible",
+    "emptySubtitle": "No se encontró letra sincronizada para esta canción."
+  },
+  "fallback": {
+    "tvAudio": "Audio de la TV",
+    "tvSource": "HDMI eARC / Óptico",
+    "homeTheater": "Cine en casa",
+    "sonosAudio": "Audio de Sonos",
+    "liveRadio": "Radio en directo",
+    "unknownArtist": "Artista desconocido",
+    "unknownTrack": "Canción desconocida",
+    "radioStream": "Emisión de radio",
+    "noAudio": "Sin audio"
+  }
+}

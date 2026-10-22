@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { toDisplayUpperCase } from '../../i18n';
+import { useTranslation } from 'react-i18next';
 import { ArtworkImage } from '../../components/common';
 import { PlayIcon, PlayNextIcon, AddToQueueIcon, ReplaceQueueIcon } from '../../components/common/QueueActionIcons';
 import { TVActionButton } from '../../components/tv';
@@ -16,14 +18,20 @@ export interface PlayableContainerPanelProps {
   onAction: (action: ContainerAction) => void;
 }
 
-const ITEM_TYPE_LABELS: Record<string, string> = {
-  playlist: 'Playlist',
-  album: 'Album',
-  artist: 'Artist',
-  program: 'Station',
-  stream: 'Station',
-  favorites: 'Collection',
-};
+/** SMAPI itemType → services.itemTypes key. */
+const ITEM_TYPE_KEYS = {
+  playlist: 'playlist',
+  album: 'album',
+  artist: 'artist',
+  program: 'station',
+  stream: 'station',
+  favorites: 'collection',
+} as const;
+
+function itemTypeKey(itemType: string | undefined) {
+  const type = itemType?.toLowerCase();
+  return type && type in ITEM_TYPE_KEYS ? ITEM_TYPE_KEYS[type as keyof typeof ITEM_TYPE_KEYS] : undefined;
+}
 
 /** Fixed so the track list beside it gets every remaining pixel. */
 export const PLAYABLE_PANEL_WIDTH = 232;
@@ -46,12 +54,19 @@ export const PlayableContainerPanel: React.FC<PlayableContainerPanelProps> = ({
   totalItems,
   onAction,
 }) => {
-  const typeLabel = item.itemType ? ITEM_TYPE_LABELS[item.itemType.toLowerCase()] : undefined;
-  // Uppercased here, not via textTransform: Android applies the device locale, so a
-  // Turkish TV renders "Music" as "MUSİC".
-  const eyebrow = [typeLabel, serviceName].filter(Boolean).join(' · ').toLocaleUpperCase('en-US');
+  const { t } = useTranslation();
+  const typeKey = itemTypeKey(item.itemType);
+  // Uppercased here, not via textTransform (Android would apply the device locale).
+  // The type label follows the app language's casing; the service name is a brand
+  // and keeps English casing, so a Turkish UI shows "APPLE MUSIC", not "APPLE MUSİC".
+  const eyebrow = [
+    typeKey ? toDisplayUpperCase(t(`services.itemTypes.${typeKey}`)) : undefined,
+    serviceName.toLocaleUpperCase('en-US'),
+  ]
+    .filter(Boolean)
+    .join(' · ');
   const countLabel =
-    totalItems !== undefined && totalItems > 0 ? `${totalItems} ${totalItems === 1 ? 'item' : 'items'}` : null;
+    totalItems !== undefined && totalItems > 0 ? t('services.itemCount', { count: totalItems }) : null;
 
   return (
     // Scrolls only when a two-line title pushes the last button past the TV's
@@ -75,7 +90,7 @@ export const PlayableContainerPanel: React.FC<PlayableContainerPanelProps> = ({
       </Text>
       <View style={styles.actions}>
         <TVActionButton
-          label="Play"
+          label={t('services.actions.play')}
           variant="primary"
           renderIcon={(color) => <PlayIcon color={color} size={ACTION_ICON_SIZE} />}
           onPress={() => onAction('playNow')}
@@ -84,7 +99,7 @@ export const PlayableContainerPanel: React.FC<PlayableContainerPanelProps> = ({
           testID="action-play-now"
         />
         <TVActionButton
-          label="Play Next"
+          label={t('services.actions.playNext')}
           renderIcon={(color) => <PlayNextIcon color={color} size={ACTION_ICON_SIZE} />}
           onPress={() => onAction('playNext')}
           variant="ghost"
@@ -92,7 +107,7 @@ export const PlayableContainerPanel: React.FC<PlayableContainerPanelProps> = ({
           testID="action-play-next"
         />
         <TVActionButton
-          label="Add to Queue"
+          label={t('services.actions.addToQueue')}
           renderIcon={(color) => <AddToQueueIcon color={color} size={ACTION_ICON_SIZE} />}
           onPress={() => onAction('addToEnd')}
           variant="ghost"
@@ -100,7 +115,7 @@ export const PlayableContainerPanel: React.FC<PlayableContainerPanelProps> = ({
           testID="action-add-to-end"
         />
         <TVActionButton
-          label="Replace Queue"
+          label={t('services.actions.replaceQueue')}
           renderIcon={(color) => <ReplaceQueueIcon color={color} size={ACTION_ICON_SIZE} />}
           onPress={() => onAction('replaceQueue')}
           variant="ghost"

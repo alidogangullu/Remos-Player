@@ -1,0 +1,32 @@
+{
+  "exitHint": "Pulsa Atrás otra vez para salir",
+  "status": {
+    "searching": "Buscando...",
+    "notConnected": "Sin conexión",
+    "standby": "En espera",
+    "audio": "Audio",
+    "system": "Sistema"
+  },
+  "tabs": {
+    "home": "Inicio",
+    "search": "Buscar",
+    "favorites": "Favoritos",
+    "settings": "Ajustes"
+  },
+  "discovery": {
+    "searching": "Buscando altavoces Sonos...",
+    "notFound": "No se encontraron altavoces Sonos",
+    "notFoundHint": "Comprueba que tu altavoz Sonos esté encendido y conectado a la misma red Wi-Fi.",
+    "scanning": "Buscando...",
+    "searchAgain": "Buscar de nuevo"
+  },
+  "speakerRequired": {
+    "search": "Conéctate a un altavoz Sonos para buscar en tus servicios de música.",
+    "favorites": "Conéctate a un altavoz Sonos para acceder a tus favoritos."
+  },
+  "forceUpdate": {
+    "title": "Actualización necesaria",
+    "message": "Esta versión de {{appName}} ya no es compatible. Actualiza a la última versión para seguir controlando tu sistema Sonos.",
+    "updateNow": "Actualizar ahora"
+  }
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import Svg, { G, Path } from 'react-native-svg';
 
 interface LyricIconProps {
@@ -15,6 +16,7 @@ export function LyricIcon({
   color: colorProp,
   accessibilityLabel,
 }: LyricIconProps): React.JSX.Element {
+  const { t } = useTranslation();
   const color =
     colorProp ??
     (focused
@@ -27,7 +29,7 @@ export function LyricIcon({
     <View
       style={styles.container}
       accessibilityRole="button"
-      accessibilityLabel={accessibilityLabel ?? 'Lyrics'}
+      accessibilityLabel={accessibilityLabel ?? t('nowPlaying.controls.lyrics')}
       accessibilityState={{
         selected: active,
       }}

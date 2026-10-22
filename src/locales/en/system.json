@@ -1,0 +1,24 @@
+{
+  "title": "System & Connected Devices",
+  "subtitle": "Manage connected Sonos hardware, connection status, and local network diagnostics",
+  "groupedWithOne": "Grouped with {{name}}",
+  "groupedWithTwo": "Grouped with {{first}} & {{second}}",
+  "groupedMore_one": "+ {{count}} Speaker Grouped",
+  "groupedMore_other": "+ {{count}} Speakers Grouped",
+  "active": "ACTIVE",
+  "select": "Select",
+  "emptyTitle": "No Sonos Speakers Found",
+  "emptySubtitle": "No active Sonos player detected on this local Wi-Fi subnet. Check device power and connection.",
+  "diagnostics": "Network Diagnostics",
+  "scanStatus": {
+    "scanning": "Scanning local network for Sonos players...",
+    "complete": "Network scan complete.",
+    "timeout": "Scan timed out. Please check network connection."
+  },
+  "scanningButton": "Scanning Network...",
+  "rescanButton": "Re-scan Network",
+  "hardware": {
+    "surrounds": "Surrounds",
+    "sub": "Sub"
+  }
+}

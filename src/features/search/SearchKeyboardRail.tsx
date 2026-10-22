@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { TVKeyboard, KEYBOARD_WIDTH } from '../../components/tv';
 import { colors, spacing } from '../../theme';
 
@@ -35,6 +36,7 @@ export const SearchKeyboardRail: React.FC<SearchKeyboardRailProps> = ({
   onKeyboardNavigate,
   testID,
 }) => {
+  const { t } = useTranslation();
   const handleKeyPress = (char: string) => onChangeQuery(query + char);
   const handleBackspace = () => onChangeQuery(query.slice(0, -1));
   const handleClear = () => onChangeQuery('');
@@ -71,7 +73,7 @@ export const SearchKeyboardRail: React.FC<SearchKeyboardRailProps> = ({
           </>
         ) : (
           <Text style={styles.queryPlaceholder} numberOfLines={1}>
-            Search
+            {t('search.placeholder')}
           </Text>
         )}
       </View>
@@ -87,7 +89,7 @@ export const SearchKeyboardRail: React.FC<SearchKeyboardRailProps> = ({
       {recentSearches.length > 0 && (
         <View style={styles.recentContainer}>
           <View style={styles.recentHeader}>
-            <Text style={styles.recentTitle}>RECENT SEARCHES</Text>
+            <Text style={styles.recentTitle}>{t('search.recentTitle')}</Text>
             <Pressable
               onPress={handleClearRecentPress}
               style={({ pressed, focused }) => [
@@ -105,7 +107,7 @@ export const SearchKeyboardRail: React.FC<SearchKeyboardRailProps> = ({
                     clearArmed && !focused && styles.clearButtonTextArmed,
                   ]}
                 >
-                  {clearArmed ? 'Confirm?' : 'Clear'}
+                  {clearArmed ? t('search.confirmClear') : t('search.clear')}
                 </Text>
               )}
             </Pressable>

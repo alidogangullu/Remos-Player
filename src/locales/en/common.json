@@ -1,0 +1,20 @@
+{
+  "retry": "Retry",
+  "more": "More >",
+  "volume": "Volume",
+  "volumeValue": "Volume {{value}}",
+  "newBadge": "{{label}}, new",
+  "speaker": "Sonos Speaker",
+  "room": "Sonos Room",
+  "group": "Group",
+  "slider": {
+    "decrease": "Decrease {{title}}, currently {{value}}",
+    "increase": "Increase {{title}}, currently {{value}}"
+  },
+  "keyboard": {
+    "space": "space",
+    "clear": "clear",
+    "backspace": "Delete"
+  },
+  "speakerRequired": "Speaker Required"
+}

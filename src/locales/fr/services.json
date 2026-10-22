@@ -1,0 +1,31 @@
+{
+  "yourServices": "Vos services",
+  "emptySubtitle": "Importez les services de musique déjà associés dans votre app Sonos.",
+  "synchronize": "Synchroniser les services de musique",
+  "synchronizing": "Synchronisation…",
+  "resync": "Synchroniser",
+  "resyncing": "Synchronisation…",
+  "syncFailed": "Impossible de synchroniser vos services de musique. Vérifiez que l’enceinte est en ligne et réessayez.",
+  "loadFailed": "Impossible de charger cette section.",
+  "empty": "Rien ici pour le moment.",
+  "itemCount_one": "{{count}} élément",
+  "itemCount_many": "{{count}} d’éléments",
+  "itemCount_other": "{{count}} éléments",
+  "itemTypes": {
+    "playlist": "Playlist",
+    "album": "Album",
+    "artist": "Artiste",
+    "station": "Station",
+    "collection": "Collection"
+  },
+  "actions": {
+    "play": "Lire",
+    "playNext": "Lire ensuite",
+    "addToQueue": "Ajouter à la file",
+    "replaceQueue": "Remplacer la file"
+  },
+  "errors": {
+    "relink": "Votre compte {{service}} doit être associé à nouveau dans l’app Sonos",
+    "signIn": "Impossible de renouveler votre connexion à {{service}}. Réessayez ou associez-le à nouveau dans l’app Sonos."
+  }
+}

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { StyleSheet, StatusBar, View, Text, BackHandler, Platform, ToastAndroid } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
+import { LanguageProvider } from './src/i18n';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { colors } from './src/theme';
 import { TopBar, TopBarTab } from './src/features/home/TopBar';
@@ -34,6 +36,7 @@ const queryClient = new QueryClient({
 });
 
 function AppContent() {
+  const { t } = useTranslation();
   const { updateInfo, hasUnreadAnnouncements } = useRemoteConfig();
   const [activeTab, setActiveTab] = useState<TopBarTab>('home');
   // Tabs stay mounted (hidden) after their first visit so switching back doesn't reload them.
@@ -94,7 +97,7 @@ function AppContent() {
     exitTimerRef.current = setTimeout(disarmExit, EXIT_CONFIRM_MS);
     // The system toast, like other Android TV apps' exit hint (it can't be dismissed early).
     if (Platform.OS === 'android') {
-      ToastAndroid.show('Press Back again to exit', ToastAndroid.SHORT);
+      ToastAndroid.show(t('app.exitHint'), ToastAndroid.SHORT);
     }
   });
   useSmartTvAutoplay(speaker);
@@ -176,14 +179,14 @@ function AppContent() {
       .replace(/\s*Media (Server|Renderer)\s*/i, ' ')
       .replace(/^Sonos\s*[-–:]\s*/i, '')
       .trim();
-    return name || dev.modelName?.trim() || 'Sonos Speaker';
+    return name || dev.modelName?.trim() || t('common.speaker');
   };
 
   const deviceLabel = speaker
     ? getDisplaySpeakerName(speaker)
     : isSearching
-    ? 'Searching...'
-    : 'Not Connected';
+    ? t('app.status.searching')
+    : t('app.status.notConnected');
 
   return (
     <SafeAreaView style={styles.root}>
@@ -191,8 +194,8 @@ function AppContent() {
       <TopBar
         activeTab={activeTab}
         onSelectTab={selectTab}
-        miniPlayerTitle={nowPlaying.title || 'Audio'}
-        miniPlayerArtist={nowPlaying.artist || (speaker ? getDisplaySpeakerName(speaker) : 'Standby')}
+        miniPlayerTitle={nowPlaying.title || t('app.status.audio')}
+        miniPlayerArtist={nowPlaying.artist || (speaker ? getDisplaySpeakerName(speaker) : t('app.status.standby'))}
         miniPlayerArtworkUri={nowPlaying.albumArtUri}
         isPlaying={nowPlaying.isPlaying}
         deviceName={deviceLabel}
@@ -209,18 +212,14 @@ function AppContent() {
           ) : (
             <View style={styles.emptyStateContainer} testID="no-speaker-screen">
               <Text style={[styles.emptyTitle, isSearching && styles.emptyTitleSearching]}>
-                {isSearching
-                  ? 'Searching for Sonos Speakers...'
-                  : 'No Sonos Speakers Found'}
+                {isSearching ? t('app.discovery.searching') : t('app.discovery.notFound')}
               </Text>
               {!isSearching && (
-                <Text style={styles.emptySubtitle}>
-                  Ensure your Sonos speaker is powered on and connected to the same Wi-Fi network.
-                </Text>
+                <Text style={styles.emptySubtitle}>{t('app.discovery.notFoundHint')}</Text>
               )}
               <TVPillButton
                 hasTVPreferredFocus
-                label={isSearching ? 'Scanning...' : 'Search Again'}
+                label={isSearching ? t('app.discovery.scanning') : t('app.discovery.searchAgain')}
                 disabled={isSearching}
                 onPress={scanSpeakers}
               />
@@ -238,18 +237,14 @@ function AppContent() {
           ) : (
             <View style={styles.emptyStateContainer} testID="no-speaker-screen">
               <Text style={[styles.emptyTitle, isSearching && styles.emptyTitleSearching]}>
-                {isSearching
-                  ? 'Searching for Sonos Speakers...'
-                  : 'No Sonos Speakers Found'}
+                {isSearching ? t('app.discovery.searching') : t('app.discovery.notFound')}
               </Text>
               {!isSearching && (
-                <Text style={styles.emptySubtitle}>
-                  Ensure your Sonos speaker is powered on and connected to the same Wi-Fi network.
-                </Text>
+                <Text style={styles.emptySubtitle}>{t('app.discovery.notFoundHint')}</Text>
               )}
               <TVPillButton
                 hasTVPreferredFocus
-                label={isSearching ? 'Scanning...' : 'Search Again'}
+                label={isSearching ? t('app.discovery.scanning') : t('app.discovery.searchAgain')}
                 disabled={isSearching}
                 onPress={scanSpeakers}
               />
@@ -260,10 +255,8 @@ function AppContent() {
             <SearchScreen speakerIp={speaker.ip} speakerId={speaker.id} isActive={activeTab === 'search'} />
           ) : (
             <View style={styles.emptyStateContainer}>
-              <Text style={styles.emptyTitle}>Speaker Required</Text>
-              <Text style={styles.emptySubtitle}>
-                Connect to a Sonos speaker to search your music services.
-              </Text>
+              <Text style={styles.emptyTitle}>{t('common.speakerRequired')}</Text>
+              <Text style={styles.emptySubtitle}>{t('app.speakerRequired.search')}</Text>
             </View>
           )))}
         {renderTab('favorites',
@@ -271,10 +264,8 @@ function AppContent() {
             <FavoritesScreen speakerIp={speaker.ip} speakerId={speaker.id} />
           ) : (
             <View style={styles.emptyStateContainer}>
-              <Text style={styles.emptyTitle}>Speaker Required</Text>
-              <Text style={styles.emptySubtitle}>
-                Connect to a Sonos speaker to access your favorites.
-              </Text>
+              <Text style={styles.emptyTitle}>{t('common.speakerRequired')}</Text>
+              <Text style={styles.emptySubtitle}>{t('app.speakerRequired.favorites')}</Text>
             </View>
           )))}
         {/* Notifications, Update and About work without a speaker; the Sound pane shows its own empty state. */}
@@ -305,11 +296,13 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <QueryClientProvider client={queryClient}>
-        <RemoteConfigProvider>
-          <ToastProvider>
-            <AppGate />
-          </ToastProvider>
-        </RemoteConfigProvider>
+        <LanguageProvider>
+          <RemoteConfigProvider>
+            <ToastProvider>
+              <AppGate />
+            </ToastProvider>
+          </RemoteConfigProvider>
+        </LanguageProvider>
       </QueryClientProvider>
     </SafeAreaProvider>
   );

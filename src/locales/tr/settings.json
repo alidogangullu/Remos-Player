@@ -1,0 +1,165 @@
+{
+  "title": "Ayarlar",
+  "noSpeaker": "Bağlı hoparlör yok",
+  "tabs": {
+    "sound": "Ses",
+    "language": "Dil",
+    "notifications": "Bildirimler",
+    "update": "Güncelleme",
+    "about": "Hakkında"
+  },
+  "toggle": {
+    "on": "AÇIK",
+    "off": "KAPALI"
+  },
+  "sound": {
+    "speakerRequired": {
+      "title": "Hoparlör Gerekli",
+      "subtitle": "Ses ayarlarını yapılandırmak için bir Sonos hoparlöre bağlanın."
+    },
+    "tvAutoplay": {
+      "title": "TV Otomatik Oynatma",
+      "reading": "Mevcut ayar hoparlörden okunuyor…",
+      "modes": {
+        "off": {
+          "label": "KAPALI",
+          "description": "Sonos mevcut müzikte kalır. TV sesi yalnızca siz seçtiğinizde çalar."
+        },
+        "on": {
+          "label": "AÇIK",
+          "description": "TV girişinde herhangi bir ses sinyali algılandığında Sonos otomatik olarak TV sesine geçer, Android TV arayüz sesleri de buna dahil."
+        },
+        "smart": {
+          "label": "AKILLI",
+          "description": "Bu uygulamayı açtığınızda kapanır, çıktığınızda tekrar açılır; böylece arayüz sesleri müziğinizi kesmez."
+        }
+      },
+      "tip": "İpucu: TV'de gezinirken çıkan tıklama sesleri müziğinizi durduruyorsa {{smart}} seçin. TV Otomatik Oynatma bu uygulamayı açtığınızda kapanır, çıktığınızda tekrar açılır."
+    },
+    "eq": {
+      "title": "Ekolayzer (EQ)",
+      "bass": {
+        "title": "Bas",
+        "description": "Düşük frekans dengesini -10 ile +10 arasında ayarlayın"
+      },
+      "treble": {
+        "title": "Tiz",
+        "description": "Yüksek frekans dengesini -10 ile +10 arasında ayarlayın"
+      },
+      "loudness": {
+        "title": "Loudness",
+        "description": "Düşük ses seviyelerinde bazı frekansları güçlendirerek daha dolgun ve dengeli bir ses sağlar"
+      },
+      "reset": "Ekolayzeri Sıfırla"
+    },
+    "tvEnhancements": {
+      "title": "TV Ses İyileştirmeleri",
+      "nightMode": {
+        "title": "Gece Modu",
+        "description": "Gece geç saatlerde sessiz dinleme için sesin dinamik aralığını sıkıştırır"
+      },
+      "speech": {
+        "title": "Konuşma İyileştirme",
+        "description": "TV sesinde diyalogların ve orta kanaldaki seslerin netliğini artırır"
+      },
+      "ungroup": {
+        "title": "Otomatik Oynatmada Gruptan Çık",
+        "description": "TV sesi çalmaya başladığında bu odayı müzik gruplarından otomatik olarak çıkarır"
+      }
+    },
+    "sub": {
+      "title": "Sub Sesi",
+      "enable": {
+        "title": "Sub",
+        "description": "Eşleşmiş Sonos Sub'a giden derin bas çıkışını açın veya kapatın"
+      },
+      "level": {
+        "title": "Sub Seviyesi",
+        "description": "Subwoofer çıkış gücünü ve vuruşunu -10 ile +10 arasında ayarlayın"
+      },
+      "crossover": {
+        "title": "Geçiş Frekansı",
+        "description": "Alt uç büyük ayaklı hoparlörler, üst uç kompakt hoparlörler için en uygunudur."
+      },
+      "phase": {
+        "title": "Faz Kontrolü",
+        "description": "Subwoofer konisinin zamanlamasını ana hoparlörlerle hizalayın (0° veya 180°)"
+      },
+      "reset": "Sub Sesini Sıfırla"
+    },
+    "surround": {
+      "title": "Surround Sesi",
+      "enable": {
+        "title": "Surround'lar",
+        "description": "Bu odadaki arka surround hoparlörleri açın veya kapatın"
+      },
+      "tvLevel": {
+        "title": "TV Seviyesi",
+        "description": "TV için arka surround hoparlörlerin göreli ses dengesini -15 ile +15 arasında ayarlayın"
+      },
+      "musicLevel": {
+        "title": "Müzik Seviyesi",
+        "description": "Müzik için arka surround hoparlörlerin göreli ses dengesini -15 ile +15 arasında ayarlayın"
+      },
+      "musicPlayback": {
+        "title": "Müzik Çalma",
+        "description": "Surround'ların müzikte hafif ortam sesi mi yoksa tam stereo ses mi çalacağını seçin",
+        "ambient": "Ortam",
+        "full": "Tam"
+      }
+    },
+    "height": {
+      "title": "Yükseklik Sesi",
+      "level": {
+        "title": "Yükseklik Seviyesi",
+        "description": "Sürükleyici ses formatlarını çalarken yükseklik kanalının ses seviyesini ayarlayın."
+      },
+      "reset": "Sıfırla"
+    }
+  },
+  "language": {
+    "title": "Dil",
+    "subtitle": "Remos Player'ın kullanacağı dili seçin",
+    "system": "Sistem varsayılanı",
+    "systemDetail": "TV'nizin dilini kullanır ({{language}})"
+  },
+  "notifications": {
+    "title": "Bildirimler",
+    "subtitle": "Remos Player ile ilgili haberler ve güncellemeler",
+    "emptyTitle": "Bildirim yok",
+    "emptySubtitle": "Remos Player ile ilgili duyurular burada görünecek.",
+    "new": "YENİ",
+    "readMore": "Devamını okumak için OK'e basın",
+    "showLess": "Daha az göstermek için OK'e basın"
+  },
+  "update": {
+    "title": "Yazılım Güncellemesi",
+    "subtitle": "Remos Player yeni sürümleri otomatik olarak kontrol eder",
+    "checking": "Güncellemeler kontrol ediliyor…",
+    "checkFailed": "Güncellemeler kontrol edilemedi",
+    "youHaveVersion": "Yüklü sürüm: {{version}}.",
+    "available": "{{version}} sürümü mevcut",
+    "availableDetail": "Yüklü sürüm: {{version}}. Google Play Store'dan güncelleyin.",
+    "upToDate": "Remos Player güncel",
+    "versionLabel": "Sürüm {{version}}",
+    "serverUnreachable": "Güncelleme sunucusuna ulaşılamadı. İnternet bağlantınızı kontrol edin.",
+    "lastChecked": "Son kontrol: {{time}}",
+    "whatsNew": "Yenilikler",
+    "updateNow": "Şimdi Güncelle",
+    "checkButton": "Güncellemeleri Kontrol Et",
+    "checkingButton": "Kontrol ediliyor…"
+  },
+  "about": {
+    "title": "Hakkında",
+    "version": "Sürüm {{version}}",
+    "description": "Sonos sisteminize TV kumandanızla göz atın, arama yapın ve kontrol edin. Remos Player hoparlörlerinizle doğrudan yerel ağınız üzerinden iletişim kurar.",
+    "lyricsCredit": "Senkronize şarkı sözleri LRCLib (lrclib.net) tarafından sağlanır.",
+    "rows": {
+      "version": "Sürüm",
+      "website": "Web sitesi",
+      "support": "Destek",
+      "privacy": "Gizlilik Politikası"
+    },
+    "legal": "Remos Player bağımsız bir projedir. Sonos, Inc. ile bağlantılı değildir; Sonos, Inc. tarafından onaylanmamış veya desteklenmemektedir. Sonos, Sonos, Inc.'in ticari markasıdır. Android TV ve Google Play, Google LLC'nin ticari markalarıdır."
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "starting": "“{{title}}” wordt gestart…",
+  "playing": "“{{title}}” wordt afgespeeld",
+  "couldntPlay": "Kan “{{title}}” niet afspelen",
+  "couldntOpen": "Kan {{name}} niet openen",
+  "browseShortcut": "“{{title}}” is een snelkoppeling om te bladeren — open deze in de Sonos-app",
+  "addingToQueue": "“{{title}}” wordt aan de wachtrij toegevoegd…",
+  "addedToQueue": "“{{title}}” aan de wachtrij toegevoegd",
+  "playNext": "“{{title}}” wordt hierna afgespeeld",
+  "couldntUpdateQueue": "Kan de wachtrij niet bijwerken",
+  "addedToFavorites": "“{{title}}” aan favorieten toegevoegd",
+  "removedFromFavorites": "“{{title}}” uit favorieten verwijderd",
+  "couldntUpdateFavorites": "Kan favorieten niet bijwerken"
+}

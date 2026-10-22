@@ -1,0 +1,32 @@
+{
+  "exitHint": "Çıkmak için tekrar Geri'ye basın",
+  "status": {
+    "searching": "Aranıyor...",
+    "notConnected": "Bağlı Değil",
+    "standby": "Beklemede",
+    "audio": "Ses",
+    "system": "Sistem"
+  },
+  "tabs": {
+    "home": "Ana Sayfa",
+    "search": "Ara",
+    "favorites": "Favoriler",
+    "settings": "Ayarlar"
+  },
+  "discovery": {
+    "searching": "Sonos hoparlörler aranıyor...",
+    "notFound": "Sonos Hoparlör Bulunamadı",
+    "notFoundHint": "Sonos hoparlörünüzün açık olduğundan ve aynı Wi-Fi ağına bağlı olduğundan emin olun.",
+    "scanning": "Taranıyor...",
+    "searchAgain": "Tekrar Ara"
+  },
+  "speakerRequired": {
+    "search": "Müzik servislerinizde arama yapmak için bir Sonos hoparlöre bağlanın.",
+    "favorites": "Favorilerinize erişmek için bir Sonos hoparlöre bağlanın."
+  },
+  "forceUpdate": {
+    "title": "Güncelleme Gerekli",
+    "message": "{{appName}} uygulamasının bu sürümü artık desteklenmiyor. Sonos sisteminizi kontrol etmeye devam etmek için en son sürüme güncelleyin.",
+    "updateNow": "Şimdi Güncelle"
+  }
+}

@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Pressable, Text, Image } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { colors } from '../../theme';
 import { MarqueeText } from '../../components/common/MarqueeText';
 import { NotificationDot } from '../../components/common/NotificationDot';
+
+/** Mini-player glyphs (not words, so not translated). */
+const PLAYING_GLYPH = 'ılı';
 
 export type TopBarTab = 'home' | 'search' | 'favorites' | 'settings' | 'system' | 'nowPlaying';
 
@@ -25,12 +29,7 @@ export interface TopBarProps {
   onFocusWithinChange?: (isFocusWithin: boolean) => void;
 }
 
-const TABS: { id: TopBarTab; label: string }[] = [
-  { id: 'home', label: 'Home' },
-  { id: 'search', label: 'Search' },
-  { id: 'favorites', label: 'Favorites' },
-  { id: 'settings', label: 'Settings' },
-];
+const TABS = [{ id: 'home' }, { id: 'search' }, { id: 'favorites' }, { id: 'settings' }] as const;
 
 export const TopBar: React.FC<TopBarProps> = ({
   activeTab,
@@ -46,6 +45,7 @@ export const TopBar: React.FC<TopBarProps> = ({
   focusActiveSignal,
   onFocusWithinChange,
 }) => {
+  const { t } = useTranslation();
   const [focusedTab, setFocusedTab] = useState<TopBarTab | null>(null);
   const [isMiniPlayerFocused, setIsMiniPlayerFocused] = useState(false);
   const [isDeviceButtonFocused, setIsDeviceButtonFocused] = useState(false);
@@ -94,14 +94,14 @@ export const TopBar: React.FC<TopBarProps> = ({
                 resizeMode="cover"
               />
             ) : isPlaying ? (
-              <Text style={styles.miniPlayerIcon}>ılı</Text>
+              <Text style={styles.miniPlayerIcon}>{PLAYING_GLYPH}</Text>
             ) : (
               <Text style={styles.miniPlayerIcon}>♪</Text>
             )}
           </View>
           <View style={styles.miniPlayerTextCol}>
             <MarqueeText
-              text={miniPlayerTitle || 'Audio'}
+              text={miniPlayerTitle || t('app.status.audio')}
               style={[
                 styles.miniPlayerTitle,
                 isMiniPlayerFocused && styles.miniPlayerTitleFocused,
@@ -109,7 +109,7 @@ export const TopBar: React.FC<TopBarProps> = ({
               isFocused={isMiniPlayerFocused}
             />
             <MarqueeText
-              text={miniPlayerArtist || 'Standby'}
+              text={miniPlayerArtist || t('app.status.standby')}
               style={[
                 styles.miniPlayerArtist,
                 isMiniPlayerFocused && styles.miniPlayerArtistFocused,
@@ -151,7 +151,7 @@ export const TopBar: React.FC<TopBarProps> = ({
                     isFocused && styles.focusedTabText,
                   ]}
                 >
-                  {tab.label}
+                  {t(`app.tabs.${tab.id}`)}
                 </Text>
                 {tab.id === 'settings' && showSettingsBadge ? (
                   <NotificationDot size={7} style={styles.tabBadge} />
@@ -202,7 +202,7 @@ export const TopBar: React.FC<TopBarProps> = ({
             />
           </View>
           <MarqueeText
-            text={deviceName || 'System'}
+            text={deviceName || t('app.status.system')}
             containerStyle={styles.deviceButtonTextContainer}
             style={[
               styles.deviceButtonText,
@@ -214,7 +214,7 @@ export const TopBar: React.FC<TopBarProps> = ({
           {deviceVolume !== undefined && (
             <Text
               style={[styles.deviceVolumeText, isDeviceButtonFocused && styles.deviceVolumeTextFocused]}
-              accessibilityLabel={`Volume ${deviceVolume}`}
+              accessibilityLabel={t('common.volumeValue', { value: deviceVolume })}
             >
               {deviceVolume}
             </Text>

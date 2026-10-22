@@ -1,0 +1,32 @@
+{
+  "exitHint": "Appuyez de nouveau sur Retour pour quitter",
+  "status": {
+    "searching": "Recherche...",
+    "notConnected": "Non connecté",
+    "standby": "Veille",
+    "audio": "Audio",
+    "system": "Système"
+  },
+  "tabs": {
+    "home": "Accueil",
+    "search": "Rechercher",
+    "favorites": "Favoris",
+    "settings": "Réglages"
+  },
+  "discovery": {
+    "searching": "Recherche des enceintes Sonos...",
+    "notFound": "Aucune enceinte Sonos trouvée",
+    "notFoundHint": "Vérifiez que votre enceinte Sonos est allumée et connectée au même réseau Wi-Fi.",
+    "scanning": "Recherche...",
+    "searchAgain": "Rechercher à nouveau"
+  },
+  "speakerRequired": {
+    "search": "Connectez-vous à une enceinte Sonos pour rechercher dans vos services de musique.",
+    "favorites": "Connectez-vous à une enceinte Sonos pour accéder à vos favoris."
+  },
+  "forceUpdate": {
+    "title": "Mise à jour requise",
+    "message": "Cette version de {{appName}} n’est plus prise en charge. Installez la dernière version pour continuer à contrôler votre système Sonos.",
+    "updateNow": "Mettre à jour"
+  }
+}
