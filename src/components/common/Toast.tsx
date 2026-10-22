@@ -86,21 +86,21 @@ const styles = StyleSheet.create({
   toast: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm + spacing.xs,
+    gap: spacing.sm,
     backgroundColor: 'rgba(28, 28, 31, 0.96)',
     borderWidth: 1,
     borderColor: colors.glassBorder,
-    borderRadius: 12,
-    paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.sm + spacing.xs,
+    borderRadius: 10,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
   },
   toastError: {
     borderColor: 'rgba(255, 69, 58, 0.45)',
   },
   indicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: colors.primary,
   },
   indicatorError: {
@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
   text: {
     flexShrink: 1,
     color: colors.textPrimary,
-    fontSize: 18,
-    fontWeight: '600',
+    fontSize: 14,
+    fontWeight: '500',
     letterSpacing: 0.2,
   },
 });

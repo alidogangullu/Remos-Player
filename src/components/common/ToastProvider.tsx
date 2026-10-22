@@ -78,11 +78,12 @@ export function useToast(): ToastApi {
 const styles = StyleSheet.create({
   // Top-right, just under the floating TopBar (which ends at ~62dp), so it
   // never covers the device/volume button or the browse panel's Back button.
+  // Right edge lines up with the device pill.
   host: {
     position: 'absolute',
     top: 76,
-    right: spacing.screenPaddingHorizontal,
-    maxWidth: 720,
+    right: spacing.topBarInset,
+    maxWidth: 560,
     zIndex: 1000,
     elevation: 12,
   },

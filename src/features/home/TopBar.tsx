@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, StyleSheet, Pressable, Text, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { colors } from '../../theme';
+import { colors, spacing } from '../../theme';
 import { MarqueeText } from '../../components/common/MarqueeText';
 import { NotificationDot } from '../../components/common/NotificationDot';
 
@@ -229,8 +229,8 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 14,
-    left: 32,
-    right: 32,
+    left: spacing.topBarInset,
+    right: spacing.topBarInset,
     zIndex: 100,
     height: 48,
     flexDirection: 'row',
