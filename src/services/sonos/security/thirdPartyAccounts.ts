@@ -96,7 +96,7 @@ export function parseThirdPartyAccounts(decryptedXml: string): MusicServiceAccou
  * `UDN="SA_RINCON<digits>_X_#Svc<digits>-<accountSuffix>-Token"`
  * → `serviceId = (digits - 7) / 256`.
  */
-function serviceIdFromUdn(udn: string): string | null {
+export function serviceIdFromUdn(udn: string): string | null {
   const match = /SA_RINCON(\d+)_/.exec(udn);
   if (!match) return null;
 
