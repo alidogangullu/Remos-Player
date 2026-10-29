@@ -2,7 +2,6 @@
   "idleTitle": "Altavoz Sonos listo",
   "idleArtist": "Inactivo",
   "live": "EN DIRECTO",
-  "playingBadge": "SONANDO",
   "progress": "Progreso de reproducción",
   "controls": {
     "previous": "Anterior",
@@ -15,14 +14,15 @@
     "saved": "Guardado",
     "lyrics": "Letra",
     "showLyrics": "Mostrar letra",
-    "hideLyrics": "Ocultar letra",
-    "showQueue": "Mostrar cola",
-    "hideQueue": "Ocultar cola"
+    "hideLyrics": "Ocultar letra"
   },
   "queue": {
-    "loading": "Cargando la cola de Sonos...",
-    "emptyTitle": "La cola está vacía",
-    "emptySubtitle": "No hay canciones en la cola de este altavoz. Selecciona un álbum o una lista para llenarla."
+    "upNext": "A continuación",
+    "title": "Cola",
+    "position": "{{current}} de {{total}}",
+    "hint": "A continuación: {{title}}",
+    "current": "{{title}}, {{artist}}, sonando ahora",
+    "empty": "La cola está vacía"
   },
   "lyrics": {
     "loading": "Cargando letra sincronizada...",

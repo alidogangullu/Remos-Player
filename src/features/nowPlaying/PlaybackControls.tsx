@@ -99,8 +99,6 @@ export interface PlaybackControlsProps {
   onToggleFavorite?: () => void;
   showLyrics?: boolean;
   onToggleLyrics?: () => void;
-  showQueue?: boolean;
-  onToggleQueue?: () => void;
   showVolume?: boolean;
   onOpenVolume?: () => void;
   /** Increment to move focus back to the volume button (e.g. after its panel closes). */
@@ -123,8 +121,6 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
   onToggleFavorite,
   showLyrics = false,
   onToggleLyrics,
-  showQueue = false,
-  onToggleQueue,
   showVolume = false,
   onOpenVolume,
   volumeFocusSignal,
@@ -338,35 +334,6 @@ export const PlaybackControls: React.FC<PlaybackControlsProps> = React.memo(({
                     : 'rgba(255, 255, 255, 0.48)'
                 }
               />
-            )}
-          </ControlButton>
-        )}
-
-        {/* Queue Button */}
-        {onToggleQueue && (
-          <ControlButton
-            onPress={onToggleQueue}
-            active={showQueue}
-            disabled={disabled}
-            nextFocusDown={nextFocusDown}
-            accessibilityLabel={showQueue ? t('nowPlaying.controls.hideQueue') : t('nowPlaying.controls.showQueue')}
-            testID="control-queue"
-          >
-            {(focused, active) => (
-              <Svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke={getIconColor(focused, active)}
-                strokeWidth="2.1"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <Path d="M4 12h16" />
-                <Path d="M4 6h16" />
-                <Path d="M4 18h16" />
-              </Svg>
             )}
           </ControlButton>
         )}

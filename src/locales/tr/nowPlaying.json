@@ -2,7 +2,6 @@
   "idleTitle": "Sonos Hoparlörü Hazır",
   "idleArtist": "Boşta",
   "live": "CANLI",
-  "playingBadge": "ÇALIYOR",
   "progress": "Çalma ilerlemesi",
   "controls": {
     "previous": "Önceki",
@@ -15,14 +14,15 @@
     "saved": "Kaydedildi",
     "lyrics": "Şarkı Sözleri",
     "showLyrics": "Şarkı Sözlerini Göster",
-    "hideLyrics": "Şarkı Sözlerini Gizle",
-    "showQueue": "Sırayı Göster",
-    "hideQueue": "Sırayı Gizle"
+    "hideLyrics": "Şarkı Sözlerini Gizle"
   },
   "queue": {
-    "loading": "Sonos sırası yükleniyor...",
-    "emptyTitle": "Sıra Boş",
-    "emptySubtitle": "Bu hoparlörde sırada parça yok. Sırayı doldurmak için bir albüm ya da çalma listesi seçin."
+    "upNext": "Sıradaki",
+    "title": "Sıra",
+    "position": "{{current}} / {{total}}",
+    "hint": "Sıradaki: {{title}}",
+    "current": "{{title}}, {{artist}}, şu an çalıyor",
+    "empty": "Sıra boş"
   },
   "lyrics": {
     "loading": "Senkronize şarkı sözleri yükleniyor...",

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import {
   Pressable,
   StyleSheet,
+  View,
   ViewStyle,
   StyleProp,
 } from 'react-native';
@@ -23,6 +24,10 @@ export interface TVFocusableCardProps {
   nextFocusDown?: number;
   nextFocusLeft?: number;
   nextFocusRight?: number;
+  /** False keeps the D-pad out (e.g. while the card's row is offscreen). */
+  focusable?: boolean;
+  accessibilityLabel?: string;
+  ref?: React.Ref<View>;
 }
 
 export const TVFocusableCard: React.FC<TVFocusableCardProps> = ({
@@ -38,6 +43,9 @@ export const TVFocusableCard: React.FC<TVFocusableCardProps> = ({
   nextFocusDown,
   nextFocusLeft,
   nextFocusRight,
+  focusable,
+  accessibilityLabel,
+  ref,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -53,7 +61,10 @@ export const TVFocusableCard: React.FC<TVFocusableCardProps> = ({
 
   return (
     <Pressable
+      ref={ref}
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      focusable={focusable}
       hasTVPreferredFocus={hasTVPreferredFocus}
       testID={testID}
       nextFocusUp={nextFocusUp}

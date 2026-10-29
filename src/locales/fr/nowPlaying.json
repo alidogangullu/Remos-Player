@@ -2,7 +2,6 @@
   "idleTitle": "Enceinte Sonos prête",
   "idleArtist": "Inactif",
   "live": "EN DIRECT",
-  "playingBadge": "EN LECTURE",
   "progress": "Progression de la lecture",
   "controls": {
     "previous": "Précédent",
@@ -15,14 +14,15 @@
     "saved": "Enregistré",
     "lyrics": "Paroles",
     "showLyrics": "Afficher les paroles",
-    "hideLyrics": "Masquer les paroles",
-    "showQueue": "Afficher la file d’attente",
-    "hideQueue": "Masquer la file d’attente"
+    "hideLyrics": "Masquer les paroles"
   },
   "queue": {
-    "loading": "Chargement de la file d’attente Sonos...",
-    "emptyTitle": "La file d’attente est vide",
-    "emptySubtitle": "Aucun morceau en file d’attente sur cette enceinte. Sélectionnez un album ou une playlist pour la remplir."
+    "upNext": "À suivre",
+    "title": "File d’attente",
+    "position": "{{current}} sur {{total}}",
+    "hint": "À suivre : {{title}}",
+    "current": "{{title}}, {{artist}}, en cours de lecture",
+    "empty": "La file d’attente est vide"
   },
   "lyrics": {
     "loading": "Chargement des paroles synchronisées...",

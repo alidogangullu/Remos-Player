@@ -982,6 +982,11 @@ export class SonosUpnpClient {
    * ObjectID: "Q:0"
    */
   static async getQueue(ip: string, startingIndex = 0, requestedCount = 50): Promise<QueueItem[]> {
+    return (await this.getQueuePage(ip, startingIndex, requestedCount)).items;
+  }
+
+  /** One page of the queue plus the queue's full length (`TotalMatches`), for paging through long queues. */
+  static async getQueuePage(ip: string, startingIndex = 0, requestedCount = 50): Promise<QueuePage> {
     try {
       const res = await this.executeSoap(
         ip,
@@ -998,10 +1003,10 @@ export class SonosUpnpClient {
         }
       );
 
-      const parsed = parseSoapResponse<{ Result?: string }>(res, 'BrowseResponse');
+      const parsed = parseSoapResponse<{ Result?: string; TotalMatches?: string | number }>(res, 'BrowseResponse');
       const rawResult = parsed?.Result;
       if (!rawResult || typeof rawResult !== 'string') {
-        return [];
+        return { items: [], totalMatches: 0 };
       }
 
       const didlParser = new XMLParser({ removeNSPrefix: true, ignoreAttributes: false });
@@ -1057,9 +1062,10 @@ export class SonosUpnpClient {
         });
       }
 
-      return queue;
+      const totalMatches = Number(parsed?.TotalMatches) || startingIndex + queue.length;
+      return { items: queue, totalMatches };
     } catch {
-      return [];
+      return { items: [], totalMatches: 0 };
     }
   }
 
@@ -1234,5 +1240,11 @@ export interface QueueItem {
   albumArtUri?: string;
   uri?: string;
   durationMs: number;
+}
+
+export interface QueuePage {
+  items: QueueItem[];
+  /** Length of the whole queue, not just this page. */
+  totalMatches: number;
 }
 

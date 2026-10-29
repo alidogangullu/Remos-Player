@@ -2,7 +2,6 @@
   "idleTitle": "Sonos-speaker gereed",
   "idleArtist": "Inactief",
   "live": "LIVE",
-  "playingBadge": "SPEELT",
   "progress": "Voortgang van afspelen",
   "controls": {
     "previous": "Vorige",
@@ -15,14 +14,15 @@
     "saved": "Bewaard",
     "lyrics": "Songtekst",
     "showLyrics": "Songtekst tonen",
-    "hideLyrics": "Songtekst verbergen",
-    "showQueue": "Wachtrij tonen",
-    "hideQueue": "Wachtrij verbergen"
+    "hideLyrics": "Songtekst verbergen"
   },
   "queue": {
-    "loading": "Sonos-wachtrij laden...",
-    "emptyTitle": "Wachtrij is leeg",
-    "emptySubtitle": "Er staan geen nummers in de wachtrij van deze speaker. Kies een album of playlist om de wachtrij te vullen."
+    "upNext": "Hierna",
+    "title": "Wachtrij",
+    "position": "{{current}} van {{total}}",
+    "hint": "Hierna: {{title}}",
+    "current": "{{title}}, {{artist}}, speelt nu",
+    "empty": "Wachtrij is leeg"
   },
   "lyrics": {
     "loading": "Gesynchroniseerde songtekst laden...",

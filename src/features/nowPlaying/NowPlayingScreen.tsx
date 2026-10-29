@@ -4,6 +4,7 @@ import {
   StyleSheet,
   ActivityIndicator,
   Animated,
+  Easing,
   findNodeHandle,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -11,11 +12,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import LinearGradient from 'react-native-linear-gradient';
 import { useArtworkColors, backgroundGradient } from './useArtworkColors';
 import { colors, spacing } from '../../theme';
-import { NowPlayingTrackInfo, ARTWORK_SIZE } from './NowPlayingTrackInfo';
+import { NowPlayingTrackInfo } from './NowPlayingTrackInfo';
 import { PlaybackControls } from './PlaybackControls';
 import { NowPlayingProgressBar } from './NowPlayingProgressBar';
 import { LyricsView } from './LyricsView';
-import { QueueView } from './QueueView';
+import { QueueShelf, ShelfState, SHELF_HEIGHT, SHELF_PEEK_HEIGHT } from './QueueShelf';
+import { useUpNextQueue } from './useUpNextQueue';
 import { LyricLine } from '../../services/lyrics/lrcParser';
 import { fetchLyrics } from '../../services/lyrics/lyricsService';
 import { TrackMetadata, PlaybackState } from '../../types/sonos';
@@ -55,6 +57,8 @@ export interface NowPlayingScreenProps {
 
 const FAVORITES_STORAGE_KEY = 'SONOS_TV_LOCAL_FAVORITES';
 
+const SHELF_STEPS: Record<ShelfState, number> = { closed: 0, peek: 1, open: 2 };
+
 export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   speakerIp,
   speakerId,
@@ -75,14 +79,17 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   const [displayPositionMs, setDisplayPositionMs] = useState<number>(initialTrack?.positionMs || 0);
   const [isLoading, setIsLoading] = useState<boolean>(autoFetch && !initialTrack);
 
-  // AirTune feature states: Lyrics, Queue, Favorite, Toast
+  // AirTune feature states: Lyrics, Favorite, Toast
   const [showLyrics, setShowLyrics] = useState(false);
   const [lyrics, setLyrics] = useState<LyricLine[]>([]);
   const [isLoadingLyrics, setIsLoadingLyrics] = useState(false);
 
-  const [showQueue, setShowQueue] = useState(false);
-  const [queue, setQueue] = useState<QueueItem[]>([]);
-  const [isLoadingQueue, setIsLoadingQueue] = useState(false);
+  // Up Next shelf: follows D-pad focus (bar → peek, a card → open, anywhere else → closed).
+  const [queuePosition, setQueuePosition] = useState(0);
+  const [shelfState, setShelfState] = useState<ShelfState>('closed');
+  const [shelfTargetNode, setShelfTargetNode] = useState<number | null>(null);
+  const focusZoneRef = useRef({ bar: false, shelf: false });
+  const zoneTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [isFavorite, setIsFavorite] = useState(false);
   const { t } = useTranslation();
@@ -208,30 +215,6 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
     };
   }, [showLyrics, track?.title, track?.artist, track?.album, track?.durationMs]);
 
-  // Fetch Sonos queue when queue view is opened
-  useEffect(() => {
-    if (!showQueue || !speakerIp) return;
-    let isMounted = true;
-    setIsLoadingQueue(true);
-
-    SonosUpnpClient.getQueue(speakerIp)
-      .then((q) => {
-        if (isMounted) {
-          setQueue(q);
-        }
-      })
-      .catch(() => {
-        if (isMounted) setQueue([]);
-      })
-      .finally(() => {
-        if (isMounted) setIsLoadingQueue(false);
-      });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [showQueue, speakerIp]);
-
   const fetchLiveStatus = useCallback(async () => {
     if (!speakerIp) return;
     try {
@@ -260,6 +243,7 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
         const isNewTrack = newKey !== anchorRef.current.trackKey;
 
         setTrack(newTrack);
+        setQueuePosition(posInfo.track);
 
         const isPlayingNow = transportInfo?.state === 'PLAYING';
         // RelTime has whole-second precision: "1:46" means somewhere in [1:46.000, 1:47.000).
@@ -339,6 +323,83 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   // Live radio: no position, no previous/next, and nothing to shuffle, repeat, sync lyrics to or queue.
   const isRadio = Boolean(track?.uri && isRadioStreamUri(track.uri));
 
+  const queueEnabled = !isTvAudio && !isRadio;
+  const effectiveShelf: ShelfState = queueEnabled ? shelfState : 'closed';
+  const upNext = useUpNextQueue({
+    speakerIp,
+    trackNumber: queuePosition,
+    trackKey: track?.uri || track?.title || '',
+    enabled: queueEnabled,
+    frozen: effectiveShelf === 'open',
+  });
+
+  const syncShelfToFocus = useCallback(() => {
+    if (zoneTimerRef.current) clearTimeout(zoneTimerRef.current);
+    // A focus move fires blur and focus as separate events; settle once both are in.
+    zoneTimerRef.current = setTimeout(() => {
+      const { bar, shelf } = focusZoneRef.current;
+      let next: ShelfState = 'closed';
+      if (shelf) next = 'open';
+      else if (bar) next = 'peek';
+      setShelfState(next);
+    }, 0);
+  }, []);
+  useEffect(() => () => {
+    if (zoneTimerRef.current) clearTimeout(zoneTimerRef.current);
+  }, []);
+
+  const handleBarFocus = useCallback(() => {
+    focusZoneRef.current.bar = true;
+    syncShelfToFocus();
+  }, [syncShelfToFocus]);
+  const handleBarBlur = useCallback(() => {
+    focusZoneRef.current.bar = false;
+    syncShelfToFocus();
+  }, [syncShelfToFocus]);
+  const handleShelfCardFocus = useCallback(() => {
+    focusZoneRef.current.shelf = true;
+    syncShelfToFocus();
+  }, [syncShelfToFocus]);
+  const handleShelfCardBlur = useCallback(() => {
+    focusZoneRef.current.shelf = false;
+    syncShelfToFocus();
+  }, [syncShelfToFocus]);
+
+  const focusProgressBar = useCallback(() => {
+    (progressBarRef.current as any)?.requestTVFocus?.();
+  }, []);
+
+  const shelfAnim = useRef(new Animated.Value(0)).current;
+  const shelfStepRef = useRef(0);
+  useEffect(() => {
+    const toValue = SHELF_STEPS[effectiveShelf];
+    const opening = toValue > shelfStepRef.current;
+    shelfStepRef.current = toValue;
+    Animated.timing(shelfAnim, {
+      toValue,
+      duration: opening ? 260 : 180,
+      easing: opening ? Easing.out(Easing.cubic) : Easing.in(Easing.cubic),
+      useNativeDriver: true,
+    }).start();
+  }, [effectiveShelf, shelfAnim]);
+  const footerShift = shelfAnim.interpolate({
+    inputRange: [0, 1, 2],
+    outputRange: [0, -SHELF_PEEK_HEIGHT, -SHELF_HEIGHT],
+  });
+  const contentShift = shelfAnim.interpolate({ inputRange: [0, 1, 2], outputRange: [0, 0, -64] });
+  const contentScale = shelfAnim.interpolate({ inputRange: [0, 1, 2], outputRange: [1, 1, 0.88] });
+  const shelfDim = shelfAnim.interpolate({ inputRange: [0, 1, 2], outputRange: [0, 0.12, 0.55] });
+
+  // Shuffle plays the queue out of order, so its next entry isn't what plays next.
+  const isUpNextOrdered = upNext.isFromQueue && !isShuffle;
+  const nextQueueItem = isUpNextOrdered
+    ? upNext.items.find((item) => item.trackNumber === queuePosition + 1)
+    : undefined;
+  const upNextHint =
+    effectiveShelf === 'closed' && nextQueueItem
+      ? t('nowPlaying.queue.hint', { title: nextQueueItem.title })
+      : undefined;
+
   // Same palette picks as AirTune's Now Playing background.
   const palette = useArtworkColors(isTvAudio ? null : track?.albumArtUri);
   const gradient = palette ? backgroundGradient(palette) : null;
@@ -417,35 +478,25 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   };
 
   const handleToggleLyrics = () => {
-    const next = !showLyrics;
-    setShowLyrics(next);
-    if (next) setShowQueue(false);
+    setShowLyrics((prev) => !prev);
   };
 
-  const handleToggleQueue = () => {
-    const next = !showQueue;
-    setShowQueue(next);
-    if (next) setShowLyrics(false);
-  };
+  // Back closes the open Lyrics view before leaving the screen.
+  useBackHandler(!isRadio && showLyrics, () => setShowLyrics(false));
+  // Registered after (so ahead of) the lyrics handler: Back leaves the shelf first.
+  useBackHandler(effectiveShelf === 'open', focusProgressBar);
 
-  // Back closes an open Lyrics/Queue view before leaving the screen.
-  const isSidePanelVisible = !isRadio && (showLyrics || (showQueue && queue.length > 0));
-  useBackHandler(isSidePanelVisible, () => {
-    setShowLyrics(false);
-    setShowQueue(false);
-  });
-
-  const handleSelectQueueItem = async (queueItem: QueueItem) => {
+  const handleSelectQueueItem = useCallback(async (queueItem: QueueItem) => {
     try {
       toast.info(t('toast.starting', { title: queueItem.title }));
       await SonosUpnpClient.seekTrack(speakerIp, queueItem.trackNumber, speakerId);
       toast.success(t('toast.playing', { title: queueItem.title }));
-      setShowQueue(false);
+      focusProgressBar();
       setTimeout(fetchLiveStatus, 500);
     } catch {
       toast.error(t('toast.couldntPlay', { title: queueItem.title }));
     }
-  };
+  }, [speakerIp, speakerId, toast, t, focusProgressBar, fetchLiveStatus]);
 
   const handleToggleFavorite = async () => {
     if (!track?.title) return;
@@ -490,7 +541,7 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
     );
   }
 
-  // Determine Center Content (AirTune Architecture: Artwork OR Split Lyrics OR Integrated Queue)
+  // Determine Center Content (AirTune Architecture: Artwork OR Split Lyrics)
   let centerContent: React.ReactNode;
   if (showLyrics && !isRadio) {
     centerContent = (
@@ -510,18 +561,6 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
             isLoading={isLoadingLyrics}
           />
         </View>
-      </View>
-    );
-  } else if (showQueue && !isRadio && queue.length > 0) {
-    centerContent = (
-      <View style={styles.integratedQueueContainer}>
-        <QueueView
-          queue={queue}
-          currentTrackUri={track?.uri}
-          currentTrackTitle={track?.title}
-          isLoading={isLoadingQueue}
-          onSelectTrack={handleSelectQueueItem}
-        />
       </View>
     );
   } else {
@@ -549,57 +588,89 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
         </Animated.View>
       )}
 
-      {/* Centered Content: Artwork, Split Lyrics, or Integrated Queue (AirTune layout) */}
-      <View style={styles.content}>{centerContent}</View>
+      {/* Centered Content: Artwork or Split Lyrics (AirTune layout); steps back while the shelf is open. */}
+      <Animated.View
+        style={[styles.content, { transform: [{ translateY: contentShift }, { scale: contentScale }] }]}
+      >
+        {centerContent}
+      </Animated.View>
+      <Animated.View style={[StyleSheet.absoluteFill, styles.shelfDim, { opacity: shelfDim }]} pointerEvents="none" />
 
-      {/* Fixed Bottom Controls & Interactive Progress Bar Footer (AirTune layout) */}
-      <View style={styles.footerContainer}>
-        {/* Soft scrim instead of a solid band, so the artwork gradient runs edge to edge. */}
-        <LinearGradient
-          colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.35)']}
-          style={StyleSheet.absoluteFill}
-          pointerEvents="none"
-        />
-        <View
-          ref={playbackControlsRef}
-          // Radio hides the progress bar below; drop the controls into most of
-          // its space instead of leaving them floating mid-screen.
-          style={isRadio && styles.controlsRadio}
-          onLayout={() => {
-            /* focus tracking */
-          }}
-        >
-          <PlaybackControls
-            isPlaying={isPlaying}
-            onTogglePlay={handleTogglePlay}
-            onNext={isRadio ? undefined : handleNext}
-            onPrevious={isRadio ? undefined : handlePrevious}
-            isShuffle={isShuffle}
-            onToggleShuffle={isRadio ? undefined : handleToggleShuffle}
-            isRepeat={isRepeat}
-            onToggleRepeat={isRadio ? undefined : handleToggleRepeat}
-            isFavorite={isFavorite}
-            onToggleFavorite={handleToggleFavorite}
-            showLyrics={showLyrics}
-            onToggleLyrics={!isTvAudio && !isRadio ? handleToggleLyrics : undefined}
-            showQueue={showQueue}
-            onToggleQueue={!isTvAudio && !isRadio ? handleToggleQueue : undefined}
-            showVolume={showVolume}
-            onOpenVolume={handleOpenVolume}
-            volumeFocusSignal={volumeFocusSignal}
-            nextFocusDown={isRadio ? undefined : progressBarNode}
+      {/* Fixed Bottom Controls & Interactive Progress Bar Footer, with the Up Next shelf parked below the screen. */}
+      <Animated.View
+        style={[
+          styles.footerContainer,
+          queueEnabled && styles.footerWithShelf,
+          { transform: [{ translateY: footerShift }] },
+        ]}
+      >
+        <View style={styles.footerControls}>
+          {/* Soft scrim instead of a solid band, so the artwork gradient runs edge to edge. */}
+          <LinearGradient
+            colors={['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 0.35)']}
+            style={StyleSheet.absoluteFill}
+            pointerEvents="none"
+          />
+          <View
+            ref={playbackControlsRef}
+            // Radio hides the progress bar below; drop the controls into most of
+            // its space instead of leaving them floating mid-screen.
+            style={isRadio && styles.controlsRadio}
+            onLayout={() => {
+              /* focus tracking */
+            }}
+          >
+            <PlaybackControls
+              isPlaying={isPlaying}
+              onTogglePlay={handleTogglePlay}
+              onNext={isRadio ? undefined : handleNext}
+              onPrevious={isRadio ? undefined : handlePrevious}
+              isShuffle={isShuffle}
+              onToggleShuffle={isRadio ? undefined : handleToggleShuffle}
+              isRepeat={isRepeat}
+              onToggleRepeat={isRadio ? undefined : handleToggleRepeat}
+              isFavorite={isFavorite}
+              onToggleFavorite={handleToggleFavorite}
+              showLyrics={showLyrics}
+              onToggleLyrics={!isTvAudio && !isRadio ? handleToggleLyrics : undefined}
+              showVolume={showVolume}
+              onOpenVolume={handleOpenVolume}
+              volumeFocusSignal={volumeFocusSignal}
+              nextFocusDown={isRadio ? undefined : progressBarNode}
+            />
+          </View>
+
+          {/* A live stream has no length or position: the bar keeps its space but stays hidden. */}
+          <NowPlayingProgressBar
+            positionMs={displayPositionMs}
+            durationMs={track?.durationMs || 0}
+            progressBarRef={progressBarRef}
+            onLayoutProgress={() => setProgressBarNode(findNodeHandle(progressBarRef.current))}
+            hidden={isRadio}
+            nextFocusDown={queueEnabled ? shelfTargetNode : undefined}
+            onFocus={handleBarFocus}
+            onBlur={handleBarBlur}
+            hint={upNextHint}
           />
         </View>
 
-        {/* A live stream has no length or position: the bar keeps its space but stays hidden. */}
-        <NowPlayingProgressBar
-          positionMs={displayPositionMs}
-          durationMs={track?.durationMs || 0}
-          progressBarRef={progressBarRef}
-          onLayoutProgress={() => setProgressBarNode(findNodeHandle(progressBarRef.current))}
-          hidden={isRadio}
-        />
-      </View>
+        {queueEnabled && (
+          <QueueShelf
+            items={upNext.items}
+            total={upNext.total}
+            currentTrackNumber={upNext.isFromQueue ? queuePosition : null}
+            label={t(isUpNextOrdered ? 'nowPlaying.queue.upNext' : 'nowPlaying.queue.title')}
+            state={effectiveShelf}
+            isLoading={upNext.isLoading}
+            progressBarNode={progressBarNode}
+            onTargetNode={setShelfTargetNode}
+            onSelect={handleSelectQueueItem}
+            onEndReached={upNext.loadMore}
+            onCardFocus={handleShelfCardFocus}
+            onCardBlur={handleShelfCardBlur}
+          />
+        )}
+      </Animated.View>
 
       {showVolume && (
         <TVVolumePanel
@@ -635,7 +706,15 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  footerWithShelf: {
+    bottom: -SHELF_HEIGHT,
+  },
+  footerControls: {
     paddingBottom: spacing.sm,
+  },
+  shelfDim: {
+    backgroundColor: '#000000',
   },
   controlsRadio: {
     // Moved with a transform (not layout) so the footer, and the artwork above it, don't shift.
@@ -661,27 +740,5 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     paddingLeft: 32,
     paddingRight: 80,
-  },
-  /* Integrated Queue View (AirTune style) */
-  integratedQueueContainer: {
-    width: '100%',
-    height: ARTWORK_SIZE + 100,
-    justifyContent: 'center',
-  },
-  queueHeaderRow: {
-    paddingHorizontal: spacing.xxl,
-    marginBottom: spacing.xs,
-  },
-  queueHeaderTitle: {
-    fontSize: 20,
-    fontWeight: '700',
-    color: colors.textPrimary,
-    letterSpacing: 0.2,
-  },
-  queueHeaderSubtitle: {
-    fontSize: 13,
-    color: colors.textMuted,
-    marginTop: 2,
-    marginBottom: spacing.xs,
   },
 });

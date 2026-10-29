@@ -2,7 +2,6 @@
   "idleTitle": "Sonos-Lautsprecher bereit",
   "idleArtist": "Inaktiv",
   "live": "LIVE",
-  "playingBadge": "LÄUFT",
   "progress": "Wiedergabefortschritt",
   "controls": {
     "previous": "Zurück",
@@ -15,14 +14,15 @@
     "saved": "Gespeichert",
     "lyrics": "Songtext",
     "showLyrics": "Songtext anzeigen",
-    "hideLyrics": "Songtext ausblenden",
-    "showQueue": "Warteschlange anzeigen",
-    "hideQueue": "Warteschlange ausblenden"
+    "hideLyrics": "Songtext ausblenden"
   },
   "queue": {
-    "loading": "Sonos-Warteschlange wird geladen...",
-    "emptyTitle": "Warteschlange ist leer",
-    "emptySubtitle": "Auf diesem Lautsprecher sind keine Titel in der Warteschlange. Wähle ein Album oder eine Playlist, um sie zu füllen."
+    "upNext": "Als Nächstes",
+    "title": "Warteschlange",
+    "position": "{{current}} von {{total}}",
+    "hint": "Als Nächstes: {{title}}",
+    "current": "{{title}}, {{artist}}, läuft gerade",
+    "empty": "Warteschlange ist leer"
   },
   "lyrics": {
     "loading": "Synchronisierter Songtext wird geladen...",

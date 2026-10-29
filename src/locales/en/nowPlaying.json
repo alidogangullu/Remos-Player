@@ -2,7 +2,6 @@
   "idleTitle": "Sonos Speaker Ready",
   "idleArtist": "Idle",
   "live": "LIVE",
-  "playingBadge": "PLAYING",
   "progress": "Playback progress",
   "controls": {
     "previous": "Previous",
@@ -15,14 +14,15 @@
     "saved": "Saved",
     "lyrics": "Lyrics",
     "showLyrics": "Show Lyrics",
-    "hideLyrics": "Hide Lyrics",
-    "showQueue": "Show Queue",
-    "hideQueue": "Hide Queue"
+    "hideLyrics": "Hide Lyrics"
   },
   "queue": {
-    "loading": "Loading Sonos Queue...",
-    "emptyTitle": "Queue Is Empty",
-    "emptySubtitle": "No queued tracks found on this speaker. Select an album or playlist to populate the queue."
+    "upNext": "Up Next",
+    "title": "Queue",
+    "position": "{{current}} of {{total}}",
+    "hint": "Up next: {{title}}",
+    "current": "{{title}}, {{artist}}, now playing",
+    "empty": "Queue is empty"
   },
   "lyrics": {
     "loading": "Loading synced lyrics...",

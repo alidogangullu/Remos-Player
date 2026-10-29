@@ -8,6 +8,7 @@ import {
   useTVEventHandler,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import Svg, { Path } from 'react-native-svg';
 import { colors, spacing } from '../../theme';
 
 const SEEK_STEP_MS = 5000;
@@ -29,6 +30,12 @@ export interface NowPlayingProgressBarProps {
   onLayoutProgress?: () => void;
   /** Keeps the bar's space (so the artwork doesn't move) but shows nothing and takes no focus — for live radio. */
   hidden?: boolean;
+  /** Where ↓ goes from the bar (the Up Next shelf). */
+  nextFocusDown?: number | null;
+  onFocus?: () => void;
+  onBlur?: () => void;
+  /** Centered under the bar, pointing down at what ↓ reveals (e.g. "Up next: …"). */
+  hint?: string;
 }
 
 export const NowPlayingProgressBar: React.FC<NowPlayingProgressBarProps> = React.memo(({
@@ -39,6 +46,10 @@ export const NowPlayingProgressBar: React.FC<NowPlayingProgressBarProps> = React
   progressBarRef: externalProgressBarRef,
   onLayoutProgress,
   hidden = false,
+  nextFocusDown,
+  onFocus,
+  onBlur,
+  hint,
 }) => {
   const { t } = useTranslation();
   const [isFocused, setIsFocused] = useState(false);
@@ -61,14 +72,16 @@ export const NowPlayingProgressBar: React.FC<NowPlayingProgressBarProps> = React
   const handleFocus = useCallback(() => {
     setIsFocused(true);
     Animated.timing(fillOpacity, { toValue: 1, duration: 300, useNativeDriver: true }).start();
-  }, [fillOpacity]);
+    onFocus?.();
+  }, [fillOpacity, onFocus]);
 
   const handleBlur = useCallback(() => {
     setIsFocused(false);
     setIsScrubbing(false);
     setPendingSeekMs(0);
     Animated.timing(fillOpacity, { toValue: 0, duration: 300, useNativeDriver: true }).start();
-  }, [fillOpacity]);
+    onBlur?.();
+  }, [fillOpacity, onBlur]);
 
   const handlePress = useCallback(() => {
     if (isScrubbingRef.current && onSeekTo) {
@@ -107,6 +120,7 @@ export const NowPlayingProgressBar: React.FC<NowPlayingProgressBarProps> = React
         onLayout={onLayoutProgress}
         style={styles.progressContainer}
         nextFocusUp={playbackControlsNode ?? undefined}
+        nextFocusDown={nextFocusDown ?? undefined}
         focusable={!hidden}
         disabled={hidden}
         onFocus={handleFocus}
@@ -143,6 +157,16 @@ export const NowPlayingProgressBar: React.FC<NowPlayingProgressBarProps> = React
         <Text style={styles.timeText}>
           {isScrubbing ? formatTime(pendingSeekMs) : formatTime(positionMs)}
         </Text>
+        <View style={styles.hintSlot}>
+          {hint && !hidden ? (
+            <>
+              <Text style={styles.hintText} numberOfLines={1}>{hint}</Text>
+              <Svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke={colors.textMuted} strokeWidth={2.4} strokeLinecap="round" strokeLinejoin="round">
+                <Path d="m6 9 6 6 6-6" />
+              </Svg>
+            </>
+          ) : null}
+        </View>
         <Text style={[styles.timeText, isScrubbing && styles.timeTextScrubbing]}>
           {isScrubbing ? formatTime(pendingSeekMs) : `-${formatTime(remainingMs)}`}
         </Text>
@@ -213,6 +237,19 @@ const styles = StyleSheet.create({
     color: colors.textMuted,
     fontVariant: ['tabular-nums'],
     letterSpacing: 0.5,
+  },
+  hintSlot: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: spacing.xs,
+    paddingHorizontal: spacing.lg,
+  },
+  hintText: {
+    flexShrink: 1,
+    fontSize: 12,
+    color: colors.textSecondary,
   },
   timeTextScrubbing: {
     color: '#FFFFFF',
