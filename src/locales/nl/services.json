@@ -7,7 +7,7 @@
   "resyncing": "Synchroniseren…",
   "syncFailed": "Kan je muziekdiensten niet synchroniseren. Controleer of de speaker online is en probeer het opnieuw.",
   "loadFailed": "Kan dit onderdeel niet laden.",
-  "empty": "Hier staat nog niets.",
+  "empty": "{{service}} levert geen inhoud voor dit onderdeel.",
   "itemCount_one": "{{count}} item",
   "itemCount_other": "{{count}} items",
   "itemTypes": {

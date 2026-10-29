@@ -7,7 +7,7 @@
   "resyncing": "Syncing…",
   "syncFailed": "Couldn't synchronize your music services. Check that the speaker is online and try again.",
   "loadFailed": "Failed to load this section.",
-  "empty": "Nothing here yet.",
+  "empty": "{{service}} didn't return anything for this section.",
   "itemCount_one": "{{count}} item",
   "itemCount_other": "{{count}} items",
   "itemTypes": {

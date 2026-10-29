@@ -7,7 +7,7 @@
   "resyncing": "Sincronizando…",
   "syncFailed": "No se pudieron sincronizar tus servicios de música. Comprueba que el altavoz esté conectado y vuelve a intentarlo.",
   "loadFailed": "No se pudo cargar esta sección.",
-  "empty": "Aún no hay nada aquí.",
+  "empty": "{{service}} no devolvió contenido para esta sección.",
   "itemCount_one": "{{count}} elemento",
   "itemCount_many": "{{count}} de elementos",
   "itemCount_other": "{{count}} elementos",

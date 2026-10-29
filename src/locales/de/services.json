@@ -7,7 +7,7 @@
   "resyncing": "Synchronisiert…",
   "syncFailed": "Deine Musikdienste konnten nicht synchronisiert werden. Prüfe, ob der Lautsprecher online ist, und versuche es erneut.",
   "loadFailed": "Dieser Bereich konnte nicht geladen werden.",
-  "empty": "Hier ist noch nichts.",
+  "empty": "{{service}} liefert für diesen Bereich keine Inhalte.",
   "itemCount_one": "{{count}} Element",
   "itemCount_other": "{{count}} Elemente",
   "itemTypes": {

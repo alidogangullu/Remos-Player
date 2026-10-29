@@ -7,7 +7,7 @@
   "resyncing": "Senkronize ediliyor…",
   "syncFailed": "Müzik servisleriniz senkronize edilemedi. Hoparlörün çevrimiçi olduğundan emin olup tekrar deneyin.",
   "loadFailed": "Bu bölüm yüklenemedi.",
-  "empty": "Burada henüz bir şey yok.",
+  "empty": "{{service}} bu bölüm için içerik göndermedi.",
   "itemCount_one": "{{count}} öğe",
   "itemCount_other": "{{count}} öğe",
   "itemTypes": {

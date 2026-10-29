@@ -7,7 +7,7 @@
   "resyncing": "Synchronisation…",
   "syncFailed": "Impossible de synchroniser vos services de musique. Vérifiez que l’enceinte est en ligne et réessayez.",
   "loadFailed": "Impossible de charger cette section.",
-  "empty": "Rien ici pour le moment.",
+  "empty": "{{service}} ne renvoie aucun contenu pour cette section.",
   "itemCount_one": "{{count}} élément",
   "itemCount_many": "{{count}} d’éléments",
   "itemCount_other": "{{count}} éléments",

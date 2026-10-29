@@ -43,6 +43,19 @@ interface StackEntry {
   label: string;
   /** Set when the container is itself playable: its page gets the Play/queue header. */
   playable?: MediaCollection;
+  /** A list container that becomes `playable` only once its contents turn out to hold tracks — see `isFolderList`. */
+  playableIfTracks?: MediaCollection;
+}
+
+/**
+ * TIDAL flags every container `albumList` + `canPlay`, including pure folder
+ * pages ("Genres" → "Pop" → "Playlists"), but the speaker only queues one
+ * whose own contents are tracks: a list of sub-containers fails with UPnP 804
+ * (confirmed live, whatever the type prefix in the URI). Such a container
+ * gets the Play/queue actions only after its contents load with tracks.
+ */
+function isFolderList(item: MediaCollection): boolean {
+  return item.itemType?.toLowerCase() === 'albumlist';
 }
 
 /**
@@ -85,6 +98,13 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
           containerId === 'root' && hasBrowseApi(ctx.service.serviceId) ? await fetchBrowseRoot(ctx) : null;
         const fetched = fromBrowseApi ?? (await getMetadata(ctx, containerId));
         setResult(fetched);
+        if (fetched.mediaMetadata.length > 0) {
+          setStack((prev) => {
+            const top = prev.at(-1)!;
+            if (top.containerId !== containerId || !top.playableIfTracks) return prev;
+            return [...prev.slice(0, -1), { ...top, playable: top.playableIfTracks }];
+          });
+        }
       } catch (err) {
         log.error(TAG, `Failed to load container "${containerId}" for ${ctx.service.name}`, err);
         setError(t('services.loadFailed'));
@@ -105,9 +125,15 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
    * (`canPlay`) get a split page — Play/queue actions on the left, contents
    * on the right — instead of tvonos's pop-up action sheet. */
   const handleSelectCollection = (item: MediaCollection) => {
+    const deferred = item.canPlay && isFolderList(item);
     setStack((prev) => [
       ...prev,
-      { containerId: item.id, label: item.title, playable: item.canPlay ? item : undefined },
+      {
+        containerId: item.id,
+        label: item.title,
+        playable: item.canPlay && !deferred ? item : undefined,
+        playableIfTracks: deferred ? item : undefined,
+      },
     ]);
   };
 
@@ -210,6 +236,13 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
         <TVFocusableButton label={t('common.retry')} onPress={() => loadContainer(currentEntry.containerId)} style={styles.retryButton} />
       </View>
     );
+  } else if (!result || (result.mediaCollection.length === 0 && result.mediaMetadata.length === 0)) {
+    // Some service pages come back empty (e.g. TIDAL's Genres → Brazilian → Playlists): say so instead of a blank page.
+    body = (
+      <View style={[styles.centered, styles.emptyState]}>
+        <Text style={styles.emptyText}>{t('services.empty', { service: ctx.service.name })}</Text>
+      </View>
+    );
   } else if (playable) {
     body = <ContainerContentsList result={result} onSelectCollection={handleSelectCollection} onPlay={playTrack} />;
   } else {
@@ -273,16 +306,8 @@ const ContainerContentsList: React.FC<{
   onSelectCollection: (item: MediaCollection) => void;
   onPlay: (item: MediaMetadata) => void;
 }> = ({ result, onSelectCollection, onPlay }) => {
-  const { t } = useTranslation();
   const collections = result?.mediaCollection ?? [];
   const tracks = result?.mediaMetadata ?? [];
-  if (collections.length === 0 && tracks.length === 0) {
-    return (
-      <View style={styles.centered}>
-        <Text style={styles.emptyText}>{t('services.empty')}</Text>
-      </View>
-    );
-  }
   return (
     <ScrollView contentContainerStyle={styles.contentsList} showsVerticalScrollIndicator={false}>
       {/* Services can list the same item twice (e.g. a repeated song), so ids aren't unique keys. */}
@@ -409,6 +434,11 @@ const styles = StyleSheet.create({
     // side room or the ScrollView clips them.
     padding: spacing.xs,
     paddingBottom: spacing.xxl,
+  },
+  // Centering in the space below the header sits the message low; this lifts
+  // it to the screen's middle.
+  emptyState: {
+    paddingBottom: 140,
   },
   emptyText: {
     fontSize: 15,
