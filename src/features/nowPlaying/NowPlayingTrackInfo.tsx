@@ -13,7 +13,10 @@ export interface TrackDisplayInfo {
   artist?: string;
   album?: string;
   albumArtUri?: string;
+  /** Audio quality, e.g. "24-Bit/44.1 kHz". */
   format?: string;
+  /** Where it plays from, e.g. "TIDAL"; leads the badge. */
+  source?: string;
 }
 
 interface NowPlayingTrackInfoProps {
@@ -21,7 +24,7 @@ interface NowPlayingTrackInfoProps {
   scaleAnim?: Animated.Value;
   align?: 'center' | 'flex-start';
   isTvAudio?: boolean;
-  /** Live radio: a LIVE badge replaces the audio-format badge. */
+  /** Live radio: LIVE replaces the audio format in the badge. */
   isLive?: boolean;
   style?: any;
 }
@@ -37,6 +40,8 @@ export const NowPlayingTrackInfo: React.FC<NowPlayingTrackInfoProps> = ({
   style,
 }) => {
   const { t } = useTranslation();
+  const qualityLabel = isLive ? t('nowPlaying.live') : track?.format;
+  const sourceLabel = track?.source;
   const containerStyle = [
     styles.container,
     align === 'flex-start' && styles.alignStart,
@@ -80,14 +85,24 @@ export const NowPlayingTrackInfo: React.FC<NowPlayingTrackInfoProps> = ({
           </View>
         )}
 
-        {isLive ? (
-          <View style={[styles.formatBadgeContainer, styles.liveBadge]} testID="track-live-badge">
-            <View style={styles.liveDot} />
-            <Text style={styles.formatBadgeText}>{t('nowPlaying.live')}</Text>
-          </View>
-        ) : track?.format ? (
-          <View style={styles.formatBadgeContainer} testID="track-format-badge">
-            <Text style={styles.formatBadgeText}>{track.format}</Text>
+        {/* Source first ("TIDAL"), then quality or LIVE, split by a hairline. */}
+        {sourceLabel || qualityLabel ? (
+          <View
+            style={styles.formatBadgeContainer}
+            testID={isLive ? 'track-live-badge' : 'track-format-badge'}
+          >
+            {sourceLabel ? (
+              <Text style={[styles.formatBadgeText, styles.sourceText]} numberOfLines={1}>
+                {sourceLabel}
+              </Text>
+            ) : null}
+            {sourceLabel && qualityLabel ? <View style={styles.badgeDivider} /> : null}
+            {isLive ? <View style={styles.liveDot} /> : null}
+            {qualityLabel ? (
+              <Text style={styles.formatBadgeText} numberOfLines={1}>
+                {qualityLabel}
+              </Text>
+            ) : null}
           </View>
         ) : null}
       </Animated.View>
@@ -198,6 +213,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 10,
     left: 10,
+    maxWidth: ARTWORK_SIZE - 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     paddingHorizontal: 8,
     paddingVertical: 3,
     borderRadius: 4,
@@ -205,16 +224,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.18)',
   },
-  liveBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
+  badgeDivider: {
+    width: 1,
+    alignSelf: 'stretch',
+    marginVertical: 1,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
   },
   liveDot: {
     width: 6,
     height: 6,
     borderRadius: 3,
     backgroundColor: colors.statusError,
+  },
+  sourceText: {
+    flexShrink: 0,
+    fontWeight: '800',
+    color: '#FFFFFF',
   },
   formatBadgeText: {
     // Matches the smallest other caption on this screen; 9 was unreadable from the couch.

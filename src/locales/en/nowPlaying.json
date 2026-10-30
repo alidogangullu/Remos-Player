@@ -37,7 +37,10 @@
     "liveRadio": "Live Radio",
     "unknownArtist": "Unknown Artist",
     "unknownTrack": "Unknown Track",
-    "radioStream": "Radio Stream",
     "noAudio": "No audio"
+  },
+  "source": {
+    "library": "Music Library",
+    "lineIn": "Line-In"
   }
 }

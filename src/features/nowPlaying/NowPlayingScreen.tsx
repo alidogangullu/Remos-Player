@@ -28,12 +28,16 @@ import {
   isRadioStreamUri,
 } from '../../services/sonos/upnp/sonosUpnpClient';
 import { PlaybackHistoryService } from '../../services/history/playbackHistoryService';
+import { describePlaybackSource } from '../../services/sonos/playbackSource';
 import { TVVolumePanel } from '../../components/tv';
 import { useBackHandler } from '../../hooks';
 import { useToast } from '../../components/common';
 
 export interface NowPlayingTrack extends TrackMetadata {
+  /** Audio quality, e.g. "24-Bit/44.1 kHz" or "Dolby Atmos". */
   format?: string;
+  /** Where it plays from, e.g. "TIDAL" or "AirPlay". */
+  source?: string;
 }
 
 /** The speaker reports RelTime in whole seconds. */
@@ -245,13 +249,18 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
       if (requestStart < lastCommandAtRef.current) return;
       if (posInfo?.metadata) {
         const isTvAudio = posInfo.trackUri.includes('x-sonos-htastream');
-        const qualityLabel = isTvAudio
-          ? await SonosUpnpClient.getTvAudioFormat(speakerIp).catch(() => null)
-          : describeTrackQuality(quality);
-        // Real quality from the speaker wins over the service-name fallback.
-        const newTrack = qualityLabel
-          ? { ...posInfo.metadata, format: qualityLabel }
-          : posInfo.metadata;
+        const [qualityLabel, source] = await Promise.all([
+          isTvAudio
+            ? SonosUpnpClient.getTvAudioFormat(speakerIp).catch(() => null)
+            : describeTrackQuality(quality),
+          // The service list is read once per speaker; after that this is a lookup.
+          describePlaybackSource(speakerIp, posInfo.trackUri),
+        ]);
+        const newTrack: NowPlayingTrack = {
+          ...posInfo.metadata,
+          format: qualityLabel ?? undefined,
+          source: source ?? undefined,
+        };
         const newKey = newTrack.uri || newTrack.title || '';
         const isNewTrack = newKey !== anchorRef.current.trackKey;
 

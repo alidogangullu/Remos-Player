@@ -37,7 +37,10 @@
     "liveRadio": "Live radio",
     "unknownArtist": "Onbekende artiest",
     "unknownTrack": "Onbekend nummer",
-    "radioStream": "Radiostream",
     "noAudio": "Geen geluid"
+  },
+  "source": {
+    "library": "Muziekbibliotheek",
+    "lineIn": "Line-in"
   }
 }

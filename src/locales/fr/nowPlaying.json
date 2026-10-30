@@ -37,7 +37,10 @@
     "liveRadio": "Radio en direct",
     "unknownArtist": "Artiste inconnu",
     "unknownTrack": "Morceau inconnu",
-    "radioStream": "Flux radio",
     "noAudio": "Pas de son"
+  },
+  "source": {
+    "library": "Bibliothèque musicale",
+    "lineIn": "Entrée ligne"
   }
 }

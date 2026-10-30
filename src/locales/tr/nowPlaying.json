@@ -37,7 +37,10 @@
     "liveRadio": "Canlı Radyo",
     "unknownArtist": "Bilinmeyen Sanatçı",
     "unknownTrack": "Bilinmeyen Parça",
-    "radioStream": "Radyo Yayını",
     "noAudio": "Ses yok"
+  },
+  "source": {
+    "library": "Müzik Kitaplığı",
+    "lineIn": "Hat Girişi"
   }
 }

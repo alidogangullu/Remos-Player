@@ -45,15 +45,18 @@ export interface TrackQuality {
   immersive: boolean;
 }
 
-/** "Dolby Atmos", "Hi-Res Lossless · 24-Bit/96 kHz", "Lossless · 24-Bit/48 kHz", or null. */
+/**
+ * "Dolby Atmos", "24-Bit/96 kHz", or "Hi-Res Lossless"/"Lossless" when the
+ * stream doesn't report its resolution; null for lossy streams. Only lossless
+ * streams carry a resolution, so the numbers alone already say "lossless".
+ */
 export function describeTrackQuality(quality: TrackQuality | null | undefined): string | null {
   if (!quality) return null;
   if (quality.immersive) return 'Dolby Atmos';
   if (!quality.lossless) return null;
   const { bitDepth, sampleRate } = quality;
-  const label = sampleRate && sampleRate > 48000 ? 'Hi-Res Lossless' : 'Lossless';
-  if (!bitDepth || !sampleRate) return label;
-  return `${label} · ${bitDepth}-Bit/${Number((sampleRate / 1000).toFixed(1))} kHz`;
+  if (bitDepth && sampleRate) return `${bitDepth}-Bit/${Number((sampleRate / 1000).toFixed(1))} kHz`;
+  return sampleRate && sampleRate > 48000 ? 'Hi-Res Lossless' : 'Lossless';
 }
 
 /**
@@ -94,19 +97,6 @@ const TV_PCM_NO_AUDIO_CODE = 33554454;
 const groupIdCache = new Map<string, string>();
 
 /** Service name shown when the speaker reports no quality info. */
-function parseServiceFormat(uri: string): string {
-  if (!uri) return '';
-  if (uri.includes('x-sonos-htastream')) return 'OPTICAL / EARC';
-  if (uri.includes('sid=204')) return 'Apple Music';
-  if (uri.includes('sid=9') || uri.includes('sid=12')) return 'Spotify';
-  if (uri.includes('sid=201')) return 'Amazon Music';
-  if (uri.includes('sid=303')) return 'Sonos Radio';
-  if (uri.includes('sid=325')) return 'BBC Sounds';
-  if (uri.includes('sid=254')) return 'TuneIn';
-  if (uri.includes('x-sonosapi-stream')) return i18n.t('nowPlaying.fallback.radioStream');
-  return '';
-}
-
 export interface PositionInfo {
   track: number;
   trackDurationMs: number;
@@ -114,7 +104,7 @@ export interface PositionInfo {
   positionMs: number;
   relTime: string;
   trackUri: string;
-  metadata: TrackMetadata & { format?: string };
+  metadata: TrackMetadata;
 }
 
 function escapeXml(value: string | number): string {
@@ -762,13 +752,11 @@ export class SonosUpnpClient {
     let artist = '';
     let album = '';
     let albumArtUri = '';
-    let format = parseServiceFormat(trackUri);
 
     if (trackUri.includes('x-sonos-htastream')) {
       title = i18n.t('nowPlaying.fallback.tvAudio');
       artist = i18n.t('nowPlaying.fallback.tvSource');
       album = i18n.t('nowPlaying.fallback.homeTheater');
-      format = 'OPTICAL / EARC';
     }
 
     // Radio "now on air" text without an "Artist - Title" split (e.g. a show name).
@@ -864,7 +852,6 @@ export class SonosUpnpClient {
         durationMs: trackDurationMs,
         positionMs,
         uri: trackUri,
-        format,
       },
     };
   }
