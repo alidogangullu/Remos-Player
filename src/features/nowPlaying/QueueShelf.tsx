@@ -15,8 +15,8 @@ const ITEM_LENGTH = CARD_WIDTH + CARD_GAP;
 const SKELETON_COUNT = 9;
 
 /** How far the shelf rises while the progress bar has focus: the header and the top of the artwork. */
-export const SHELF_PEEK_HEIGHT = 60;
-export const SHELF_HEIGHT = 184;
+export const SHELF_PEEK_HEIGHT = 52;
+export const SHELF_HEIGHT = 176;
 
 /** closed: offscreen. peek: the progress bar has focus. open: a card has focus. */
 export type ShelfState = 'closed' | 'peek' | 'open';
@@ -218,7 +218,6 @@ export const QueueShelf: React.FC<QueueShelfProps> = ({
 const styles = StyleSheet.create({
   root: {
     height: SHELF_HEIGHT,
-    paddingTop: spacing.sm,
     // Continues the footer scrim's darkest stop.
     backgroundColor: 'rgba(0, 0, 0, 0.35)',
   },
