@@ -1,14 +1,21 @@
 {
   "min_version": "1.0.1",
-  "latest_version": "1.1.0",
+  "latest_version": "1.2.0",
   "store_url": "https://play.google.com/store/apps/details?id=com.adg.remos",
   "release_notes": [
-    "Remos now speaks your language: English, Türkçe, Deutsch, Français, Español and Nederlands",
-    "On-screen messages confirm playback, queue and favorites actions",
-    "The Back button now returns to the top bar, then Home; a second press exits",
+    "Up Next: focus the progress bar to see what's coming, then press down to browse the queue and pick a song",
+    "Now Playing shows where your music comes from, like TIDAL or Apple Music, next to the audio quality",
+    "Remos opens on the room you used last, and you can hide rooms you don't play music on",
+    "Previous and next now work for songs started from Favorites and Jump Back In, and the progress bar can jump through a song",
     "Bug fixes"
   ],
   "announcements": [
+    {
+      "id": "release-1.2.0-up-next",
+      "date": "2026-10-30",
+      "title": "Up Next, your rooms and smoother playback",
+      "body": "The queue now lives under the progress bar: focus the bar to see what's coming and press down to browse it or jump to any song. Now Playing also shows where your music comes from, like TIDAL, Apple Music or Spotify. Remos remembers the room you used last, and in System you can hide rooms you don't play music on. Previous and next now work for songs started from Favorites and Jump Back In, and you can move through a song with the progress bar. Thanks for all your feedback — most of this update came from it!"
+    },
     {
       "id": "release-1.1.0-languages",
       "date": "2026-10-22",
