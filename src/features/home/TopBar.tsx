@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { View, StyleSheet, Pressable, Text, Image } from 'react-native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { View, StyleSheet, Pressable, Text, Image, findNodeHandle } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 import { MarqueeText } from '../../components/common/MarqueeText';
@@ -31,6 +31,9 @@ export interface TopBarProps {
 
 const TABS = [{ id: 'home' }, { id: 'search' }, { id: 'favorites' }, { id: 'settings' }] as const;
 
+/** Left-to-right order of every focusable item in the bar. */
+const BAR_ORDER: readonly TopBarTab[] = ['nowPlaying', 'home', 'search', 'favorites', 'settings', 'system'];
+
 export const TopBar: React.FC<TopBarProps> = ({
   activeTab,
   onSelectTab,
@@ -50,6 +53,23 @@ export const TopBar: React.FC<TopBarProps> = ({
   const [isMiniPlayerFocused, setIsMiniPlayerFocused] = useState(false);
   const [isDeviceButtonFocused, setIsDeviceButtonFocused] = useState(false);
   const itemRefs = useRef<Partial<Record<TopBarTab, View | null>>>({});
+  const [itemNodes, setItemNodes] = useState<Partial<Record<TopBarTab, number>>>({});
+
+  const registerNode = useCallback((id: TopBarTab) => {
+    const node = findNodeHandle(itemRefs.current[id] ?? null) ?? undefined;
+    setItemNodes((prev) => (prev[id] === node ? prev : { ...prev, [id]: node }));
+  }, []);
+
+  // ←/→ are wired item to item (the ends point at themselves) instead of left to
+  // geometric search: content scrolled up behind the bar sits level with the tabs
+  // and is often nearer than the next tab, which pulled focus out of the bar.
+  const horizontalNeighbours = (id: TopBarTab) => {
+    const index = BAR_ORDER.indexOf(id);
+    return {
+      nextFocusLeft: itemNodes[BAR_ORDER[Math.max(0, index - 1)]],
+      nextFocusRight: itemNodes[BAR_ORDER[Math.min(BAR_ORDER.length - 1, index + 1)]],
+    };
+  };
 
   const isMiniPlayerActive = activeTab === 'nowPlaying';
   const isDeviceActive = activeTab === 'system';
@@ -74,6 +94,8 @@ export const TopBar: React.FC<TopBarProps> = ({
       <View style={styles.leftSection}>
         <Pressable
           ref={(node) => { itemRefs.current.nowPlaying = node; }}
+          onLayout={() => registerNode('nowPlaying')}
+          {...horizontalNeighbours('nowPlaying')}
           accessibilityRole="button"
           testID="topbar-mini-player"
           hasTVPreferredFocus={isMiniPlayerActive}
@@ -131,6 +153,8 @@ export const TopBar: React.FC<TopBarProps> = ({
               <Pressable
                 key={tab.id}
                 ref={(node) => { itemRefs.current[tab.id] = node; }}
+                onLayout={() => registerNode(tab.id)}
+                {...horizontalNeighbours(tab.id)}
                 testID={`topbar-tab-${tab.id}`}
                 hasTVPreferredFocus={isActive}
                 accessibilityRole="tab"
@@ -166,6 +190,8 @@ export const TopBar: React.FC<TopBarProps> = ({
       <View style={styles.rightSection}>
         <Pressable
           ref={(node) => { itemRefs.current.system = node; }}
+          onLayout={() => registerNode('system')}
+          {...horizontalNeighbours('system')}
           accessibilityRole="button"
           testID="topbar-device-button"
           hasTVPreferredFocus={isDeviceActive}
