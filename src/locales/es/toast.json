@@ -10,5 +10,8 @@
   "couldntUpdateQueue": "No se pudo actualizar la cola",
   "addedToFavorites": "“{{title}}” añadido a favoritos",
   "removedFromFavorites": "“{{title}}” eliminado de favoritos",
-  "couldntUpdateFavorites": "No se pudieron actualizar los favoritos"
+  "couldntUpdateFavorites": "No se pudieron actualizar los favoritos",
+  "couldntSkip": "No se pudo pasar a la siguiente canción",
+  "couldntGoBack": "No se pudo retroceder",
+  "couldntSeek": "No se pudo saltar a {{time}}"
 }

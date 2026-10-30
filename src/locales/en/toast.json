@@ -10,5 +10,8 @@
   "couldntUpdateQueue": "Couldn't update the queue",
   "addedToFavorites": "Added “{{title}}” to favorites",
   "removedFromFavorites": "Removed “{{title}}” from favorites",
-  "couldntUpdateFavorites": "Couldn't update favorites"
+  "couldntUpdateFavorites": "Couldn't update favorites",
+  "couldntSkip": "Couldn't skip to the next track",
+  "couldntGoBack": "Couldn't go back",
+  "couldntSeek": "Couldn't jump to {{time}}"
 }

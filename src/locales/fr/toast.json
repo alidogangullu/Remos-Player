@@ -10,5 +10,8 @@
   "couldntUpdateQueue": "Impossible de mettre à jour la file d’attente",
   "addedToFavorites": "« {{title}} » ajouté aux favoris",
   "removedFromFavorites": "« {{title}} » retiré des favoris",
-  "couldntUpdateFavorites": "Impossible de mettre à jour les favoris"
+  "couldntUpdateFavorites": "Impossible de mettre à jour les favoris",
+  "couldntSkip": "Impossible de passer au morceau suivant",
+  "couldntGoBack": "Impossible de revenir en arrière",
+  "couldntSeek": "Impossible d’aller à {{time}}"
 }

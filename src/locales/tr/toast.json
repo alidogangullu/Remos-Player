@@ -10,5 +10,8 @@
   "couldntUpdateQueue": "Sıra güncellenemedi",
   "addedToFavorites": "“{{title}}” favorilere eklendi",
   "removedFromFavorites": "“{{title}}” favorilerden çıkarıldı",
-  "couldntUpdateFavorites": "Favoriler güncellenemedi"
+  "couldntUpdateFavorites": "Favoriler güncellenemedi",
+  "couldntSkip": "Sonraki parçaya geçilemedi",
+  "couldntGoBack": "Geri gidilemedi",
+  "couldntSeek": "{{time}} konumuna atlanamadı"
 }

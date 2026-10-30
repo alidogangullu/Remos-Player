@@ -58,8 +58,15 @@ export function isShortcutFavorite(favorite: PlayableFavorite): boolean {
   return !favorite.uri && !parseShortcutTarget(favorite.metadata);
 }
 
-/** Inserted after the current track, then jumped to — the same as a browsed playlist's "Play". */
-async function queueContainerAndPlay(speakerIp: string, speakerId: string, uri: string, metadata: string): Promise<void> {
+/**
+ * On-demand tracks. Set as the transport URI they play on their own, with no
+ * neighbours for Next/Previous (the speaker answers UPnP 711), so they go
+ * through the queue instead. Radio, line-in and TV URIs can't be queued.
+ */
+const QUEUEABLE_TRACK_URI = /^(x-sonos-http|x-sonos-spotify|x-sonosapi-hls-static|x-sonosprog-http|x-file-cifs):/;
+
+/** Inserted after the current track, then jumped to — the same as a browsed playlist's or a search result's "Play". */
+async function queueAndPlay(speakerIp: string, speakerId: string, uri: string, metadata: string): Promise<void> {
   const desired = await SonosUpnpClient.getPositionInfo(speakerIp)
     .then((pos) => pos.track + 1)
     .catch(() => 0);
@@ -93,7 +100,7 @@ async function playShortcutTarget(
     itemType: target.kind,
     albumArtUri: favorite.albumArtUri,
   });
-  await queueContainerAndPlay(speakerIp, speakerId, uri, metadata);
+  await queueAndPlay(speakerIp, speakerId, uri, metadata);
 }
 
 /**
@@ -106,8 +113,10 @@ async function playShortcutTarget(
  * - Favorites with no URI but a named track/album/playlist (see
  *   `parseShortcutTarget`) are looked up on their service and played as if
  *   browsed to.
- * - Everything else (tracks, radio streams) is set directly, with a track
- *   favorite's bare DIDL filled in first so Now Playing has artist and art.
+ * - Tracks go through the queue the same way, so Next/Previous work; a
+ *   track favorite's bare DIDL is filled in first so Now Playing has artist
+ *   and art.
+ * - Everything else (radio streams, line-in) is set directly.
  */
 export async function playFavorite(
   speakerIp: string,
@@ -125,11 +134,19 @@ export async function playFavorite(
   }
 
   if (uri.startsWith('x-rincon-cpcontainer:')) {
-    await queueContainerAndPlay(speakerIp, speakerId, uri, favorite.metadata || fallbackMetadata);
+    await queueAndPlay(speakerIp, speakerId, uri, favorite.metadata || fallbackMetadata);
     return;
   }
 
-  const metadata = await enrichFavoriteTrackMetadata(speakerIp, favorite, contexts);
-  await SonosUpnpClient.setAVTransportURI(speakerIp, uri, metadata || fallbackMetadata);
+  const metadata = (await enrichFavoriteTrackMetadata(speakerIp, favorite, contexts)) || fallbackMetadata;
+  if (QUEUEABLE_TRACK_URI.test(uri)) {
+    try {
+      await queueAndPlay(speakerIp, speakerId, uri, metadata);
+      return;
+    } catch {
+      // Playing it on its own, without Next/Previous, still beats not playing it.
+    }
+  }
+  await SonosUpnpClient.setAVTransportURI(speakerIp, uri, metadata);
   await SonosUpnpClient.play(speakerIp);
 }

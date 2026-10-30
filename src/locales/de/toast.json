@@ -10,5 +10,8 @@
   "couldntUpdateQueue": "Warteschlange konnte nicht aktualisiert werden",
   "addedToFavorites": "„{{title}}“ zu Favoriten hinzugefügt",
   "removedFromFavorites": "„{{title}}“ aus Favoriten entfernt",
-  "couldntUpdateFavorites": "Favoriten konnten nicht aktualisiert werden"
+  "couldntUpdateFavorites": "Favoriten konnten nicht aktualisiert werden",
+  "couldntSkip": "Konnte nicht zum nächsten Titel springen",
+  "couldntGoBack": "Konnte nicht zurückspringen",
+  "couldntSeek": "Konnte nicht zu {{time}} springen"
 }

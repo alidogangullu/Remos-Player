@@ -10,5 +10,8 @@
   "couldntUpdateQueue": "Kan de wachtrij niet bijwerken",
   "addedToFavorites": "“{{title}}” aan favorieten toegevoegd",
   "removedFromFavorites": "“{{title}}” uit favorieten verwijderd",
-  "couldntUpdateFavorites": "Kan favorieten niet bijwerken"
+  "couldntUpdateFavorites": "Kan favorieten niet bijwerken",
+  "couldntSkip": "Kon niet naar het volgende nummer gaan",
+  "couldntGoBack": "Kon niet teruggaan",
+  "couldntSeek": "Kon niet naar {{time}} springen"
 }

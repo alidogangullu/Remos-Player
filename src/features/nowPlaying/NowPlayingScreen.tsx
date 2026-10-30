@@ -40,6 +40,15 @@ export interface NowPlayingTrack extends TrackMetadata {
 const POSITION_PRECISION_MS = 1000;
 /** A reading further than this from our estimate is a seek or real drift, not rounding. */
 const POSITION_RESYNC_MS = 2000;
+/** Past this far into a track, Previous restarts it instead of going back a track. */
+const PREVIOUS_RESTARTS_AFTER_MS = 3000;
+
+/** Milliseconds → the H:MM:SS that Seek's REL_TIME takes. */
+function toRelTime(ms: number): string {
+  const totalSec = Math.max(0, Math.floor(ms / 1000));
+  const pad = (n: number) => n.toString().padStart(2, '0');
+  return `${Math.floor(totalSec / 3600)}:${pad(Math.floor(totalSec / 60) % 60)}:${pad(totalSec % 60)}`;
+}
 
 export interface NowPlayingScreenProps {
   speakerIp: string;
@@ -162,6 +171,8 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
     timestamp: Date.now(),
     trackKey: initialTrack?.uri || initialTrack?.title || '',
   });
+  // When the last seek/skip took effect: a status poll sent before it reads the old position.
+  const lastCommandAtRef = useRef(0);
 
   // Check if current track is in saved favorites
   useEffect(() => {
@@ -230,6 +241,8 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
         SonosUpnpClient.getTransportInfo(speakerIp),
         SonosUpnpClient.getTrackQuality(speakerIp).catch(() => null),
       ]);
+      // Stale: it would drag the position (and Previous's restart check) back to before the command.
+      if (requestStart < lastCommandAtRef.current) return;
       if (posInfo?.metadata) {
         const isTvAudio = posInfo.trackUri.includes('x-sonos-htastream');
         const qualityLabel = isTvAudio
@@ -449,19 +462,48 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
     }
   };
 
+  const seekToMs = useCallback(async (ms: number) => {
+    await SonosUpnpClient.seek(speakerIp, toRelTime(ms));
+    lastCommandAtRef.current = Date.now();
+    anchorRef.current = { positionMs: ms, timestamp: Date.now(), trackKey: anchorRef.current.trackKey };
+    setDisplayPositionMs(ms);
+  }, [speakerIp]);
+
+  const handleSeekTo = useCallback(async (ms: number) => {
+    try {
+      await seekToMs(ms);
+    } catch {
+      toast.error(t('toast.couldntSeek', { time: toRelTime(ms).replace(/^0:0?/, '') }));
+    }
+  }, [seekToMs, toast, t]);
+
   const handleNext = async () => {
     try {
       await SonosUpnpClient.next(speakerIp);
+      lastCommandAtRef.current = Date.now();
+      setTimeout(fetchLiveStatus, 500);
     } catch {
-      // Ignored
+      // UPnP 711: nothing after this track (end of the queue, or a stream played on its own).
+      toast.error(t('toast.couldntSkip'));
     }
   };
 
   const handlePrevious = async () => {
     try {
-      await SonosUpnpClient.previous(speakerIp);
+      if (displayPositionMs > PREVIOUS_RESTARTS_AFTER_MS) {
+        await seekToMs(0);
+        return;
+      }
+      try {
+        await SonosUpnpClient.previous(speakerIp);
+        lastCommandAtRef.current = Date.now();
+        setTimeout(fetchLiveStatus, 500);
+      } catch {
+        // Nothing before this track: start it over, like at any later point.
+        await seekToMs(0);
+      }
     } catch {
-      // Ignored
+      toast.error(t('toast.couldntGoBack'));
     }
   };
 
@@ -646,6 +688,7 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
             durationMs={track?.durationMs || 0}
             progressBarRef={progressBarRef}
             onLayoutProgress={() => setProgressBarNode(findNodeHandle(progressBarRef.current))}
+            onSeekTo={isTvAudio ? undefined : handleSeekTo}
             hidden={isRadio}
             nextFocusDown={queueEnabled ? shelfTargetNode : undefined}
             onFocus={handleBarFocus}
