@@ -16,6 +16,14 @@ import { SonosDiscoveryService } from './src/services/sonos/discovery/sonosDisco
 import { SonosUpnpClient } from './src/services/sonos/upnp/sonosUpnpClient';
 import { useSmartTvAutoplay } from './src/services/sonos/autoplay/useSmartTvAutoplay';
 import { SonosDevice } from './src/types/sonos';
+import {
+  RoomPreferences,
+  RoomPreferencesStore,
+  EMPTY_ROOM_PREFERENCES,
+  partitionRooms,
+  pickRoom,
+  toggleRoomHidden,
+} from './src/services/sonos/roomPreferences';
 import { TVPillButton } from './src/components/tv';
 import { ToastProvider } from './src/components/common';
 import { useBackHandler } from './src/hooks';
@@ -52,6 +60,16 @@ function AppContent() {
   };
   const [speaker, setSpeaker] = useState<SonosDevice | null>(null);
   const [speakers, setSpeakers] = useState<SonosDevice[]>([]);
+  // Last picked room and hidden rooms; read from storage before the first scan picks a room.
+  const [roomPrefs, setRoomPrefs] = useState<RoomPreferences>(EMPTY_ROOM_PREFERENCES);
+  const roomPrefsRef = useRef<RoomPreferences>(EMPTY_ROOM_PREFERENCES);
+  const roomPrefsLoadRef = useRef<Promise<void> | null>(null);
+  const updateRoomPrefs = useCallback((update: (prev: RoomPreferences) => RoomPreferences) => {
+    const next = update(roomPrefsRef.current);
+    roomPrefsRef.current = next;
+    setRoomPrefs(next);
+    RoomPreferencesStore.save(next);
+  }, []);
 
   // App-level Back, reached only when no open panel or sub-view handled it:
   // content → TopBar → Home tab → "press again" hint → exit.
@@ -110,15 +128,20 @@ function AppContent() {
   const scanSpeakers = useCallback(async () => {
     setIsSearching(true);
     try {
-      const all = await SonosDiscoveryService.findAllSpeakers();
+      roomPrefsLoadRef.current ??= RoomPreferencesStore.load().then((loaded) => {
+        roomPrefsRef.current = loaded;
+        setRoomPrefs(loaded);
+      });
+      const [all] = await Promise.all([
+        SonosDiscoveryService.findAllSpeakers(),
+        roomPrefsLoadRef.current,
+      ]);
 
       if (all.length > 0) {
         setSpeakers(all);
-        setSpeaker(prev => {
-          // Take the fresh entry so room name and bonded-speaker info stay current.
-          const same = prev && all.find(s => s.id === prev.id);
-          return same || all[0];
-        });
+        // The fresh entry, so room name and bonded-speaker info stay current. Later
+        // scans keep the room in use; the first one opens on the last room picked.
+        setSpeaker((prev) => pickRoom(all, roomPrefsRef.current, prev?.id));
       } else {
         setSpeakers([]);
         setSpeaker(null);
@@ -134,6 +157,21 @@ function AppContent() {
   useEffect(() => {
     scanSpeakers();
   }, [scanSpeakers]);
+
+  const selectSpeaker = useCallback((device: SonosDevice) => {
+    setSpeaker(device);
+    updateRoomPrefs((prefs) => ({ ...prefs, lastRoomId: device.id }));
+  }, [updateRoomPrefs]);
+
+  const handleToggleRoomHidden = useCallback((device: SonosDevice) => {
+    const hiddenRoomIds = toggleRoomHidden(device, roomPrefsRef.current.hiddenRoomIds);
+    updateRoomPrefs((prefs) => ({ ...prefs, hiddenRoomIds }));
+    // Hiding the room in use moves playback control to the first room still shown.
+    if (speaker && device.id === speaker.id) {
+      const next = partitionRooms(speakers, hiddenRoomIds).visible.find((d) => d.id !== device.id);
+      if (next) selectSpeaker(next);
+    }
+  }, [speaker, speakers, selectSpeaker, updateRoomPrefs]);
 
   useEffect(() => {
     if (!speaker) {
@@ -274,7 +312,9 @@ function AppContent() {
           <SystemScreen
             speaker={speaker}
             speakers={speakers}
-            onSelectSpeaker={setSpeaker}
+            onSelectSpeaker={selectSpeaker}
+            hiddenRoomIds={roomPrefs.hiddenRoomIds}
+            onToggleRoomHidden={handleToggleRoomHidden}
             onRescanNetwork={scanSpeakers}
           />
         )}

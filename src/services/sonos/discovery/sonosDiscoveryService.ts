@@ -258,6 +258,7 @@ export class SonosDiscoveryService {
           isCoordinator: true,
           groupMembersCount: group.members.length,
           groupedWith: otherRooms.length > 0 ? otherRooms.map((m) => m.name) : undefined,
+          memberIds: [coordinator.id, ...otherRooms.map((m) => m.id)],
         } as SonosDevice;
       })
     );

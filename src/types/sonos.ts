@@ -9,6 +9,7 @@ export interface SonosDevice {
   groupMembersCount?: number;
   groupName?: string;
   groupedWith?: string[]; // Names of other rooms/zones grouped with this one
+  memberIds?: string[]; // Ids of every room in the group, coordinator first
   hasSub?: boolean; // True if bonded with Sonos Sub/Sub Mini
   hasSurrounds?: boolean; // True if bonded with rear surround pair
   hasTvInput?: boolean; // True if the player has a TV input (publishes the HTControl service)

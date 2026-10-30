@@ -6,12 +6,16 @@ import { TVFocusableCard, TVPillButton } from '../../components/tv';
 import { SonosDevice } from '../../types/sonos';
 import { SonosDiscoveryService } from '../../services/sonos/discovery/sonosDiscoveryService';
 import { describeRoomHardware } from '../../services/sonos/roomDisplay';
+import { isRoomHidden, partitionRooms } from '../../services/sonos/roomPreferences';
 
 export interface SystemScreenProps {
   speaker: SonosDevice | null;
   speakers?: SonosDevice[];
   onSelectSpeaker?: (speaker: SonosDevice) => void;
   onRescanNetwork?: () => Promise<void> | void;
+  /** Rooms the user hid: listed last, in a collapsed section. */
+  hiddenRoomIds?: string[];
+  onToggleRoomHidden?: (speaker: SonosDevice) => void;
 }
 
 export const SystemScreen: React.FC<SystemScreenProps> = ({
@@ -19,9 +23,12 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
   speakers,
   onSelectSpeaker,
   onRescanNetwork,
+  hiddenRoomIds = [],
+  onToggleRoomHidden,
 }) => {
   const { t } = useTranslation();
   const [isScanning, setIsScanning] = useState(false);
+  const [showHiddenRooms, setShowHiddenRooms] = useState(false);
   const [scanStatus, setScanStatus] = useState<'scanning' | 'complete' | 'timeout' | null>(null);
 
   // If speakers list provided, use it; otherwise fallback to single speaker or empty array
@@ -33,6 +40,7 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
       : [];
 
   const isConnected = speakerList.length > 0;
+  const { visible: visibleRooms, hidden: hiddenRooms } = partitionRooms(speakerList, hiddenRoomIds);
 
   const handleRescan = async () => {
     if (isScanning) return;
@@ -53,6 +61,70 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
     }
   };
 
+  const renderRoom = (item: SonosDevice, index: number) => {
+    const isActive = speaker?.id ? item.id === speaker.id : index === 0;
+    const isHidden = isRoomHidden(item, hiddenRoomIds);
+    const roomName = item.name || item.modelName || t('common.room');
+
+    return (
+      <View key={item.id || item.ip || index} style={styles.roomRow}>
+        <TVFocusableCard
+          onPress={() => onSelectSpeaker?.(item)}
+          style={[styles.card, styles.roomCard, isActive && styles.activeCard]}
+          testID={isActive ? 'speaker-details-card' : `speaker-card-${item.id || index}`}
+        >
+          <View style={[styles.cardContent, isHidden && styles.hiddenRoomContent]}>
+            {/* Center: Device Name and Model */}
+            <View style={styles.cardInfo}>
+              {/* A room is what users pick; its main player's model is secondary. */}
+              <Text style={styles.cardDeviceName} numberOfLines={1}>
+                {roomName}
+              </Text>
+              <View style={styles.cardMetaRow}>
+                <Text style={styles.cardModelText} numberOfLines={1}>
+                  {describeRoomHardware(item)}
+                </Text>
+                {item.groupMembersCount && item.groupMembersCount > 1 ? (
+                  <>
+                    <Text style={styles.metaDivider}>•</Text>
+                    <Text style={styles.coordinatorBadge} testID="grouped-speakers-badge">
+                      {item.groupedWith && item.groupedWith.length === 1
+                        ? t('system.groupedWithOne', { name: item.groupedWith[0] })
+                        : item.groupedWith && item.groupedWith.length === 2
+                        ? t('system.groupedWithTwo', { first: item.groupedWith[0], second: item.groupedWith[1] })
+                        : t('system.groupedMore', { count: item.groupMembersCount - 1 })}
+                    </Text>
+                  </>
+                ) : null}
+              </View>
+            </View>
+
+            {/* Right: Active status pill or selection hint */}
+            {isActive ? (
+              <View style={styles.activeBadge} testID="speaker-active-badge">
+                <View style={styles.activeDot} />
+                <Text style={styles.activeBadgeText}>{t('system.active')}</Text>
+              </View>
+            ) : (
+              <View style={styles.inactiveBadge}>
+                <Text style={styles.inactiveBadgeText}>{t('system.select')}</Text>
+              </View>
+            )}
+          </View>
+        </TVFocusableCard>
+        {onToggleRoomHidden && (
+          <TVPillButton
+            label={isHidden ? t('system.show') : t('system.hide')}
+            accessibilityLabel={t(isHidden ? 'system.showRoom' : 'system.hideRoom', { name: roomName })}
+            onPress={() => onToggleRoomHidden(item)}
+            style={styles.hideButton}
+            testID={`speaker-visibility-${item.id || index}`}
+          />
+        )}
+      </View>
+    );
+  };
+
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
       <View style={styles.headerRow}>
@@ -62,60 +134,18 @@ export const SystemScreen: React.FC<SystemScreenProps> = ({
 
       {isConnected ? (
         <View style={styles.speakersList}>
-          {speakerList.map((item, index) => {
-            const isActive = speaker?.id ? item.id === speaker.id : index === 0;
-
-            return (
-              <TVFocusableCard
-                key={item.id || item.ip || index}
-                onPress={() => onSelectSpeaker?.(item)}
-                style={[
-                  styles.card,
-                  isActive && styles.activeCard,
-                ]}
-                testID={isActive ? 'speaker-details-card' : `speaker-card-${item.id || index}`}
-              >
-                <View style={styles.cardContent}>
-                  {/* Center: Device Name and Model */}
-                  <View style={styles.cardInfo}>
-                    {/* A room is what users pick; its main player's model is secondary. */}
-                    <Text style={styles.cardDeviceName} numberOfLines={1}>
-                      {item.name || item.modelName || t('common.room')}
-                    </Text>
-                    <View style={styles.cardMetaRow}>
-                      <Text style={styles.cardModelText} numberOfLines={1}>
-                        {describeRoomHardware(item)}
-                      </Text>
-                      {item.groupMembersCount && item.groupMembersCount > 1 ? (
-                        <>
-                          <Text style={styles.metaDivider}>•</Text>
-                          <Text style={styles.coordinatorBadge} testID="grouped-speakers-badge">
-                            {item.groupedWith && item.groupedWith.length === 1
-                              ? t('system.groupedWithOne', { name: item.groupedWith[0] })
-                              : item.groupedWith && item.groupedWith.length === 2
-                              ? t('system.groupedWithTwo', { first: item.groupedWith[0], second: item.groupedWith[1] })
-                              : t('system.groupedMore', { count: item.groupMembersCount - 1 })}
-                          </Text>
-                        </>
-                      ) : null}
-                    </View>
-                  </View>
-
-                  {/* Right: Active status pill or selection hint */}
-                  {isActive ? (
-                    <View style={styles.activeBadge} testID="speaker-active-badge">
-                      <View style={styles.activeDot} />
-                      <Text style={styles.activeBadgeText}>{t('system.active')}</Text>
-                    </View>
-                  ) : (
-                    <View style={styles.inactiveBadge}>
-                      <Text style={styles.inactiveBadgeText}>{t('system.select')}</Text>
-                    </View>
-                  )}
-                </View>
-              </TVFocusableCard>
-            );
-          })}
+          {visibleRooms.map(renderRoom)}
+          {hiddenRooms.length > 0 && (
+            <>
+              <TVPillButton
+                label={t('system.hiddenRooms', { count: hiddenRooms.length })}
+                onPress={() => setShowHiddenRooms((shown) => !shown)}
+                style={styles.hiddenRoomsToggle}
+                testID="hidden-rooms-toggle"
+              />
+              {showHiddenRooms && hiddenRooms.map((item, i) => renderRoom(item, visibleRooms.length + i))}
+            </>
+          )}
         </View>
       ) : (
         <View style={styles.emptyNoticeContainer} testID="no-speakers-notice">
@@ -168,6 +198,24 @@ const styles = StyleSheet.create({
   speakersList: {
     gap: spacing.md,
     marginBottom: spacing.xl,
+  },
+  roomRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.md,
+  },
+  roomCard: {
+    flex: 1,
+  },
+  hiddenRoomContent: {
+    opacity: 0.5,
+  },
+  hideButton: {
+    minWidth: 120,
+  },
+  hiddenRoomsToggle: {
+    alignSelf: 'flex-start',
+    marginTop: spacing.xs,
   },
   card: {
     paddingVertical: spacing.md,

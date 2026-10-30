@@ -17,6 +17,8 @@ export interface TVPillButtonProps {
   hasTVPreferredFocus?: boolean;
   disabled?: boolean;
   testID?: string;
+  /** When the label alone is ambiguous out of context (e.g. "Hide" → "Hide Kitchen"). */
+  accessibilityLabel?: string;
 }
 
 export const TVPillButton: React.FC<TVPillButtonProps> = ({
@@ -28,6 +30,7 @@ export const TVPillButton: React.FC<TVPillButtonProps> = ({
   hasTVPreferredFocus,
   disabled = false,
   testID,
+  accessibilityLabel,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -44,6 +47,7 @@ export const TVPillButton: React.FC<TVPillButtonProps> = ({
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
       hasTVPreferredFocus={hasTVPreferredFocus}
       testID={testID}
       disabled={disabled}
