@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, Text, StyleSheet } from 'react-native';
+import { Pressable, Text, StyleSheet, View } from 'react-native';
 import { colors } from '../../theme';
 
 export interface TVFilterChipProps {
@@ -40,16 +40,25 @@ export const TVFilterChip: React.FC<TVFilterChipProps> = ({
         isFocused && styles.focusedChip,
       ]}
     >
-      <Text
-        style={[
-          styles.text,
-          active && styles.activeText,
-          isFocused && styles.focusedText,
-        ]}
-        numberOfLines={1}
-      >
-        {label}
-      </Text>
+      {/* Active and focused labels are bolder, so wider. An invisible bold copy sizes
+          the chip for both weights; otherwise every focus change would resize it and
+          reflow whatever shares its row (e.g. wrapping the text beside it). */}
+      <View>
+        <Text style={[styles.text, styles.boldText, styles.sizer]} numberOfLines={1} importantForAccessibility="no">
+          {label}
+        </Text>
+        <Text
+          style={[
+            styles.text,
+            styles.label,
+            active && styles.activeText,
+            isFocused && styles.focusedText,
+          ]}
+          numberOfLines={1}
+        >
+          {label}
+        </Text>
+      </View>
     </Pressable>
   );
 };
@@ -79,6 +88,16 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: colors.textSecondary,
     letterSpacing: 0.2,
+  },
+  boldText: {
+    fontWeight: '700',
+  },
+  sizer: {
+    opacity: 0,
+  },
+  label: {
+    ...StyleSheet.absoluteFillObject,
+    textAlign: 'center',
   },
   activeText: {
     color: colors.textPrimary,
