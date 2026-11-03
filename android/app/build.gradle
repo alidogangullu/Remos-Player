@@ -59,9 +59,10 @@ react {
 }
 
 /**
- * Set this to true to Run Proguard on Release builds to minify the Java bytecode.
+ * Run R8 on release builds to shrink, optimize and obfuscate the Java/Kotlin bytecode
+ * and strip unused resources. Required for a healthy Play "DEX code optimization" score.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore (JSC)
@@ -115,7 +116,8 @@ android {
             // Google Play rejects debug-signed bundles, so set the REMOS_UPLOAD_* properties to publish.
             signingConfig project.hasProperty('REMOS_UPLOAD_STORE_FILE') ? signingConfigs.release : signingConfigs.debug
             minifyEnabled enableProguardInReleaseBuilds
-            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            shrinkResources enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
 }
