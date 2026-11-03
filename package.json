@@ -2,6 +2,7 @@
   "name": "remos-player",
   "version": "1.2.0",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "android": "react-native run-android",
     "android:tv": "react-native run-android",
@@ -9,7 +10,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "i18n:lint": "i18next-cli lint"
+    "i18n:lint": "i18next-cli lint",
+    "licenses:notices": "(cat docs/licenses/native-notices.txt && yarn --silent licenses generate-disclaimer --production) > THIRD_PARTY_NOTICES.txt"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^3.1.1",
