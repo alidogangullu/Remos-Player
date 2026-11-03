@@ -1,0 +1,67 @@
+{
+  "eyebrow": "REMOS PRO",
+  "locked": {
+    "home": {
+      "title": "Your music, one click away",
+      "body": "Home brings your music services, Sonos favorites and recently played music together on one screen."
+    },
+    "search": {
+      "title": "Search all your music services",
+      "body": "Find songs, albums, artists and playlists on Apple Music, Spotify, YouTube Music, TIDAL and Sonos Radio, and play them on your speakers."
+    },
+    "favorites": {
+      "title": "Your Sonos favorites on the big screen",
+      "body": "Browse and play the favorites you saved in the Sonos app, and save new ones from Now Playing."
+    },
+    "sound": {
+      "title": "Tune your sound from the couch",
+      "body": "EQ, loudness, night mode, speech enhancement, height audio, and sub and surround settings."
+    },
+    "lyrics": {
+      "title": "Sing along with synced lyrics",
+      "body": "Time-synced lyrics next to the album art, line by line."
+    }
+  },
+  "free": "Picking a room, Now Playing, play, pause, skip, volume and TV Autoplay stay free.",
+  "features": {
+    "title": "Everything in Pro",
+    "search": "Search Apple Music, Spotify and your other services",
+    "home": "Home, Favorites and Jump Back In",
+    "lyrics": "Synced lyrics and the Up Next queue",
+    "sound": "Sound settings: EQ, sub, surround and more",
+    "future": "Every feature that comes next, at no extra cost"
+  },
+  "unlock": "Unlock Pro",
+  "unlockWithPrice": "Unlock Pro · {{price}}",
+  "opening": "Opening Google Play…",
+  "restore": "Restore Purchase",
+  "restoring": "Checking…",
+  "footnote": "One-time purchase, no subscription. Remos relies on interfaces Sonos doesn't document, so a Sonos update can break a feature until Remos is updated.",
+  "status": {
+    "pending": "Your payment is pending. Pro unlocks as soon as Google Play confirms it.",
+    "failed": "The purchase didn't go through. Please try again.",
+    "productUnavailable": "Remos Pro can't be purchased right now. Please try again later.",
+    "unavailable": "Google Play isn't available on this TV, so Pro can't be purchased here."
+  },
+  "owned": {
+    "title": "Remos Pro is unlocked",
+    "body": "Thanks for supporting Remos. Every Pro feature is yours, including the ones still to come."
+  },
+  "unlockedToast": "Remos Pro is unlocked. Enjoy!",
+  "paneTitle": "Remos Pro",
+  "paneSubtitle": "A one-time purchase that unlocks everything",
+  "restoreResult": {
+    "owned": "Your Remos Pro purchase is restored.",
+    "pending": "Your payment is still pending with Google Play.",
+    "not_owned": "No Remos Pro purchase found for this Google account.",
+    "unavailable": "Couldn't reach Google Play. Check the connection and try again."
+  },
+  "badge": "PRO",
+  "teaser": {
+    "sound": {
+      "title": "EQ, sub and surround are in Remos Pro",
+      "body": "Bass, treble, loudness, night mode, speech enhancement and more."
+    },
+    "cta": "See Remos Pro"
+  }
+}

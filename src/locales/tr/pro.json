@@ -1,0 +1,67 @@
+{
+  "eyebrow": "REMOS PRO",
+  "locked": {
+    "home": {
+      "title": "Müziğiniz tek tık uzağınızda",
+      "body": "Ana Sayfa, müzik servislerinizi, Sonos favorilerinizi ve son çaldıklarınızı tek ekranda toplar."
+    },
+    "search": {
+      "title": "Tüm müzik servislerinizde arayın",
+      "body": "Apple Music, Spotify, YouTube Music, TIDAL ve Sonos Radio'da şarkı, albüm, sanatçı ve çalma listesi bulun, hoparlörlerinizde çalın."
+    },
+    "favorites": {
+      "title": "Sonos favorileriniz büyük ekranda",
+      "body": "Sonos uygulamasında kaydettiğiniz favorilere göz atın ve çalın, çalan parça ekranından yenilerini ekleyin."
+    },
+    "sound": {
+      "title": "Sesinizi koltuğunuzdan ayarlayın",
+      "body": "EQ, loudness, gece modu, konuşma iyileştirme, yükseklik sesi, sub ve surround ayarları."
+    },
+    "lyrics": {
+      "title": "Senkronize sözlerle eşlik edin",
+      "body": "Albüm kapağının yanında, satır satır akan şarkı sözleri."
+    }
+  },
+  "free": "Oda seçmek, çalan parçayı izlemek, oynatma, duraklatma, atlama, ses ayarı ve TV Otomatik Oynatma ücretsiz kalır.",
+  "features": {
+    "title": "Pro'da neler var",
+    "search": "Apple Music, Spotify ve diğer servislerinizde arama",
+    "home": "Ana Sayfa, Favoriler ve Kaldığın Yerden Devam Et",
+    "lyrics": "Senkronize şarkı sözleri ve Sıra",
+    "sound": "Ses ayarları: EQ, sub, surround ve daha fazlası",
+    "future": "Gelecek tüm yeni özellikler, ek ücret olmadan"
+  },
+  "unlock": "Pro'yu Aç",
+  "unlockWithPrice": "Pro'yu Aç · {{price}}",
+  "opening": "Google Play açılıyor…",
+  "restore": "Satın Alımı Geri Yükle",
+  "restoring": "Kontrol ediliyor…",
+  "footnote": "Tek seferlik satın alma, abonelik yok. Remos, Sonos'un belgelemediği arayüzleri kullanır; bu yüzden bir Sonos güncellemesi, Remos güncellenene kadar bir özelliği bozabilir.",
+  "status": {
+    "pending": "Ödemeniz beklemede. Google Play onayladığı anda Pro açılır.",
+    "failed": "Satın alma tamamlanamadı. Lütfen tekrar deneyin.",
+    "productUnavailable": "Remos Pro şu anda satın alınamıyor. Lütfen daha sonra tekrar deneyin.",
+    "unavailable": "Bu TV'de Google Play kullanılamıyor, bu yüzden Pro burada satın alınamaz."
+  },
+  "owned": {
+    "title": "Remos Pro açık",
+    "body": "Remos'u desteklediğiniz için teşekkürler. Gelecekte eklenecekler dahil tüm Pro özellikleri sizin."
+  },
+  "unlockedToast": "Remos Pro açıldı. Keyfini çıkarın!",
+  "paneTitle": "Remos Pro",
+  "paneSubtitle": "Her şeyi açan tek seferlik satın alma",
+  "restoreResult": {
+    "owned": "Remos Pro satın alımınız geri yüklendi.",
+    "pending": "Ödemeniz Google Play'de hâlâ beklemede.",
+    "not_owned": "Bu Google hesabında Remos Pro satın alımı bulunamadı.",
+    "unavailable": "Google Play'e ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin."
+  },
+  "badge": "PRO",
+  "teaser": {
+    "sound": {
+      "title": "EQ, sub ve surround Remos Pro'da",
+      "body": "Bas, tiz, loudness, gece modu, konuşma iyileştirme ve daha fazlası."
+    },
+    "cta": "Remos Pro'yu Gör"
+  }
+}

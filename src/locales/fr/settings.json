@@ -2,6 +2,7 @@
   "title": "Réglages",
   "noSpeaker": "Aucune enceinte connectée",
   "tabs": {
+    "pro": "Remos Pro",
     "sound": "Son",
     "language": "Langue",
     "notifications": "Notifications",
@@ -13,6 +14,8 @@
     "off": "NON"
   },
   "sound": {
+    "title": "Son",
+    "subtitle": "Réglages des enceintes et du son TV de cette pièce",
     "speakerRequired": {
       "title": "Enceinte requise",
       "subtitle": "Connectez-vous à une enceinte Sonos pour configurer les réglages audio."

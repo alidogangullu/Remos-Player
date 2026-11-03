@@ -29,6 +29,8 @@ import { ToastProvider } from './src/components/common';
 import { useBackHandler } from './src/hooks';
 import { RemoteConfigProvider, useRemoteConfig } from './src/services/remoteConfig/RemoteConfigProvider';
 import { ForceUpdateScreen } from './src/features/update/ForceUpdateScreen';
+import { ProProvider, ProFeature, usePro } from './src/services/billing/ProProvider';
+import { ProLockedScreen } from './src/features/pro';
 
 const NOW_PLAYING_POLL_MS = 5000;
 /** A second Back within this window exits the app; matches ToastAndroid.SHORT (~2s) so it ends with the hint. */
@@ -46,7 +48,21 @@ const queryClient = new QueryClient({
 function AppContent() {
   const { t } = useTranslation();
   const { updateInfo, hasUnreadAnnouncements } = useRemoteConfig();
+  const { isPro, isResolved: isProResolved, upgradeRequest } = usePro();
   const [activeTab, setActiveTab] = useState<TopBarTab>('home');
+  // Home is a Pro screen, so the free app starts on, and backs out to, Now Playing.
+  const homeTab: TopBarTab = isProResolved && !isPro ? 'nowPlaying' : 'home';
+  const hasPickedStartTabRef = useRef(false);
+  useEffect(() => {
+    if (!isProResolved || hasPickedStartTabRef.current) return;
+    hasPickedStartTabRef.current = true;
+    if (!isPro) setActiveTab(prev => (prev === 'home' ? 'nowPlaying' : prev));
+  }, [isProResolved, isPro]);
+  // Pro tabs wait for the cached ownership so a Pro user never sees the offer flash by.
+  const renderProTab = (feature: ProFeature, node: React.ReactNode) => {
+    if (!isProResolved) return null;
+    return isPro ? node : <ProLockedScreen feature={feature} />;
+  };
   // Tabs stay mounted (hidden) after their first visit so switching back doesn't reload them.
   const [visitedTabs, setVisitedTabs] = useState<TopBarTab[]>(['home']);
   useEffect(() => {
@@ -101,8 +117,8 @@ function AppContent() {
       setTopBarFocusSignal((n) => n + 1);
       return;
     }
-    if (activeTab !== 'home') {
-      selectTab('home');
+    if (activeTab !== homeTab) {
+      selectTab(homeTab);
       setTopBarFocusSignal((n) => n + 1);
       return;
     }
@@ -118,6 +134,9 @@ function AppContent() {
       ToastAndroid.show(t('app.exitHint'), ToastAndroid.SHORT);
     }
   });
+  useEffect(() => {
+    if (upgradeRequest) selectTab('settings');
+  }, [upgradeRequest, selectTab]);
   useSmartTvAutoplay(speaker);
   const [isSearching, setIsSearching] = useState(true);
   const [deviceVolume, setDeviceVolume] = useState<number | undefined>(undefined);
@@ -244,7 +263,7 @@ function AppContent() {
         onFocusWithinChange={handleTopBarFocusWithin}
       />
       <View style={styles.content}>
-        {renderTab('home',
+        {renderTab('home', renderProTab('home',
           (speaker ? (
             <HomeScreen speakerIp={speaker.ip} speakerId={speaker.id} isActive={activeTab === 'home'} />
           ) : (
@@ -262,7 +281,7 @@ function AppContent() {
                 onPress={scanSpeakers}
               />
             </View>
-          )))}
+          ))))}
         {activeTab === 'nowPlaying' &&
           (speaker ? (
             <NowPlayingScreen
@@ -288,7 +307,7 @@ function AppContent() {
               />
             </View>
           ))}
-        {renderTab('search',
+        {renderTab('search', renderProTab('search',
           (speaker ? (
             <SearchScreen speakerIp={speaker.ip} speakerId={speaker.id} isActive={activeTab === 'search'} />
           ) : (
@@ -296,8 +315,8 @@ function AppContent() {
               <Text style={styles.emptyTitle}>{t('common.speakerRequired')}</Text>
               <Text style={styles.emptySubtitle}>{t('app.speakerRequired.search')}</Text>
             </View>
-          )))}
-        {renderTab('favorites',
+          ))))}
+        {renderTab('favorites', renderProTab('favorites',
           (speaker ? (
             <FavoritesScreen speakerIp={speaker.ip} speakerId={speaker.id} />
           ) : (
@@ -305,9 +324,9 @@ function AppContent() {
               <Text style={styles.emptyTitle}>{t('common.speakerRequired')}</Text>
               <Text style={styles.emptySubtitle}>{t('app.speakerRequired.favorites')}</Text>
             </View>
-          )))}
+          ))))}
         {/* Notifications, Update and About work without a speaker; the Sound pane shows its own empty state. */}
-        {renderTab('settings', <SettingsScreen speaker={speaker} />)}
+        {renderTab('settings', <SettingsScreen speaker={speaker} upgradeRequest={upgradeRequest} isActive={activeTab === 'settings'} />)}
         {activeTab === 'system' && (
           <SystemScreen
             speaker={speaker}
@@ -339,7 +358,9 @@ export default function App() {
         <LanguageProvider>
           <RemoteConfigProvider>
             <ToastProvider>
-              <AppGate />
+              <ProProvider>
+                <AppGate />
+              </ProProvider>
             </ToastProvider>
           </RemoteConfigProvider>
         </LanguageProvider>

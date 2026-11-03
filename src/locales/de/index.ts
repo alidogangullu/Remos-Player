@@ -9,8 +9,9 @@ import search from './search.json';
 import favorites from './favorites.json';
 import settings from './settings.json';
 import system from './system.json';
+import pro from './pro.json';
 
 // Typed against English, so a missing key fails `tsc`.
-const de: TranslationResources = { common, app, toast, home, services, nowPlaying, search, favorites, settings, system };
+const de: TranslationResources = { common, app, toast, home, services, nowPlaying, search, favorites, settings, system, pro };
 
 export default de;

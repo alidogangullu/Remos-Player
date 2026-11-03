@@ -1,0 +1,67 @@
+{
+  "eyebrow": "REMOS PRO",
+  "locked": {
+    "home": {
+      "title": "Votre musique à portée de clic",
+      "body": "L’accueil réunit vos services de musique, vos favoris Sonos et votre musique récente sur un seul écran."
+    },
+    "search": {
+      "title": "Cherchez dans tous vos services de musique",
+      "body": "Trouvez titres, albums, artistes et playlists sur Apple Music, Spotify, YouTube Music, TIDAL et Sonos Radio, et lancez-les sur vos enceintes."
+    },
+    "favorites": {
+      "title": "Vos favoris Sonos sur grand écran",
+      "body": "Parcourez et lancez les favoris enregistrés dans l’app Sonos, et ajoutez-en depuis la lecture en cours."
+    },
+    "sound": {
+      "title": "Réglez le son depuis le canapé",
+      "body": "Égaliseur, loudness, mode nuit, amélioration des dialogues, audio en hauteur, et réglages du sub et du surround."
+    },
+    "lyrics": {
+      "title": "Chantez avec les paroles synchronisées",
+      "body": "Les paroles défilent ligne par ligne, à côté de la pochette."
+    }
+  },
+  "free": "Choisir une pièce, la lecture en cours, lecture, pause, morceau suivant, volume et Lecture auto. TV restent gratuits.",
+  "features": {
+    "title": "Tout ce qu’offre Pro",
+    "search": "Recherche dans Apple Music, Spotify et vos autres services",
+    "home": "Accueil, Favoris et Reprendre l’écoute",
+    "lyrics": "Paroles synchronisées et file d’attente",
+    "sound": "Réglages du son : égaliseur, sub, surround et plus",
+    "future": "Toutes les prochaines fonctionnalités, sans frais supplémentaires"
+  },
+  "unlock": "Débloquer Pro",
+  "unlockWithPrice": "Débloquer Pro · {{price}}",
+  "opening": "Ouverture de Google Play…",
+  "restore": "Restaurer l’achat",
+  "restoring": "Vérification…",
+  "footnote": "Achat unique, sans abonnement. Remos utilise des interfaces que Sonos ne documente pas : une mise à jour Sonos peut donc perturber une fonctionnalité jusqu’à la mise à jour de Remos.",
+  "status": {
+    "pending": "Votre paiement est en attente. Pro sera débloqué dès que Google Play l’aura confirmé.",
+    "failed": "L’achat n’a pas abouti. Veuillez réessayer.",
+    "productUnavailable": "Remos Pro ne peut pas être acheté pour le moment. Veuillez réessayer plus tard.",
+    "unavailable": "Google Play n’est pas disponible sur ce téléviseur : Pro ne peut pas être acheté ici."
+  },
+  "owned": {
+    "title": "Remos Pro est débloqué",
+    "body": "Merci de soutenir Remos. Toutes les fonctionnalités Pro sont à vous, y compris celles à venir."
+  },
+  "unlockedToast": "Remos Pro est débloqué. Profitez-en !",
+  "paneTitle": "Remos Pro",
+  "paneSubtitle": "Un achat unique qui débloque tout",
+  "restoreResult": {
+    "owned": "Votre achat Remos Pro a été restauré.",
+    "pending": "Votre paiement est toujours en attente chez Google Play.",
+    "not_owned": "Aucun achat Remos Pro trouvé pour ce compte Google.",
+    "unavailable": "Impossible de joindre Google Play. Vérifiez la connexion et réessayez."
+  },
+  "badge": "PRO",
+  "teaser": {
+    "sound": {
+      "title": "Égaliseur, sub et surround sont dans Remos Pro",
+      "body": "Graves, aigus, loudness, mode nuit, amélioration des dialogues et plus."
+    },
+    "cta": "Voir Remos Pro"
+  }
+}

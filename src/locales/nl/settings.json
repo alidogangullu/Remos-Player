@@ -2,6 +2,7 @@
   "title": "Instellingen",
   "noSpeaker": "Geen speaker verbonden",
   "tabs": {
+    "pro": "Remos Pro",
     "sound": "Geluid",
     "language": "Taal",
     "notifications": "Meldingen",
@@ -13,6 +14,8 @@
     "off": "UIT"
   },
   "sound": {
+    "title": "Geluid",
+    "subtitle": "Speaker- en tv-audio-instellingen voor deze ruimte",
     "speakerRequired": {
       "title": "Speaker vereist",
       "subtitle": "Maak verbinding met een Sonos-speaker om de audio- en geluidsinstellingen te wijzigen."

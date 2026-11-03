@@ -2,6 +2,7 @@
   "title": "Ajustes",
   "noSpeaker": "No hay ningún altavoz conectado",
   "tabs": {
+    "pro": "Remos Pro",
     "sound": "Sonido",
     "language": "Idioma",
     "notifications": "Notificaciones",
@@ -13,6 +14,8 @@
     "off": "NO"
   },
   "sound": {
+    "title": "Sonido",
+    "subtitle": "Ajustes de altavoces y audio de TV de esta sala",
     "speakerRequired": {
       "title": "Se necesita un altavoz",
       "subtitle": "Conéctate a un altavoz Sonos para configurar los ajustes de audio y sonido."

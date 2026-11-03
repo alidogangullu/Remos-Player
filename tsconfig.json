@@ -1,7 +1,12 @@
 {
   "extends": "@react-native/typescript-config",
   "compilerOptions": {
-    "types": []
+    "types": [],
+    // react-native-iap's "react-native" export condition points at its TS sources, which
+    // don't compile under our settings; type-check against its published declarations.
+    "paths": {
+      "react-native-iap": ["./node_modules/react-native-iap/lib/typescript/src/index.d.ts"]
+    }
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["**/node_modules", "**/Pods"]

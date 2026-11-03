@@ -2,6 +2,7 @@
   "title": "Ayarlar",
   "noSpeaker": "Bağlı hoparlör yok",
   "tabs": {
+    "pro": "Remos Pro",
     "sound": "Ses",
     "language": "Dil",
     "notifications": "Bildirimler",
@@ -13,6 +14,8 @@
     "off": "KAPALI"
   },
   "sound": {
+    "title": "Ses",
+    "subtitle": "Bu odanın hoparlör ve TV sesi ayarları",
     "speakerRequired": {
       "title": "Hoparlör Gerekli",
       "subtitle": "Ses ayarlarını yapılandırmak için bir Sonos hoparlöre bağlanın."

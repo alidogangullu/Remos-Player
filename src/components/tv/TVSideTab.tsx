@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { colors } from '../../theme';
 import { NotificationDot } from '../common/NotificationDot';
@@ -12,6 +12,8 @@ export interface TVSideTabProps {
   onFocus?: () => void;
   onPress?: () => void;
   testID?: string;
+  /** For moving D-pad focus to this tab from code (`requestTVFocus`). */
+  ref?: React.Ref<View>;
 }
 
 /**
@@ -26,12 +28,14 @@ export const TVSideTab: React.FC<TVSideTabProps> = ({
   onFocus,
   onPress,
   testID,
+  ref,
 }) => {
   const { t } = useTranslation();
   const [isFocused, setIsFocused] = useState(false);
 
   return (
     <Pressable
+      ref={ref}
       accessibilityRole="tab"
       accessibilityState={{ selected: active }}
       accessibilityLabel={showBadge ? t('common.newBadge', { label }) : label}

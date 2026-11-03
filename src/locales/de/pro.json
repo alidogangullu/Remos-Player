@@ -1,0 +1,67 @@
+{
+  "eyebrow": "REMOS PRO",
+  "locked": {
+    "home": {
+      "title": "Deine Musik, nur einen Klick entfernt",
+      "body": "Start zeigt deine Musikdienste, Sonos-Favoriten und zuletzt gespielte Musik auf einem Bildschirm."
+    },
+    "search": {
+      "title": "Durchsuche alle deine Musikdienste",
+      "body": "Finde Songs, Alben, Künstler und Playlists auf Apple Music, Spotify, YouTube Music, TIDAL und Sonos Radio und spiele sie auf deinen Lautsprechern ab."
+    },
+    "favorites": {
+      "title": "Deine Sonos-Favoriten auf dem großen Bildschirm",
+      "body": "Durchsuche und spiele die Favoriten aus der Sonos-App und speichere neue direkt aus „Aktuelle Wiedergabe“."
+    },
+    "sound": {
+      "title": "Stimme deinen Klang vom Sofa aus ab",
+      "body": "EQ, Loudness, Nachtmodus, Sprachverbesserung, Höhen-Audio sowie Sub- und Surround-Einstellungen."
+    },
+    "lyrics": {
+      "title": "Sing mit synchronisierten Songtexten mit",
+      "body": "Zeitsynchrone Songtexte neben dem Albumcover, Zeile für Zeile."
+    }
+  },
+  "free": "Raum auswählen, Aktuelle Wiedergabe, Wiedergabe, Pause, Überspringen, Lautstärke und TV-Autoplay bleiben kostenlos.",
+  "features": {
+    "title": "Alles in Pro",
+    "search": "Suche in Apple Music, Spotify und deinen anderen Diensten",
+    "home": "Start, Favoriten und Weiterhören",
+    "lyrics": "Synchronisierte Songtexte und die Warteschlange",
+    "sound": "Klangeinstellungen: EQ, Sub, Surround und mehr",
+    "future": "Alle kommenden Funktionen ohne Aufpreis"
+  },
+  "unlock": "Pro freischalten",
+  "unlockWithPrice": "Pro freischalten · {{price}}",
+  "opening": "Google Play wird geöffnet…",
+  "restore": "Kauf wiederherstellen",
+  "restoring": "Wird geprüft…",
+  "footnote": "Einmaliger Kauf, kein Abo. Remos nutzt Schnittstellen, die Sonos nicht dokumentiert. Ein Sonos-Update kann daher eine Funktion stören, bis Remos aktualisiert ist.",
+  "status": {
+    "pending": "Deine Zahlung steht noch aus. Pro wird freigeschaltet, sobald Google Play sie bestätigt.",
+    "failed": "Der Kauf konnte nicht abgeschlossen werden. Bitte versuche es erneut.",
+    "productUnavailable": "Remos Pro kann gerade nicht gekauft werden. Bitte versuche es später erneut.",
+    "unavailable": "Google Play ist auf diesem Fernseher nicht verfügbar, daher kann Pro hier nicht gekauft werden."
+  },
+  "owned": {
+    "title": "Remos Pro ist freigeschaltet",
+    "body": "Danke, dass du Remos unterstützt. Alle Pro-Funktionen gehören dir, auch die, die noch kommen."
+  },
+  "unlockedToast": "Remos Pro ist freigeschaltet. Viel Spaß!",
+  "paneTitle": "Remos Pro",
+  "paneSubtitle": "Ein einmaliger Kauf, der alles freischaltet",
+  "restoreResult": {
+    "owned": "Dein Remos Pro-Kauf wurde wiederhergestellt.",
+    "pending": "Deine Zahlung steht bei Google Play noch aus.",
+    "not_owned": "Für dieses Google-Konto wurde kein Remos Pro-Kauf gefunden.",
+    "unavailable": "Google Play ist nicht erreichbar. Prüfe die Verbindung und versuche es erneut."
+  },
+  "badge": "PRO",
+  "teaser": {
+    "sound": {
+      "title": "EQ, Sub und Surround gibt es mit Remos Pro",
+      "body": "Bass, Höhen, Loudness, Nachtmodus, Sprachverbesserung und mehr."
+    },
+    "cta": "Remos Pro ansehen"
+  }
+}

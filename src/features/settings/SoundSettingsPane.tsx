@@ -15,6 +15,9 @@ import {
   TvAutoplayMode,
   hasTvInput,
 } from '../../services/sonos/autoplay/smartTvAutoplay';
+import { usePro } from '../../services/billing/ProProvider';
+import { ProTeaserCard } from '../pro';
+import { PaneHeader } from '../../components/common';
 
 const TV_AUTOPLAY_MODES: TvAutoplayMode[] = ['off', 'on', 'smart'];
 
@@ -61,6 +64,7 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
   onToggleSpeechEnhancement,
 }) => {
   const { t } = useTranslation();
+  const { isPro } = usePro();
   const [bass, setBass] = useState(0);
   const [treble, setTreble] = useState(0);
   const [loudness, setLoudness] = useState(true);
@@ -492,229 +496,238 @@ export const SoundSettingsPane: React.FC<SoundSettingsPaneProps> = ({
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
     >
+      <PaneHeader title={t('settings.sound.title')} subtitle={t('settings.sound.subtitle')} />
+
       {/* TV Autoplay — top of settings for soundbar devices */}
       {tvAutoplayCard}
 
-      {capabilities.bass || capabilities.treble || capabilities.loudness ? (
-        <Text style={styles.sectionTitle}>{t('settings.sound.eq.title')}</Text>
-      ) : null}
-
-      {capabilities.bass ? (
-        <TVEQSlider
-          title={t('settings.sound.eq.bass.title')}
-          description={t('settings.sound.eq.bass.description')}
-          value={bass}
-          onChange={handleChangeBass}
-          testID="eq-bass"
-        />
-      ) : null}
-
-      {capabilities.treble ? (
-        <TVEQSlider
-          title={t('settings.sound.eq.treble.title')}
-          description={t('settings.sound.eq.treble.description')}
-          value={treble}
-          onChange={handleChangeTreble}
-          testID="eq-treble"
-        />
-      ) : null}
-
-      {capabilities.loudness ? (
-        <SettingsToggle
-          title={t('settings.sound.eq.loudness.title')}
-          description={t('settings.sound.eq.loudness.description')}
-          isEnabled={loudness}
-          onToggle={handleToggleLoudness}
-          onPress={handleToggleLoudness}
-          testID="toggle-loudness"
-        />
-      ) : null}
-
-      {capabilities.bass || capabilities.treble ? (
-        <View style={styles.resetRow}>
-          <TVFocusableButton
-            label={t('settings.sound.eq.reset')}
-            onPress={handleResetEQ}
-            testID="button-reset-eq"
-            style={styles.resetButton}
-          />
-        </View>
-      ) : null}
-
-      {/* TV Audio Enhancements - each shown only if the speaker reads it back */}
-      {capabilities.nightMode ||
-      capabilities.speechEnhancement ||
-      isSoundbar ? (
+      {/* TV Autoplay changes how the soundbar behaves, so it stays free; the rest is Pro. */}
+      {isPro ? (
         <>
-          <Text style={styles.sectionTitle}>{t('settings.sound.tvEnhancements.title')}</Text>
+        {capabilities.bass || capabilities.treble || capabilities.loudness ? (
+          <Text style={styles.sectionTitle}>{t('settings.sound.eq.title')}</Text>
+        ) : null}
 
-          {capabilities.nightMode ? (
-            <SettingsToggle
-              title={t('settings.sound.tvEnhancements.nightMode.title')}
-              description={t('settings.sound.tvEnhancements.nightMode.description')}
-              isEnabled={nightMode}
-              onToggle={handleToggleNight}
-              onPress={handleToggleNight}
-              testID="toggle-night-mode"
-            />
-          ) : null}
-
-          {capabilities.speechEnhancement ? (
-            <SettingsToggle
-              title={t('settings.sound.tvEnhancements.speech.title')}
-              description={t('settings.sound.tvEnhancements.speech.description')}
-              isEnabled={speechEnhancement}
-              onToggle={handleToggleSpeech}
-              onPress={handleToggleSpeech}
-              testID="toggle-speech-enhancement"
-            />
-          ) : null}
-
-          {isSoundbar ? (
-            <SettingsToggle
-              title={t('settings.sound.tvEnhancements.ungroup.title')}
-              description={t('settings.sound.tvEnhancements.ungroup.description')}
-              isEnabled={tvAutoplayUngroup}
-              onToggle={handleToggleTVUngroup}
-              onPress={handleToggleTVUngroup}
-              testID="toggle-tv-ungroup"
-            />
-          ) : null}
-        </>
-      ) : null}
-
-      {/* Subwoofer Controls - only when Sub is bonded */}
-      {hasSub ? (
-        <>
-          <Text style={styles.sectionTitle}>{t('settings.sound.sub.title')}</Text>
-
-          <SettingsToggle
-            title={t('settings.sound.sub.enable.title')}
-            description={t('settings.sound.sub.enable.description')}
-            isEnabled={subEnabled}
-            onToggle={handleToggleSub}
-            onPress={handleToggleSub}
-            testID="toggle-sub-enable"
-          />
-
+        {capabilities.bass ? (
           <TVEQSlider
-            title={t('settings.sound.sub.level.title')}
-            description={t('settings.sound.sub.level.description')}
-            value={subGain}
-            min={-10}
-            max={10}
-            onChange={handleChangeSubGain}
-            testID="slider-sub-gain"
+            title={t('settings.sound.eq.bass.title')}
+            description={t('settings.sound.eq.bass.description')}
+            value={bass}
+            onChange={handleChangeBass}
+            testID="eq-bass"
           />
+        ) : null}
 
+        {capabilities.treble ? (
           <TVEQSlider
-            title={t('settings.sound.sub.crossover.title')}
-            description={t('settings.sound.sub.crossover.description')}
-            value={subCrossover}
-            min={50}
-            max={110}
-            step={10}
-            valueFormatter={val => `${val} Hz`}
-            onChange={handleChangeSubCrossover}
-            testID="slider-sub-crossover"
+            title={t('settings.sound.eq.treble.title')}
+            description={t('settings.sound.eq.treble.description')}
+            value={treble}
+            onChange={handleChangeTreble}
+            testID="eq-treble"
           />
+        ) : null}
 
+        {capabilities.loudness ? (
           <SettingsToggle
-            title={t('settings.sound.sub.phase.title')}
-            description={t('settings.sound.sub.phase.description')}
-            isEnabled={subPolarity === 180}
-            actionLabel={`${subPolarity}°`}
-            onToggle={handleToggleSubPolarity}
-            onPress={handleToggleSubPolarity}
-            testID="toggle-sub-phase"
+            title={t('settings.sound.eq.loudness.title')}
+            description={t('settings.sound.eq.loudness.description')}
+            isEnabled={loudness}
+            onToggle={handleToggleLoudness}
+            onPress={handleToggleLoudness}
+            testID="toggle-loudness"
           />
+        ) : null}
 
+        {capabilities.bass || capabilities.treble ? (
           <View style={styles.resetRow}>
             <TVFocusableButton
-              label={t('settings.sound.sub.reset')}
-              onPress={handleResetSub}
-              testID="button-reset-sub"
+              label={t('settings.sound.eq.reset')}
+              onPress={handleResetEQ}
+              testID="button-reset-eq"
               style={styles.resetButton}
             />
           </View>
-        </>
-      ) : null}
+        ) : null}
 
-      {/* Surround Sound Controls - only when rear surround speakers are bonded */}
-      {hasSurrounds ? (
-        <>
-          <Text style={styles.sectionTitle}>{t('settings.sound.surround.title')}</Text>
+        {/* TV Audio Enhancements - each shown only if the speaker reads it back */}
+        {capabilities.nightMode ||
+        capabilities.speechEnhancement ||
+        isSoundbar ? (
+          <>
+            <Text style={styles.sectionTitle}>{t('settings.sound.tvEnhancements.title')}</Text>
 
-          <SettingsToggle
-            title={t('settings.sound.surround.enable.title')}
-            description={t('settings.sound.surround.enable.description')}
-            isEnabled={surroundEnabled}
-            onToggle={handleToggleSurround}
-            onPress={handleToggleSurround}
-            testID="toggle-surround-enable"
-          />
+            {capabilities.nightMode ? (
+              <SettingsToggle
+                title={t('settings.sound.tvEnhancements.nightMode.title')}
+                description={t('settings.sound.tvEnhancements.nightMode.description')}
+                isEnabled={nightMode}
+                onToggle={handleToggleNight}
+                onPress={handleToggleNight}
+                testID="toggle-night-mode"
+              />
+            ) : null}
 
-          <TVEQSlider
-            title={t('settings.sound.surround.tvLevel.title')}
-            description={t('settings.sound.surround.tvLevel.description')}
-            value={surroundLevel}
-            min={-15}
-            max={15}
-            onChange={handleChangeSurroundLevel}
-            testID="slider-surround-level"
-          />
+            {capabilities.speechEnhancement ? (
+              <SettingsToggle
+                title={t('settings.sound.tvEnhancements.speech.title')}
+                description={t('settings.sound.tvEnhancements.speech.description')}
+                isEnabled={speechEnhancement}
+                onToggle={handleToggleSpeech}
+                onPress={handleToggleSpeech}
+                testID="toggle-speech-enhancement"
+              />
+            ) : null}
 
-          <TVEQSlider
-            title={t('settings.sound.surround.musicLevel.title')}
-            description={t('settings.sound.surround.musicLevel.description')}
-            value={surroundMusicLevel}
-            min={-15}
-            max={15}
-            onChange={handleChangeSurroundMusicLevel}
-            testID="slider-surround-music-level"
-          />
+            {isSoundbar ? (
+              <SettingsToggle
+                title={t('settings.sound.tvEnhancements.ungroup.title')}
+                description={t('settings.sound.tvEnhancements.ungroup.description')}
+                isEnabled={tvAutoplayUngroup}
+                onToggle={handleToggleTVUngroup}
+                onPress={handleToggleTVUngroup}
+                testID="toggle-tv-ungroup"
+              />
+            ) : null}
+          </>
+        ) : null}
 
-          <SettingsToggle
-            title={t('settings.sound.surround.musicPlayback.title')}
-            description={t('settings.sound.surround.musicPlayback.description')}
-            isEnabled={surroundMode === 'Full'}
-            actionLabel={
-              surroundMode === 'Full'
-                ? t('settings.sound.surround.musicPlayback.full')
-                : t('settings.sound.surround.musicPlayback.ambient')
-            }
-            onToggle={handleToggleSurroundMode}
-            onPress={handleToggleSurroundMode}
-            testID="toggle-surround-mode"
-          />
-        </>
-      ) : null}
+        {/* Subwoofer Controls - only when Sub is bonded */}
+        {hasSub ? (
+          <>
+            <Text style={styles.sectionTitle}>{t('settings.sound.sub.title')}</Text>
 
-      {/* Height Audio Controls - only on Dolby Atmos supported hardware (Arc, Arc Ultra, Beam Gen 2, Era 300) */}
-      {hasHeightAudio ? (
-        <>
-          <Text style={styles.sectionTitle}>{t('settings.sound.height.title')}</Text>
-
-          <TVEQSlider
-            title={t('settings.sound.height.level.title')}
-            description={t('settings.sound.height.level.description')}
-            value={heightLevel}
-            min={-10}
-            max={10}
-            onChange={handleChangeHeightLevel}
-            testID="slider-height-level"
-          />
-
-          <View style={styles.resetRow}>
-            <TVFocusableButton
-              label={t('settings.sound.height.reset')}
-              onPress={handleResetHeight}
-              testID="button-reset-height"
-              style={styles.resetButton}
+            <SettingsToggle
+              title={t('settings.sound.sub.enable.title')}
+              description={t('settings.sound.sub.enable.description')}
+              isEnabled={subEnabled}
+              onToggle={handleToggleSub}
+              onPress={handleToggleSub}
+              testID="toggle-sub-enable"
             />
-          </View>
+
+            <TVEQSlider
+              title={t('settings.sound.sub.level.title')}
+              description={t('settings.sound.sub.level.description')}
+              value={subGain}
+              min={-10}
+              max={10}
+              onChange={handleChangeSubGain}
+              testID="slider-sub-gain"
+            />
+
+            <TVEQSlider
+              title={t('settings.sound.sub.crossover.title')}
+              description={t('settings.sound.sub.crossover.description')}
+              value={subCrossover}
+              min={50}
+              max={110}
+              step={10}
+              valueFormatter={val => `${val} Hz`}
+              onChange={handleChangeSubCrossover}
+              testID="slider-sub-crossover"
+            />
+
+            <SettingsToggle
+              title={t('settings.sound.sub.phase.title')}
+              description={t('settings.sound.sub.phase.description')}
+              isEnabled={subPolarity === 180}
+              actionLabel={`${subPolarity}°`}
+              onToggle={handleToggleSubPolarity}
+              onPress={handleToggleSubPolarity}
+              testID="toggle-sub-phase"
+            />
+
+            <View style={styles.resetRow}>
+              <TVFocusableButton
+                label={t('settings.sound.sub.reset')}
+                onPress={handleResetSub}
+                testID="button-reset-sub"
+                style={styles.resetButton}
+              />
+            </View>
+          </>
+        ) : null}
+
+        {/* Surround Sound Controls - only when rear surround speakers are bonded */}
+        {hasSurrounds ? (
+          <>
+            <Text style={styles.sectionTitle}>{t('settings.sound.surround.title')}</Text>
+
+            <SettingsToggle
+              title={t('settings.sound.surround.enable.title')}
+              description={t('settings.sound.surround.enable.description')}
+              isEnabled={surroundEnabled}
+              onToggle={handleToggleSurround}
+              onPress={handleToggleSurround}
+              testID="toggle-surround-enable"
+            />
+
+            <TVEQSlider
+              title={t('settings.sound.surround.tvLevel.title')}
+              description={t('settings.sound.surround.tvLevel.description')}
+              value={surroundLevel}
+              min={-15}
+              max={15}
+              onChange={handleChangeSurroundLevel}
+              testID="slider-surround-level"
+            />
+
+            <TVEQSlider
+              title={t('settings.sound.surround.musicLevel.title')}
+              description={t('settings.sound.surround.musicLevel.description')}
+              value={surroundMusicLevel}
+              min={-15}
+              max={15}
+              onChange={handleChangeSurroundMusicLevel}
+              testID="slider-surround-music-level"
+            />
+
+            <SettingsToggle
+              title={t('settings.sound.surround.musicPlayback.title')}
+              description={t('settings.sound.surround.musicPlayback.description')}
+              isEnabled={surroundMode === 'Full'}
+              actionLabel={
+                surroundMode === 'Full'
+                  ? t('settings.sound.surround.musicPlayback.full')
+                  : t('settings.sound.surround.musicPlayback.ambient')
+              }
+              onToggle={handleToggleSurroundMode}
+              onPress={handleToggleSurroundMode}
+              testID="toggle-surround-mode"
+            />
+          </>
+        ) : null}
+
+        {/* Height Audio Controls - only on Dolby Atmos supported hardware (Arc, Arc Ultra, Beam Gen 2, Era 300) */}
+        {hasHeightAudio ? (
+          <>
+            <Text style={styles.sectionTitle}>{t('settings.sound.height.title')}</Text>
+
+            <TVEQSlider
+              title={t('settings.sound.height.level.title')}
+              description={t('settings.sound.height.level.description')}
+              value={heightLevel}
+              min={-10}
+              max={10}
+              onChange={handleChangeHeightLevel}
+              testID="slider-height-level"
+            />
+
+            <View style={styles.resetRow}>
+              <TVFocusableButton
+                label={t('settings.sound.height.reset')}
+                onPress={handleResetHeight}
+                testID="button-reset-height"
+                style={styles.resetButton}
+              />
+            </View>
+          </>
+        ) : null}
         </>
-      ) : null}
+      ) : (
+        <ProTeaserCard feature="sound" />
+      )}
     </ScrollView>
   );
 };

@@ -19,6 +19,8 @@ export interface TVPillButtonProps {
   testID?: string;
   /** When the label alone is ambiguous out of context (e.g. "Hide" → "Hide Kitchen"). */
   accessibilityLabel?: string;
+  /** `primary` fills the pill with the amber accent: the one main action of a screen. */
+  variant?: 'default' | 'primary';
 }
 
 export const TVPillButton: React.FC<TVPillButtonProps> = ({
@@ -31,7 +33,9 @@ export const TVPillButton: React.FC<TVPillButtonProps> = ({
   disabled = false,
   testID,
   accessibilityLabel,
+  variant = 'default',
 }) => {
+  const isPrimary = variant === 'primary';
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => {
@@ -56,8 +60,11 @@ export const TVPillButton: React.FC<TVPillButtonProps> = ({
       onPress={onPress}
       style={({ pressed }) => [
         styles.button,
+        isPrimary && styles.primaryButton,
         isFocused && styles.focusedButton,
+        isFocused && isPrimary && styles.primaryFocusedButton,
         pressed && styles.pressedButton,
+        pressed && isPrimary && styles.primaryFocusedButton,
         disabled && styles.disabledButton,
         style,
       ]}
@@ -65,8 +72,8 @@ export const TVPillButton: React.FC<TVPillButtonProps> = ({
       <Text
         style={[
           styles.text,
-          isFocused && styles.focusedText,
-          disabled && styles.disabledText,
+          isPrimary ? styles.primaryText : isFocused && styles.focusedText,
+          disabled && !isPrimary && styles.disabledText,
         ]}
       >
         {label}
@@ -97,6 +104,14 @@ const styles = StyleSheet.create({
     transform: [{ scale: 0.98 }],
     backgroundColor: 'rgba(255, 255, 255, 0.12)',
   },
+  primaryButton: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  primaryFocusedButton: {
+    backgroundColor: colors.primaryHover,
+    borderColor: colors.focusBorder,
+  },
   disabledButton: {
     opacity: 0.4,
   },
@@ -105,6 +120,9 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: '600',
     letterSpacing: 0.2,
+  },
+  primaryText: {
+    color: colors.focusText,
   },
   focusedText: {
     color: colors.primary,

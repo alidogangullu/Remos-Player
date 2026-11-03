@@ -1,0 +1,67 @@
+{
+  "eyebrow": "REMOS PRO",
+  "locked": {
+    "home": {
+      "title": "Je muziek, één klik verwijderd",
+      "body": "Start brengt je muziekdiensten, Sonos-favorieten en recent afgespeelde muziek samen op één scherm."
+    },
+    "search": {
+      "title": "Zoek in al je muziekdiensten",
+      "body": "Vind nummers, albums, artiesten en playlists op Apple Music, Spotify, YouTube Music, TIDAL en Sonos Radio, en speel ze af op je speakers."
+    },
+    "favorites": {
+      "title": "Je Sonos-favorieten op het grote scherm",
+      "body": "Blader door de favorieten uit de Sonos-app, speel ze af en bewaar nieuwe vanuit Speelt nu."
+    },
+    "sound": {
+      "title": "Stel je geluid in vanaf de bank",
+      "body": "EQ, loudness, nachtmodus, spraakverbetering, hoogte-audio, en sub- en surroundinstellingen."
+    },
+    "lyrics": {
+      "title": "Zing mee met gesynchroniseerde songteksten",
+      "body": "Songteksten die regel voor regel meelopen, naast de albumhoes."
+    }
+  },
+  "free": "Een ruimte kiezen, Speelt nu, afspelen, pauzeren, overslaan, volume en Tv automatisch afspelen blijven gratis.",
+  "features": {
+    "title": "Alles in Pro",
+    "search": "Zoeken in Apple Music, Spotify en je andere diensten",
+    "home": "Start, Favorieten en Verder luisteren",
+    "lyrics": "Gesynchroniseerde songteksten en de wachtrij",
+    "sound": "Geluidsinstellingen: EQ, sub, surround en meer",
+    "future": "Alle nieuwe functies die nog komen, zonder meerprijs"
+  },
+  "unlock": "Pro ontgrendelen",
+  "unlockWithPrice": "Pro ontgrendelen · {{price}}",
+  "opening": "Google Play wordt geopend…",
+  "restore": "Aankoop herstellen",
+  "restoring": "Controleren…",
+  "footnote": "Eenmalige aankoop, geen abonnement. Remos gebruikt interfaces die Sonos niet documenteert, dus een Sonos-update kan een functie verstoren tot Remos is bijgewerkt.",
+  "status": {
+    "pending": "Je betaling is in behandeling. Pro wordt ontgrendeld zodra Google Play die bevestigt.",
+    "failed": "De aankoop is niet gelukt. Probeer het opnieuw.",
+    "productUnavailable": "Remos Pro kan nu niet worden gekocht. Probeer het later opnieuw.",
+    "unavailable": "Google Play is niet beschikbaar op deze tv, dus Pro kan hier niet worden gekocht."
+  },
+  "owned": {
+    "title": "Remos Pro is ontgrendeld",
+    "body": "Bedankt voor je steun aan Remos. Alle Pro-functies zijn van jou, ook de functies die nog komen."
+  },
+  "unlockedToast": "Remos Pro is ontgrendeld. Veel plezier!",
+  "paneTitle": "Remos Pro",
+  "paneSubtitle": "Eén aankoop die alles ontgrendelt",
+  "restoreResult": {
+    "owned": "Je Remos Pro-aankoop is hersteld.",
+    "pending": "Je betaling is nog in behandeling bij Google Play.",
+    "not_owned": "Geen Remos Pro-aankoop gevonden voor dit Google-account.",
+    "unavailable": "Google Play is niet bereikbaar. Controleer de verbinding en probeer het opnieuw."
+  },
+  "badge": "PRO",
+  "teaser": {
+    "sound": {
+      "title": "EQ, sub en surround zitten in Remos Pro",
+      "body": "Lage en hoge tonen, loudness, nachtmodus, spraakverbetering en meer."
+    },
+    "cta": "Remos Pro bekijken"
+  }
+}

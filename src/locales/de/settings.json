@@ -2,6 +2,7 @@
   "title": "Einstellungen",
   "noSpeaker": "Kein Lautsprecher verbunden",
   "tabs": {
+    "pro": "Remos Pro",
     "sound": "Klang",
     "language": "Sprache",
     "notifications": "Mitteilungen",
@@ -13,6 +14,8 @@
     "off": "AUS"
   },
   "sound": {
+    "title": "Klang",
+    "subtitle": "Lautsprecher- und TV-Audioeinstellungen für diesen Raum",
     "speakerRequired": {
       "title": "Lautsprecher erforderlich",
       "subtitle": "Verbinde dich mit einem Sonos-Lautsprecher, um Audio- und Klangeinstellungen vorzunehmen."

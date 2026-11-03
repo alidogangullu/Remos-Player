@@ -2,6 +2,7 @@
   "title": "Settings",
   "noSpeaker": "No speaker connected",
   "tabs": {
+    "pro": "Remos Pro",
     "sound": "Sound",
     "language": "Language",
     "notifications": "Notifications",
@@ -13,6 +14,8 @@
     "off": "OFF"
   },
   "sound": {
+    "title": "Sound",
+    "subtitle": "Speaker and TV audio settings for this room",
     "speakerRequired": {
       "title": "Speaker Required",
       "subtitle": "Connect to a Sonos speaker to configure audio and sound settings."

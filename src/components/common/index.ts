@@ -4,6 +4,7 @@ export { SectionRow } from './SectionRow';
 export { NotificationDot } from './NotificationDot';
 export { AppLogo } from './AppLogo';
 export { PaneHeader } from './PaneHeader';
+export { CheckIcon } from './CheckIcon';
 export { Toast } from './Toast';
 export { ToastProvider, useToast } from './ToastProvider';
 export type { ToastApi } from './ToastProvider';

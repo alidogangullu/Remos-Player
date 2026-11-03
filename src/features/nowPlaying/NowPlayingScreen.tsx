@@ -28,6 +28,7 @@ import {
   isRadioStreamUri,
 } from '../../services/sonos/upnp/sonosUpnpClient';
 import { PlaybackHistoryService } from '../../services/history/playbackHistoryService';
+import { usePro } from '../../services/billing/ProProvider';
 import { describePlaybackSource } from '../../services/sonos/playbackSource';
 import { TVVolumePanel } from '../../components/tv';
 import { useBackHandler } from '../../hooks';
@@ -91,6 +92,8 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   const [isRepeat, setIsRepeat] = useState(initialRepeat);
   const [displayPositionMs, setDisplayPositionMs] = useState<number>(initialTrack?.positionMs || 0);
   const [isLoading, setIsLoading] = useState<boolean>(autoFetch && !initialTrack);
+  // Watching and basic playback are free; lyrics, favorites and the queue are Pro.
+  const { isPro, requestUpgrade } = usePro();
 
   // AirTune feature states: Lyrics, Favorite, Toast
   const [showLyrics, setShowLyrics] = useState(false);
@@ -345,7 +348,7 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   // Live radio: no position, no previous/next, and nothing to shuffle, repeat, sync lyrics to or queue.
   const isRadio = Boolean(track?.uri && isRadioStreamUri(track.uri));
 
-  const queueEnabled = !isTvAudio && !isRadio;
+  const queueEnabled = isPro && !isTvAudio && !isRadio;
   const effectiveShelf: ShelfState = queueEnabled ? shelfState : 'closed';
   const upNext = useUpNextQueue({
     speakerIp,
@@ -529,6 +532,10 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   };
 
   const handleToggleLyrics = () => {
+    if (!isPro) {
+      requestUpgrade('lyrics');
+      return;
+    }
     setShowLyrics((prev) => !prev);
   };
 
@@ -550,6 +557,10 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   }, [speakerIp, speakerId, toast, t, focusProgressBar, fetchLiveStatus]);
 
   const handleToggleFavorite = async () => {
+    if (!isPro) {
+      requestUpgrade('favorites');
+      return;
+    }
     if (!track?.title) return;
     try {
       const stored = await AsyncStorage.getItem(FAVORITES_STORAGE_KEY);

@@ -8,9 +8,10 @@ import search from './search.json';
 import favorites from './favorites.json';
 import settings from './settings.json';
 import system from './system.json';
+import pro from './pro.json';
 
 /** English is the source language: every other language must provide the same keys. */
-const en = { common, app, toast, home, services, nowPlaying, search, favorites, settings, system };
+const en = { common, app, toast, home, services, nowPlaying, search, favorites, settings, system, pro };
 
 export default en;
 export type TranslationResources = typeof en;
