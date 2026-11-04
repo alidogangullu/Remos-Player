@@ -1,31 +1,42 @@
 {
   "eyebrow": "REMOS PRO",
-  "locked": {
+  "gate": {
     "home": {
-      "title": "Müziğiniz tek tık uzağınızda",
-      "body": "Ana Sayfa, müzik servislerinizi, Sonos favorilerinizi ve son çaldıklarınızı tek ekranda toplar."
+      "title": "Ana Sayfa'dan Remos Pro ile çalın",
+      "body": "İstediğiniz kadar göz atın. Pro; müzik servislerinizi, Sonos favorilerinizi ve son çaldıklarınızı tek tıkla hoparlörlerinizde başlatır."
     },
     "search": {
-      "title": "Tüm müzik servislerinizde arayın",
-      "body": "Apple Music, Spotify, YouTube Music, TIDAL ve Sonos Radio'da şarkı, albüm, sanatçı ve çalma listesi bulun, hoparlörlerinizde çalın."
+      "title": "Bulduğunuzu Remos Pro ile çalın",
+      "body": "Arama ücretsiz. Pro, Apple Music, Spotify ve diğer servislerinizde bulduğunuz her şarkıyı, albümü, sanatçıyı ve çalma listesini hoparlörlerinizde çalar."
     },
     "favorites": {
-      "title": "Sonos favorileriniz büyük ekranda",
-      "body": "Sonos uygulamasında kaydettiğiniz favorilere göz atın ve çalın, çalan parça ekranından yenilerini ekleyin."
+      "title": "Favorilerinizi Remos Pro ile çalın",
+      "body": "Sonos uygulamasında kaydettiğiniz favorileri başlatın, çalan şarkıyı kalple kaydedin."
+    },
+    "queue": {
+      "title": "Sırada Remos Pro ile gezinin",
+      "body": "Sıradan istediğiniz şarkıyı seçip hemen çalın."
     },
     "sound": {
-      "title": "Sesinizi koltuğunuzdan ayarlayın",
-      "body": "EQ, loudness, gece modu, konuşma iyileştirme, yükseklik sesi, sub ve surround ayarları."
+      "title": "Sesinizi Remos Pro ile ayarlayın",
+      "body": "EQ, loudness, gece modu, konuşma iyileştirme, yükseklik sesi, sub ve surround ayarlarını değiştirin. TV Otomatik Oynatma ücretsiz kalır."
     },
     "lyrics": {
-      "title": "Senkronize sözlerle eşlik edin",
-      "body": "Albüm kapağının yanında, satır satır akan şarkı sözleri."
-    }
+      "title": "Sözlerin tamamı Remos Pro'da",
+      "body": "Şarkı sözlerinin tamamı, müzikle aynı anda satır satır vurgulanır."
+    },
+    "oneTime": "Tek seferlik satın alma, abonelik yok. Gelecekteki tüm Pro özellikleri dahil.",
+    "notNow": "Şimdi Değil"
   },
-  "free": "Oda seçmek, çalan parçayı izlemek, oynatma, duraklatma, atlama, ses ayarı ve TV Otomatik Oynatma ücretsiz kalır.",
+  "hint": {
+    "sound": "Serbestçe göz atın. Bu ayarları değiştirmek için Remos Pro gerekir.",
+    "lyrics": "Senkronize sözlerin tamamı Remos Pro'da.",
+    "lyricsCta": "Tüm Sözleri Göster"
+  },
+  "free": "Oda seçmek, çalan parçayı izlemek, oynatma, duraklatma, atlama, ses ayarı ve TV Otomatik Oynatma ücretsiz kalır; tüm Pro ekranlarına da göz atabilirsiniz.",
   "features": {
     "title": "Pro'da neler var",
-    "search": "Apple Music, Spotify ve diğer servislerinizde arama",
+    "search": "Apple Music, Spotify ve diğer servislerinizden istediğinizi çalma",
     "home": "Ana Sayfa, Favoriler ve Kaldığın Yerden Devam Et",
     "lyrics": "Senkronize şarkı sözleri ve Sıra",
     "sound": "Ses ayarları: EQ, sub, surround ve daha fazlası",
@@ -56,12 +67,5 @@
     "not_owned": "Bu Google hesabında Remos Pro satın alımı bulunamadı.",
     "unavailable": "Google Play'e ulaşılamadı. Bağlantınızı kontrol edip tekrar deneyin."
   },
-  "badge": "PRO",
-  "teaser": {
-    "sound": {
-      "title": "EQ, sub ve surround Remos Pro'da",
-      "body": "Bas, tiz, loudness, gece modu, konuşma iyileştirme ve daha fazlası."
-    },
-    "cta": "Remos Pro'yu Gör"
-  }
+  "badge": "PRO"
 }

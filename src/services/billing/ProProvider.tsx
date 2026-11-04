@@ -18,8 +18,8 @@ import { ProOwnershipStore } from './proOwnershipStore';
 export type StoreStatus = 'connecting' | 'ready' | 'unavailable';
 export type PurchaseStatus = 'idle' | 'purchasing' | 'pending' | 'unavailable' | 'failed';
 export type RestoreResult = 'owned' | 'pending' | 'not_owned' | 'unavailable';
-/** A Pro feature the user ran into; it picks the headline of the offer. */
-export type ProFeature = 'home' | 'search' | 'favorites' | 'sound' | 'lyrics';
+/** A Pro feature the user ran into; it picks the headline of the upgrade sheet. */
+export type ProFeature = 'home' | 'search' | 'favorites' | 'queue' | 'sound' | 'lyrics';
 
 export interface UpgradeRequest {
   id: number;
@@ -36,9 +36,11 @@ interface ProContextValue {
   purchaseStatus: PurchaseStatus;
   buyPro: () => void;
   restore: () => Promise<RestoreResult>;
-  /** Set by requestUpgrade; the app answers by opening Settings › Remos Pro. */
+  /** Set by requestUpgrade; the app answers with the upgrade sheet over the current screen. */
   upgradeRequest: UpgradeRequest | null;
   requestUpgrade: (feature?: ProFeature) => void;
+  /** Closes the upgrade sheet. */
+  dismissUpgrade: () => void;
 }
 
 const ProContext = createContext<ProContextValue | undefined>(undefined);
@@ -155,6 +157,13 @@ export function ProProvider({ children }: Readonly<{ children: React.ReactNode }
     setUpgradeRequest(prev => ({ id: (prev?.id ?? 0) + 1, feature }));
   }, []);
 
+  const dismissUpgrade = useCallback(() => setUpgradeRequest(null), []);
+
+  // A purchase (or a promo code redeemed meanwhile) answers the open sheet.
+  useEffect(() => {
+    if (ownership) setUpgradeRequest(null);
+  }, [ownership]);
+
   const value = useMemo(
     () => ({
       isPro: ownership === true,
@@ -166,8 +175,9 @@ export function ProProvider({ children }: Readonly<{ children: React.ReactNode }
       restore,
       upgradeRequest,
       requestUpgrade,
+      dismissUpgrade,
     }),
-    [ownership, price, storeStatus, purchaseStatus, buyPro, restore, upgradeRequest, requestUpgrade],
+    [ownership, price, storeStatus, purchaseStatus, buyPro, restore, upgradeRequest, requestUpgrade, dismissUpgrade],
   );
 
   return <ProContext.Provider value={value}>{children}</ProContext.Provider>;
@@ -177,4 +187,22 @@ export function usePro(): ProContextValue {
   const context = useContext(ProContext);
   if (!context) throw new Error('usePro must be used within a ProProvider');
   return context;
+}
+
+/**
+ * Pro screens are open to look around; their actions call this first.
+ * Returns true when the action may run, otherwise opens the upgrade sheet
+ * for `feature` and returns false.
+ */
+export function useRequirePro(): (feature: ProFeature) => boolean {
+  const { isPro, isResolved, requestUpgrade } = usePro();
+  return useCallback(
+    (feature: ProFeature) => {
+      if (isPro) return true;
+      // The cached ownership loads within moments of launch; don't pitch Pro to an owner before it does.
+      if (isResolved) requestUpgrade(feature);
+      return false;
+    },
+    [isPro, isResolved, requestUpgrade],
+  );
 }

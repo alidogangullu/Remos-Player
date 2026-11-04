@@ -1,31 +1,42 @@
 {
   "eyebrow": "REMOS PRO",
-  "locked": {
+  "gate": {
     "home": {
-      "title": "Your music, one click away",
-      "body": "Home brings your music services, Sonos favorites and recently played music together on one screen."
+      "title": "Play from Home with Remos Pro",
+      "body": "Look around as much as you like. Pro starts your music services, Sonos favorites and Jump Back In on your speakers with one click."
     },
     "search": {
-      "title": "Search all your music services",
-      "body": "Find songs, albums, artists and playlists on Apple Music, Spotify, YouTube Music, TIDAL and Sonos Radio, and play them on your speakers."
+      "title": "Play what you find with Remos Pro",
+      "body": "Searching is free. Pro plays any song, album, artist or playlist from Apple Music, Spotify and your other services on your speakers."
     },
     "favorites": {
-      "title": "Your Sonos favorites on the big screen",
-      "body": "Browse and play the favorites you saved in the Sonos app, and save new ones from Now Playing."
+      "title": "Play your favorites with Remos Pro",
+      "body": "Start the favorites you saved in the Sonos app, and save the song that's playing with the heart."
+    },
+    "queue": {
+      "title": "Jump around the queue with Remos Pro",
+      "body": "Pick any song in the queue and play it right away."
     },
     "sound": {
-      "title": "Tune your sound from the couch",
-      "body": "EQ, loudness, night mode, speech enhancement, height audio, and sub and surround settings."
+      "title": "Tune your sound with Remos Pro",
+      "body": "Change EQ, loudness, night mode, speech enhancement, height audio, and sub and surround settings. TV Autoplay stays free."
     },
     "lyrics": {
-      "title": "Sing along with synced lyrics",
-      "body": "Time-synced lyrics next to the album art, line by line."
-    }
+      "title": "See every line with Remos Pro",
+      "body": "The full lyrics, highlighted line by line in time with the music."
+    },
+    "oneTime": "One-time purchase, no subscription. Every future Pro feature included.",
+    "notNow": "Not Now"
   },
-  "free": "Picking a room, Now Playing, play, pause, skip, volume and TV Autoplay stay free.",
+  "hint": {
+    "sound": "Look around freely. Changing these settings needs Remos Pro.",
+    "lyrics": "The full, synced lyrics are in Remos Pro.",
+    "lyricsCta": "Show All Lyrics"
+  },
+  "free": "Picking a room, Now Playing, play, pause, skip, volume and TV Autoplay stay free, and you can look around every Pro screen.",
   "features": {
     "title": "Everything in Pro",
-    "search": "Search Apple Music, Spotify and your other services",
+    "search": "Play anything from Apple Music, Spotify and your other services",
     "home": "Home, Favorites and Jump Back In",
     "lyrics": "Synced lyrics and the Up Next queue",
     "sound": "Sound settings: EQ, sub, surround and more",
@@ -56,12 +67,5 @@
     "not_owned": "No Remos Pro purchase found for this Google account.",
     "unavailable": "Couldn't reach Google Play. Check the connection and try again."
   },
-  "badge": "PRO",
-  "teaser": {
-    "sound": {
-      "title": "EQ, sub and surround are in Remos Pro",
-      "body": "Bass, treble, loudness, night mode, speech enhancement and more."
-    },
-    "cta": "See Remos Pro"
-  }
+  "badge": "PRO"
 }

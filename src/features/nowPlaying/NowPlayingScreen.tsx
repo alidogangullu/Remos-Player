@@ -16,6 +16,7 @@ import { NowPlayingTrackInfo } from './NowPlayingTrackInfo';
 import { PlaybackControls } from './PlaybackControls';
 import { NowPlayingProgressBar } from './NowPlayingProgressBar';
 import { LyricsView } from './LyricsView';
+import { LyricsPreview } from './LyricsPreview';
 import { QueueShelf, ShelfState, SHELF_HEIGHT, SHELF_PEEK_HEIGHT } from './QueueShelf';
 import { useUpNextQueue } from './useUpNextQueue';
 import { LyricLine } from '../../services/lyrics/lrcParser';
@@ -28,7 +29,7 @@ import {
   isRadioStreamUri,
 } from '../../services/sonos/upnp/sonosUpnpClient';
 import { PlaybackHistoryService } from '../../services/history/playbackHistoryService';
-import { usePro } from '../../services/billing/ProProvider';
+import { usePro, useRequirePro } from '../../services/billing/ProProvider';
 import { describePlaybackSource } from '../../services/sonos/playbackSource';
 import { TVVolumePanel } from '../../components/tv';
 import { useBackHandler } from '../../hooks';
@@ -92,8 +93,10 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   const [isRepeat, setIsRepeat] = useState(initialRepeat);
   const [displayPositionMs, setDisplayPositionMs] = useState<number>(initialTrack?.positionMs || 0);
   const [isLoading, setIsLoading] = useState<boolean>(autoFetch && !initialTrack);
-  // Watching and basic playback are free; lyrics, favorites and the queue are Pro.
-  const { isPro, requestUpgrade } = usePro();
+  // Watching and basic playback are free. Free users can also look at the queue and the
+  // opening lines of the lyrics; playing from the queue, full lyrics and favorites are Pro.
+  const { isPro } = usePro();
+  const requirePro = useRequirePro();
 
   // AirTune feature states: Lyrics, Favorite, Toast
   const [showLyrics, setShowLyrics] = useState(false);
@@ -348,7 +351,7 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   // Live radio: no position, no previous/next, and nothing to shuffle, repeat, sync lyrics to or queue.
   const isRadio = Boolean(track?.uri && isRadioStreamUri(track.uri));
 
-  const queueEnabled = isPro && !isTvAudio && !isRadio;
+  const queueEnabled = !isTvAudio && !isRadio;
   const effectiveShelf: ShelfState = queueEnabled ? shelfState : 'closed';
   const upNext = useUpNextQueue({
     speakerIp,
@@ -532,10 +535,6 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   };
 
   const handleToggleLyrics = () => {
-    if (!isPro) {
-      requestUpgrade('lyrics');
-      return;
-    }
     setShowLyrics((prev) => !prev);
   };
 
@@ -545,6 +544,7 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
   useBackHandler(effectiveShelf === 'open', focusProgressBar);
 
   const handleSelectQueueItem = useCallback(async (queueItem: QueueItem) => {
+    if (!requirePro('queue')) return;
     try {
       toast.info(t('toast.starting', { title: queueItem.title }));
       await SonosUpnpClient.seekTrack(speakerIp, queueItem.trackNumber, speakerId);
@@ -554,13 +554,10 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
     } catch {
       toast.error(t('toast.couldntPlay', { title: queueItem.title }));
     }
-  }, [speakerIp, speakerId, toast, t, focusProgressBar, fetchLiveStatus]);
+  }, [speakerIp, speakerId, toast, t, focusProgressBar, fetchLiveStatus, requirePro]);
 
   const handleToggleFavorite = async () => {
-    if (!isPro) {
-      requestUpgrade('favorites');
-      return;
-    }
+    if (!requirePro('favorites')) return;
     if (!track?.title) return;
     try {
       const stored = await AsyncStorage.getItem(FAVORITES_STORAGE_KEY);
@@ -617,11 +614,15 @@ export const NowPlayingScreen: React.FC<NowPlayingScreenProps> = ({
           />
         </View>
         <View style={styles.lyricsSection}>
-          <LyricsView
-            lyrics={lyrics}
-            currentPositionMs={displayPositionMs}
-            isLoading={isLoadingLyrics}
-          />
+          {isPro ? (
+            <LyricsView
+              lyrics={lyrics}
+              currentPositionMs={displayPositionMs}
+              isLoading={isLoadingLyrics}
+            />
+          ) : (
+            <LyricsPreview lyrics={lyrics} isLoading={isLoadingLyrics} onShowAll={() => requirePro('lyrics')} />
+          )}
         </View>
       </View>
     );

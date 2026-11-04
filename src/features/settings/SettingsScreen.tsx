@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TVFocusGuideView, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
@@ -6,7 +6,6 @@ import { TVSideTab } from '../../components/tv';
 import { SonosDevice } from '../../types/sonos';
 import { useRemoteConfig } from '../../services/remoteConfig/RemoteConfigProvider';
 import { describeRoomHardware } from '../../services/sonos/roomDisplay';
-import { ProFeature, UpgradeRequest } from '../../services/billing/ProProvider';
 import { SoundSettingsPane } from './SoundSettingsPane';
 import { LanguagePane } from './LanguagePane';
 import { NotificationsPane } from './NotificationsPane';
@@ -18,39 +17,18 @@ type SettingsSection = 'pro' | 'sound' | 'language' | 'notifications' | 'update'
 
 export interface SettingsScreenProps {
   speaker: SonosDevice | null;
-  /** A locked control asked for Pro: switch to the Remos Pro section. */
-  upgradeRequest?: UpgradeRequest | null;
-  /** Whether the Settings tab is on screen; D-pad focus can only move to a visible tab. */
-  isActive?: boolean;
 }
 
 /** Settings: the room and section rail on the left, the selected section on the right. */
-export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker, upgradeRequest, isActive = true }) => {
+export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker }) => {
   const { t } = useTranslation();
   const { updateInfo, hasUnreadAnnouncements } = useRemoteConfig();
-  const [section, setSection] = useState<SettingsSection>(upgradeRequest ? 'pro' : 'sound');
-  const [proFeature, setProFeature] = useState<ProFeature | undefined>(upgradeRequest?.feature);
+  const [section, setSection] = useState<SettingsSection>('sound');
   // Visited panes stay mounted so the speaker isn't re-probed on every switch.
   const [visited, setVisited] = useState<SettingsSection[]>([section]);
   useEffect(() => {
     setVisited(prev => (prev.includes(section) ? prev : [...prev, section]));
   }, [section]);
-  const proTabRef = useRef<View>(null);
-  const isProFocusPendingRef = useRef(false);
-  useEffect(() => {
-    if (!upgradeRequest) return;
-    setSection('pro');
-    setProFeature(upgradeRequest.feature);
-    isProFocusPendingRef.current = true;
-  }, [upgradeRequest]);
-  // Focus moves too: the pressed control disappears with its pane, and focus falling
-  // back onto that pane's rail tab would select it again right away.
-  useEffect(() => {
-    if (!isActive || !isProFocusPendingRef.current) return;
-    isProFocusPendingRef.current = false;
-    (proTabRef.current as any)?.requestTVFocus?.();
-  }, [isActive, upgradeRequest]);
-
   const tabs: { id: SettingsSection; showBadge?: boolean }[] = [
     { id: 'pro' },
     { id: 'sound' },
@@ -88,7 +66,6 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker, upgrade
           {tabs.map(tab => (
             <TVSideTab
               key={tab.id}
-              ref={tab.id === 'pro' ? proTabRef : undefined}
               label={t(`settings.tabs.${tab.id}`)}
               active={section === tab.id}
               showBadge={tab.showBadge}
@@ -101,7 +78,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ speaker, upgrade
       </View>
 
       <View style={styles.content}>
-        {renderPane('pro', <ProPane feature={proFeature} />)}
+        {renderPane('pro', <ProPane />)}
         {renderPane('sound', <SoundSettingsPane speaker={speaker} />)}
         {renderPane('language', <LanguagePane />)}
         {renderPane('notifications', <NotificationsPane isActive={section === 'notifications'} />)}

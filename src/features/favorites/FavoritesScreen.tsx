@@ -8,6 +8,7 @@ import { SonosUpnpClient } from '../../services/sonos/upnp/sonosUpnpClient';
 import { playFavorite, isShortcutFavorite } from '../../services/sonos/favoritePlayback';
 import { labelSingleTrackAlbums } from '../../services/sonos/favoriteDisplay';
 import { useToast } from '../../components/common';
+import { useRequirePro } from '../../services/billing/ProProvider';
 
 
 export interface FavoritesScreenProps {
@@ -26,6 +27,7 @@ export const FavoritesScreen: React.FC<FavoritesScreenProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(Boolean(speakerIp));
   const { t } = useTranslation();
   const toast = useToast();
+  const requirePro = useRequirePro();
   const isMountedRef = useRef(true);
 
   const fetchLiveFavorites = useCallback(async () => {
@@ -73,6 +75,8 @@ export const FavoritesScreen: React.FC<FavoritesScreenProps> = ({
       toast.info(t('toast.browseShortcut', { title: item.title }));
       return;
     }
+    // The list is free to look through; playing a favorite is Pro.
+    if (!requirePro('favorites')) return;
     toast.info(t('toast.starting', { title: item.title }));
 
     try {

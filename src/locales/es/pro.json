@@ -1,31 +1,42 @@
 {
   "eyebrow": "REMOS PRO",
-  "locked": {
+  "gate": {
     "home": {
-      "title": "Tu música, a un clic",
-      "body": "Inicio reúne tus servicios de música, tus favoritos de Sonos y lo que has escuchado últimamente en una sola pantalla."
+      "title": "Reproduce desde Inicio con Remos Pro",
+      "body": "Explora todo lo que quieras. Pro reproduce tus servicios de música, tus favoritos de Sonos y lo que has escuchado últimamente en tus altavoces con un clic."
     },
     "search": {
-      "title": "Busca en todos tus servicios de música",
-      "body": "Encuentra canciones, álbumes, artistas y listas en Apple Music, Spotify, YouTube Music, TIDAL y Sonos Radio, y reprodúcelos en tus altavoces."
+      "title": "Reproduce lo que encuentres con Remos Pro",
+      "body": "Buscar es gratis. Pro reproduce en tus altavoces cualquier canción, álbum, artista o lista de Apple Music, Spotify y tus otros servicios."
     },
     "favorites": {
-      "title": "Tus favoritos de Sonos en la pantalla grande",
-      "body": "Explora y reproduce los favoritos guardados en la app de Sonos, y guarda otros nuevos desde Reproduciendo."
+      "title": "Reproduce tus favoritos con Remos Pro",
+      "body": "Inicia los favoritos guardados en la app de Sonos y guarda la canción que suena con el corazón."
+    },
+    "queue": {
+      "title": "Muévete por la cola con Remos Pro",
+      "body": "Elige cualquier canción de la cola y reprodúcela al momento."
     },
     "sound": {
-      "title": "Ajusta el sonido desde el sofá",
-      "body": "EQ, loudness, modo nocturno, mejora del habla, audio de altura y ajustes del sub y del surround."
+      "title": "Ajusta el sonido con Remos Pro",
+      "body": "Cambia el EQ, el loudness, el modo nocturno, la mejora del habla, el audio de altura y los ajustes del sub y del surround. La Reproducción automática de TV sigue siendo gratis."
     },
     "lyrics": {
-      "title": "Canta con letras sincronizadas",
-      "body": "Letras sincronizadas junto a la portada, línea a línea."
-    }
+      "title": "Todas las líneas con Remos Pro",
+      "body": "La letra completa, resaltada línea a línea al ritmo de la música."
+    },
+    "oneTime": "Compra única, sin suscripción. Incluye todas las funciones Pro futuras.",
+    "notNow": "Ahora no"
   },
-  "free": "Elegir una sala, Reproduciendo, reproducir, pausar, saltar, el volumen y la Reproducción automática de TV siguen siendo gratis.",
+  "hint": {
+    "sound": "Explora con libertad. Para cambiar estos ajustes necesitas Remos Pro.",
+    "lyrics": "La letra completa y sincronizada está en Remos Pro.",
+    "lyricsCta": "Ver toda la letra"
+  },
+  "free": "Elegir una sala, Reproduciendo, reproducir, pausar, saltar, el volumen y la Reproducción automática de TV siguen siendo gratis, y puedes explorar todas las pantallas Pro.",
   "features": {
     "title": "Todo lo que incluye Pro",
-    "search": "Búsqueda en Apple Music, Spotify y tus otros servicios",
+    "search": "Reproducción desde Apple Music, Spotify y tus otros servicios",
     "home": "Inicio, Favoritos y Volver a escuchar",
     "lyrics": "Letras sincronizadas y la cola A continuación",
     "sound": "Ajustes de sonido: EQ, sub, surround y más",
@@ -56,12 +67,5 @@
     "not_owned": "No hay ninguna compra de Remos Pro en esta cuenta de Google.",
     "unavailable": "No se pudo conectar con Google Play. Comprueba la conexión e inténtalo de nuevo."
   },
-  "badge": "PRO",
-  "teaser": {
-    "sound": {
-      "title": "EQ, sub y surround están en Remos Pro",
-      "body": "Graves, agudos, loudness, modo nocturno, mejora del habla y más."
-    },
-    "cta": "Ver Remos Pro"
-  }
+  "badge": "PRO"
 }

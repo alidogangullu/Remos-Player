@@ -1,31 +1,42 @@
 {
   "eyebrow": "REMOS PRO",
-  "locked": {
+  "gate": {
     "home": {
-      "title": "Deine Musik, nur einen Klick entfernt",
-      "body": "Start zeigt deine Musikdienste, Sonos-Favoriten und zuletzt gespielte Musik auf einem Bildschirm."
+      "title": "Mit Remos Pro direkt von Start abspielen",
+      "body": "Schau dich in Ruhe um. Pro startet deine Musikdienste, Sonos-Favoriten und zuletzt Gespieltes mit einem Klick auf deinen Lautsprechern."
     },
     "search": {
-      "title": "Durchsuche alle deine Musikdienste",
-      "body": "Finde Songs, Alben, Künstler und Playlists auf Apple Music, Spotify, YouTube Music, TIDAL und Sonos Radio und spiele sie auf deinen Lautsprechern ab."
+      "title": "Mit Remos Pro abspielen, was du findest",
+      "body": "Die Suche ist kostenlos. Pro spielt jeden Song, jedes Album, jeden Künstler und jede Playlist von Apple Music, Spotify und deinen anderen Diensten auf deinen Lautsprechern ab."
     },
     "favorites": {
-      "title": "Deine Sonos-Favoriten auf dem großen Bildschirm",
-      "body": "Durchsuche und spiele die Favoriten aus der Sonos-App und speichere neue direkt aus „Aktuelle Wiedergabe“."
+      "title": "Deine Favoriten mit Remos Pro abspielen",
+      "body": "Starte die Favoriten aus der Sonos-App und speichere den laufenden Song mit dem Herz."
+    },
+    "queue": {
+      "title": "Mit Remos Pro in der Warteschlange springen",
+      "body": "Wähle einen beliebigen Song in der Warteschlange und spiele ihn sofort ab."
     },
     "sound": {
-      "title": "Stimme deinen Klang vom Sofa aus ab",
-      "body": "EQ, Loudness, Nachtmodus, Sprachverbesserung, Höhen-Audio sowie Sub- und Surround-Einstellungen."
+      "title": "Deinen Klang mit Remos Pro abstimmen",
+      "body": "Ändere EQ, Loudness, Nachtmodus, Sprachverbesserung, Höhen-Audio sowie Sub- und Surround-Einstellungen. TV-Autoplay bleibt kostenlos."
     },
     "lyrics": {
-      "title": "Sing mit synchronisierten Songtexten mit",
-      "body": "Zeitsynchrone Songtexte neben dem Albumcover, Zeile für Zeile."
-    }
+      "title": "Jede Zeile mit Remos Pro",
+      "body": "Der ganze Songtext, Zeile für Zeile im Takt der Musik hervorgehoben."
+    },
+    "oneTime": "Einmalkauf, kein Abo. Alle künftigen Pro-Funktionen inklusive.",
+    "notNow": "Nicht jetzt"
   },
-  "free": "Raum auswählen, Aktuelle Wiedergabe, Wiedergabe, Pause, Überspringen, Lautstärke und TV-Autoplay bleiben kostenlos.",
+  "hint": {
+    "sound": "Schau dich ruhig um. Zum Ändern dieser Einstellungen brauchst du Remos Pro.",
+    "lyrics": "Der ganze synchronisierte Songtext ist in Remos Pro.",
+    "lyricsCta": "Ganzen Songtext zeigen"
+  },
+  "free": "Raum auswählen, Aktuelle Wiedergabe, Wiedergabe, Pause, Überspringen, Lautstärke und TV-Autoplay bleiben kostenlos, und du kannst dich auf allen Pro-Bildschirmen umsehen.",
   "features": {
     "title": "Alles in Pro",
-    "search": "Suche in Apple Music, Spotify und deinen anderen Diensten",
+    "search": "Abspielen aus Apple Music, Spotify und deinen anderen Diensten",
     "home": "Start, Favoriten und Weiterhören",
     "lyrics": "Synchronisierte Songtexte und die Warteschlange",
     "sound": "Klangeinstellungen: EQ, Sub, Surround und mehr",
@@ -56,12 +67,5 @@
     "not_owned": "Für dieses Google-Konto wurde kein Remos Pro-Kauf gefunden.",
     "unavailable": "Google Play ist nicht erreichbar. Prüfe die Verbindung und versuche es erneut."
   },
-  "badge": "PRO",
-  "teaser": {
-    "sound": {
-      "title": "EQ, Sub und Surround gibt es mit Remos Pro",
-      "body": "Bass, Höhen, Loudness, Nachtmodus, Sprachverbesserung und mehr."
-    },
-    "cta": "Remos Pro ansehen"
-  }
+  "badge": "PRO"
 }

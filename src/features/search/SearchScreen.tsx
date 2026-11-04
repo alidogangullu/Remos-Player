@@ -12,6 +12,7 @@ import { PlaybackHistoryService } from '../../services/history/playbackHistorySe
 import { SearchResultItem } from '../../services/search/crossServiceSearch';
 import { log } from '../../utils/logger';
 import { useToast } from '../../components/common';
+import { useRequirePro } from '../../services/billing/ProProvider';
 
 const TAG = 'SearchScreen';
 
@@ -39,6 +40,7 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({ speakerIp, speakerId
   const [isLoadingContexts, setIsLoadingContexts] = useState(true);
   const { t } = useTranslation();
   const toast = useToast();
+  const requirePro = useRequirePro();
   const isMountedRef = useRef(true);
 
   const refreshRecent = useCallback(async () => {
@@ -79,6 +81,8 @@ export const SearchScreen: React.FC<SearchScreenProps> = ({ speakerIp, speakerId
   const handleSelectResult = async (item: SearchResultItem) => {
     const ctx = searchableContexts.find((c) => c.service.serviceId === item.serviceId);
     if (!ctx) return;
+    // Searching is free; playing a result is Pro.
+    if (!requirePro('search')) return;
 
     toast.info(t('toast.starting', { title: item.title }));
 

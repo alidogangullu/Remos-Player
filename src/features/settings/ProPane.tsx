@@ -3,17 +3,12 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { colors, spacing } from '../../theme';
 import { CheckIcon, PaneHeader } from '../../components/common';
-import { ProFeature, usePro } from '../../services/billing/ProProvider';
+import { usePro } from '../../services/billing/ProProvider';
 import { ProUpsell } from '../pro';
 import { paneStyles } from './paneStyles';
 
-export interface ProPaneProps {
-  /** Set when a locked control sent the user here, so the pitch matches what they tried. */
-  feature?: ProFeature;
-}
-
 /** Settings › Remos Pro: the offer, or a thank-you once it's unlocked. */
-export const ProPane: React.FC<ProPaneProps> = ({ feature }) => {
+export const ProPane: React.FC = () => {
   const { t } = useTranslation();
   const { isPro } = usePro();
 
@@ -29,7 +24,7 @@ export const ProPane: React.FC<ProPaneProps> = ({ feature }) => {
           <Text style={paneStyles.bodyText}>{t('pro.owned.body')}</Text>
         </View>
       ) : (
-        <ProUpsell feature={feature} layout="stacked" />
+        <ProUpsell />
       )}
     </ScrollView>
   );

@@ -1,4 +1,4 @@
 export { ProUpsell } from './ProUpsell';
-export { ProLockedScreen } from './ProLockedScreen';
-export { ProTeaserCard } from './ProTeaserCard';
+export { ProUpgradeSheet } from './ProUpgradeSheet';
+export { ProHint } from './ProHint';
 export { ProBadge } from './ProBadge';

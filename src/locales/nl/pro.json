@@ -1,31 +1,42 @@
 {
   "eyebrow": "REMOS PRO",
-  "locked": {
+  "gate": {
     "home": {
-      "title": "Je muziek, één klik verwijderd",
-      "body": "Start brengt je muziekdiensten, Sonos-favorieten en recent afgespeelde muziek samen op één scherm."
+      "title": "Speel af vanuit Start met Remos Pro",
+      "body": "Kijk gerust rond. Pro start je muziekdiensten, Sonos-favorieten en recent afgespeelde muziek met één klik op je speakers."
     },
     "search": {
-      "title": "Zoek in al je muziekdiensten",
-      "body": "Vind nummers, albums, artiesten en playlists op Apple Music, Spotify, YouTube Music, TIDAL en Sonos Radio, en speel ze af op je speakers."
+      "title": "Speel af wat je vindt met Remos Pro",
+      "body": "Zoeken is gratis. Pro speelt elk nummer, album, artiest of playlist van Apple Music, Spotify en je andere diensten af op je speakers."
     },
     "favorites": {
-      "title": "Je Sonos-favorieten op het grote scherm",
-      "body": "Blader door de favorieten uit de Sonos-app, speel ze af en bewaar nieuwe vanuit Speelt nu."
+      "title": "Speel je favorieten af met Remos Pro",
+      "body": "Start de favorieten uit de Sonos-app en bewaar het nummer dat nu speelt met het hartje."
+    },
+    "queue": {
+      "title": "Spring door de wachtrij met Remos Pro",
+      "body": "Kies een nummer uit de wachtrij en speel het meteen af."
     },
     "sound": {
-      "title": "Stel je geluid in vanaf de bank",
-      "body": "EQ, loudness, nachtmodus, spraakverbetering, hoogte-audio, en sub- en surroundinstellingen."
+      "title": "Stel je geluid in met Remos Pro",
+      "body": "Wijzig EQ, loudness, nachtmodus, spraakverbetering, hoogte-audio, en sub- en surroundinstellingen. Tv automatisch afspelen blijft gratis."
     },
     "lyrics": {
-      "title": "Zing mee met gesynchroniseerde songteksten",
-      "body": "Songteksten die regel voor regel meelopen, naast de albumhoes."
-    }
+      "title": "Elke regel met Remos Pro",
+      "body": "De volledige songtekst, regel voor regel gemarkeerd op de maat van de muziek."
+    },
+    "oneTime": "Eenmalige aankoop, geen abonnement. Alle toekomstige Pro-functies inbegrepen.",
+    "notNow": "Niet nu"
   },
-  "free": "Een ruimte kiezen, Speelt nu, afspelen, pauzeren, overslaan, volume en Tv automatisch afspelen blijven gratis.",
+  "hint": {
+    "sound": "Kijk gerust rond. Voor het wijzigen van deze instellingen heb je Remos Pro nodig.",
+    "lyrics": "De volledige, gesynchroniseerde songtekst zit in Remos Pro.",
+    "lyricsCta": "Hele songtekst tonen"
+  },
+  "free": "Een ruimte kiezen, Speelt nu, afspelen, pauzeren, overslaan, volume en Tv automatisch afspelen blijven gratis, en je kunt op alle Pro-schermen rondkijken.",
   "features": {
     "title": "Alles in Pro",
-    "search": "Zoeken in Apple Music, Spotify en je andere diensten",
+    "search": "Afspelen vanuit Apple Music, Spotify en je andere diensten",
     "home": "Start, Favorieten en Verder luisteren",
     "lyrics": "Gesynchroniseerde songteksten en de wachtrij",
     "sound": "Geluidsinstellingen: EQ, sub, surround en meer",
@@ -56,12 +67,5 @@
     "not_owned": "Geen Remos Pro-aankoop gevonden voor dit Google-account.",
     "unavailable": "Google Play is niet bereikbaar. Controleer de verbinding en probeer het opnieuw."
   },
-  "badge": "PRO",
-  "teaser": {
-    "sound": {
-      "title": "EQ, sub en surround zitten in Remos Pro",
-      "body": "Lage en hoge tonen, loudness, nachtmodus, spraakverbetering en meer."
-    },
-    "cta": "Remos Pro bekijken"
-  }
+  "badge": "PRO"
 }

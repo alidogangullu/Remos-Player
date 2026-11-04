@@ -16,6 +16,7 @@ import { colors, spacing } from '../../theme';
 import { useBackHandler } from '../../hooks';
 import { useToast } from '../../components/common';
 import { log } from '../../utils/logger';
+import { useRequirePro } from '../../services/billing/ProProvider';
 
 const TAG = 'ServiceBrowseScreen';
 /**
@@ -74,6 +75,8 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  // Browsing a service is free; playing or queueing from it is Pro.
+  const requirePro = useRequirePro();
   const [stack, setStack] = useState<StackEntry[]>([{ containerId: 'root', label: ctx.service.name }]);
   const [result, setResult] = useState<GetMetadataResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -145,6 +148,7 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
    * `containerPlaybackUri.ts`).
    */
   const playTrack = async (item: MediaMetadata) => {
+    if (!requirePro('home')) return;
     toast.info(t('toast.starting', { title: item.title }));
     try {
       const { uri, metadata } = await playMediaItem(speakerIp, speakerId, ctx, item);
@@ -172,7 +176,7 @@ export const ServiceBrowseScreen: React.FC<ServiceBrowseScreenProps> = ({
    *     + `pb1.e(0, ...)` + `pb1.f0(1)`.
    */
   const runContainerAction = async (item: MediaCollection, action: ContainerAction) => {
-    if (actionInFlightRef.current) return;
+    if (actionInFlightRef.current || !requirePro('home')) return;
     actionInFlightRef.current = true;
     const isPlayAction = action === 'playNow' || action === 'replaceQueue';
     // These run several UPnP calls in a row; acknowledge the press right away.

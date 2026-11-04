@@ -1,31 +1,42 @@
 {
   "eyebrow": "REMOS PRO",
-  "locked": {
+  "gate": {
     "home": {
-      "title": "Votre musique à portée de clic",
-      "body": "L’accueil réunit vos services de musique, vos favoris Sonos et votre musique récente sur un seul écran."
+      "title": "Lancez depuis l’accueil avec Remos Pro",
+      "body": "Explorez autant que vous voulez. Pro lance vos services de musique, vos favoris Sonos et votre musique récente sur vos enceintes en un clic."
     },
     "search": {
-      "title": "Cherchez dans tous vos services de musique",
-      "body": "Trouvez titres, albums, artistes et playlists sur Apple Music, Spotify, YouTube Music, TIDAL et Sonos Radio, et lancez-les sur vos enceintes."
+      "title": "Écoutez ce que vous trouvez avec Remos Pro",
+      "body": "La recherche est gratuite. Pro lance sur vos enceintes tout titre, album, artiste ou playlist d’Apple Music, de Spotify et de vos autres services."
     },
     "favorites": {
-      "title": "Vos favoris Sonos sur grand écran",
-      "body": "Parcourez et lancez les favoris enregistrés dans l’app Sonos, et ajoutez-en depuis la lecture en cours."
+      "title": "Lancez vos favoris avec Remos Pro",
+      "body": "Lancez les favoris enregistrés dans l’app Sonos, et enregistrez le titre en cours avec le cœur."
+    },
+    "queue": {
+      "title": "Naviguez dans la file d’attente avec Remos Pro",
+      "body": "Choisissez n’importe quel titre de la file d’attente et lancez-le tout de suite."
     },
     "sound": {
-      "title": "Réglez le son depuis le canapé",
-      "body": "Égaliseur, loudness, mode nuit, amélioration des dialogues, audio en hauteur, et réglages du sub et du surround."
+      "title": "Réglez le son avec Remos Pro",
+      "body": "Modifiez l’égaliseur, le loudness, le mode nuit, l’amélioration des dialogues, l’audio en hauteur, et les réglages du sub et du surround. La Lecture auto. TV reste gratuite."
     },
     "lyrics": {
-      "title": "Chantez avec les paroles synchronisées",
-      "body": "Les paroles défilent ligne par ligne, à côté de la pochette."
-    }
+      "title": "Toutes les paroles avec Remos Pro",
+      "body": "Les paroles complètes, surlignées ligne par ligne au rythme de la musique."
+    },
+    "oneTime": "Achat unique, sans abonnement. Toutes les futures fonctions Pro incluses.",
+    "notNow": "Plus tard"
   },
-  "free": "Choisir une pièce, la lecture en cours, lecture, pause, morceau suivant, volume et Lecture auto. TV restent gratuits.",
+  "hint": {
+    "sound": "Explorez librement. Modifier ces réglages nécessite Remos Pro.",
+    "lyrics": "Les paroles complètes et synchronisées sont dans Remos Pro.",
+    "lyricsCta": "Voir toutes les paroles"
+  },
+  "free": "Choisir une pièce, la lecture en cours, lecture, pause, morceau suivant, volume et Lecture auto. TV restent gratuits, et vous pouvez explorer tous les écrans Pro.",
   "features": {
     "title": "Tout ce qu’offre Pro",
-    "search": "Recherche dans Apple Music, Spotify et vos autres services",
+    "search": "Lecture depuis Apple Music, Spotify et vos autres services",
     "home": "Accueil, Favoris et Reprendre l’écoute",
     "lyrics": "Paroles synchronisées et file d’attente",
     "sound": "Réglages du son : égaliseur, sub, surround et plus",
@@ -56,12 +67,5 @@
     "not_owned": "Aucun achat Remos Pro trouvé pour ce compte Google.",
     "unavailable": "Impossible de joindre Google Play. Vérifiez la connexion et réessayez."
   },
-  "badge": "PRO",
-  "teaser": {
-    "sound": {
-      "title": "Égaliseur, sub et surround sont dans Remos Pro",
-      "body": "Graves, aigus, loudness, mode nuit, amélioration des dialogues et plus."
-    },
-    "cta": "Voir Remos Pro"
-  }
+  "badge": "PRO"
 }

@@ -14,6 +14,7 @@ import { useMusicServices, LinkedService } from '../services/useMusicServices';
 import { buildSmapiContexts } from '../../services/sonos/smapi/smapiContextBuilder';
 import { SmapiContext } from '../../services/sonos/smapi/smapiClient';
 import { log } from '../../utils/logger';
+import { useRequirePro } from '../../services/billing/ProProvider';
 
 const TAG = 'HomeScreen';
 /** Jump Back In is a 2x3 grid. */
@@ -65,6 +66,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  const requirePro = useRequirePro();
   const [liveFavorites, setLiveFavorites] = useState<HomeCarouselItem[]>([]);
   const [playbackHistory, setPlaybackHistory] = useState<HomeCarouselItem[]>([]);
   const scrollRef = useRef<ScrollView>(null);
@@ -183,6 +185,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       toast.info(t('toast.browseShortcut', { title: item.title }));
       return;
     }
+    // Home is free to look around; starting playback from it is Pro.
+    if (!requirePro('home')) return;
     toast.info(t('toast.starting', { title: item.title }));
 
     try {
