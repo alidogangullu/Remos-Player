@@ -1,15 +1,20 @@
 {
-  "min_version": "1.0.1",
-  "latest_version": "1.2.0",
+  "min_version": "1.3.1",
+  "latest_version": "1.3.1",
   "store_url": "https://play.google.com/store/apps/details?id=com.adg.remos",
   "release_notes": [
-    "Up Next: focus the progress bar to see what's coming, then press down to browse the queue and pick a song",
-    "Now Playing shows where your music comes from, like TIDAL or Apple Music, next to the audio quality",
-    "Remos opens on the room you used last, and you can hide rooms you don't play music on",
-    "Previous and next now work for songs started from Favorites and Jump Back In, and the progress bar can jump through a song",
+    "Remos Player is now public on Google Play",
+    "Remos Pro: a one-time purchase that unlocks playing from Home, Search and Favorites, synced lyrics, the Up Next queue and sound settings",
+    "Picking a room, Now Playing, playback, volume and TV Autoplay stay free, and you can look around every Pro screen with your own music",
     "Bug fixes"
   ],
   "announcements": [
+    {
+      "id": "public-release-2026-11",
+      "date": "2026-11-17",
+      "title": "Remos is out of beta",
+      "body": "Remos Player is now public on Google Play. Thank you to everyone who tested it during the beta: your bug reports and ideas shaped almost every update. As promised, the first 5 testers who applied for free-for-life have received their Remos Pro promo codes by email. Remos keeps growing from here, so please keep the feedback coming. You'll find the support email in Settings › About."
+    },
     {
       "id": "release-1.2.0-up-next",
       "date": "2026-10-30",
