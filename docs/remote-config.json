@@ -14,24 +14,6 @@
       "date": "2026-11-17",
       "title": "Remos is out of beta",
       "body": "Remos Player is now public on Google Play. Thank you to everyone who tested it during the beta: your bug reports and ideas shaped almost every update. As promised, the first 5 testers who applied for free-for-life have received their Remos Pro promo codes by email. Remos keeps growing from here, so please keep the feedback coming. You'll find the support email in Settings › About."
-    },
-    {
-      "id": "release-1.2.0-up-next",
-      "date": "2026-10-30",
-      "title": "Up Next, your rooms and smoother playback",
-      "body": "The queue now lives under the progress bar: focus the bar to see what's coming and press down to browse it or jump to any song. Now Playing also shows where your music comes from, like TIDAL, Apple Music or Spotify. Remos remembers the room you used last, and in System you can hide rooms you don't play music on. Previous and next now work for songs started from Favorites and Jump Back In, and you can move through a song with the progress bar. Thanks for all your feedback — most of this update came from it!"
-    },
-    {
-      "id": "release-1.1.0-languages",
-      "date": "2026-10-22",
-      "title": "Remos now speaks your language",
-      "body": "Remos Player is now available in English, Türkçe, Deutsch, Français, Español and Nederlands. It follows your TV's language — you can pick another one anytime in Settings › Language. This update also adds on-screen messages when something starts playing, joins the queue or is added to favorites, and makes the Back button work more naturally. Thanks for testing!"
-    },
-    {
-      "id": "welcome-beta-2026-10",
-      "date": "2026-10-11",
-      "title": "Welcome to the Remos Player beta",
-      "body": "Thanks for testing Remos Player. Updates and news about the app will appear here."
     }
   ]
 }
